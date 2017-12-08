@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/applyManagement.css">
+</head>
+<body>
+
+<div class="body-main">
+
+    <div class="filter-area">
+        <div class="filter-label">请输入查询条件：</div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label apply-filter-label">采购申请单号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="applyid" autocomplete="off" placeholder="输入申请单号查询" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label apply-filter-label">提交申请时间：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="bdate" placeholder="选择日期" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">至</div>
+                    <div class="layui-input-inline">
+                        <input type="text" id="edate" placeholder="选择日期" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label apply-filter-label">申请单状态：</label>
+                    <div class="layui-input-inline">
+                        <select id="status" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                            <option value="0">未提交</option>
+                            <option value="1">已提交</option>
+                            <option value="2">审核中</option>
+                            <option value="3">审核通过</option>
+                            <option value="4">审核不通过</option>
+                            <option value="5">采购中</option>
+                            <option value="6">采购完毕</option>
+                            <option value="7">已领取</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="float-right">
+                    <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a></div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-btn layui-btn-primary add-btn">新增申请</div>
+    <table id="apply_table" lay-filter="apply"></table>
+</div>
+
+<script type="text/html" id="opt">
+    {{#  if(d.status == 0){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="apply">提交</a>
+    {{#  } else if(d.status == 6) { }}
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="retrieve">领取</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-normal layui-btn-mini" disabled>-</a>
+    {{#  } }}
+</script>
+
+<!--<div id="deletemodal" class="mask" hidden>-->
+    <!--<div class="modal-container">-->
+        <!--<div class="modal-title">-->
+            <!--<div class="modal-title__text">提示</div>-->
+        <!--</div>-->
+        <!--<div class="modal-content">-->
+            <!--<img class="modal-content__img" src="../imgs/prompt.png">-->
+            <!--<div class="modal-content__text" id="info"></div>-->
+        <!--</div>-->
+        <!--<div class="modal-btn-area">-->
+            <!--<div class="layui-form-item">-->
+                <!--<div class="flex flex-center">-->
+                    <!--<a class="layui-btn layui-btn-primary" href="javascript: $('#deletemodal').attr('hidden', 'true');">取消</a>-->
+                    <!--<a id="delete_confirm" class="layui-btn layui-btn-normal">确定</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div id="editmodal" class="mask" hidden>
+    <div class="modal-container edit-container">
+        <div class="modal-title">
+            <div id="modal_title" class="modal-title__text">新增/编辑申请</div>
+        </div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item top-margin">
+                <label class="layui-form-label apply-filter-label">需要采购的商品：</label>
+            </div>
+            <div class="left-margin">
+                <table class="layui-table" lay-data="{width: 910, height:360, id:'item_table'}" lay-filter="item">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:80}">序号</th>
+                        <th lay-data="{field:'itemid', width:120}">商品编号</th>
+                        <th lay-data="{field:'type', width:120}">商品类型</th>
+                        <th lay-data="{field:'name', width:140}">商品名称</th>
+                        <th lay-data="{field:'quantity', width:120}">商品数量</th>
+                        <th lay-data="{field:'reason', width:200}">采购理由或用途</th>
+                        <th lay-data="{align:'center', toolbar: '#editopt', width:120}">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="top-margin right-padding">
+                    <a class="layui-btn layui-btn-primary">添加商品</a>
+                </div>
+            </div>
+            <div class="apply-btn-area">
+                <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
+                <a class="layui-btn layui-btn-warm" href="javascript:;">暂存</a>
+                <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/html" id="editopt">
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="delete">删除</a>
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script src="../js/applyManagement.js"></script>
+
+</body>
+</html>

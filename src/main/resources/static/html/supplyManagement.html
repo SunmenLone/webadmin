@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/supplyManagement.css">
+    <script src="../js/echarts.common.min.js"></script>
+</head>
+<body>
+
+<div class="body-main">
+
+    <div class="filter-area">
+        <div class="filter-label">请输入查询条件：</div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="itemname" autocomplete="off" placeholder="输入商品名称查询" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品ID：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="itemid" autocomplete="off" placeholder="输入商品ID查询" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品类型：</label>
+                    <div class="layui-input-inline">
+                        <select id="type" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                            <option value="0">办公用品</option>
+                            <option value="1">设备</option>
+                            <option value="2">耗材</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="float-right">
+                    <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a></div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-form-item btn-area">
+        <div class="layui-inline">
+            <a class="layui-btn layui-btn-primary">新增</a>
+        </div>
+        <div class="layui-inline">
+            <a class="layui-btn layui-btn-primary">导入</a>
+        </div>
+    </div>
+    <table id="supply_table" lay-filter="supply"></table>
+</div>
+
+<script type="text/html" id="opt1">
+    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">编辑</a>
+</script>
+
+<script type="text/html" id="opt2">
+    <a class="layui-btn layui-btn-mini" lay-event="line">折线图</a>
+</script>
+
+<div id="deletemodal" class="mask" hidden>
+    <div class="modal-container">
+        <div class="modal-title">
+            <div class="modal-title__text">提示</div>
+        </div>
+        <div class="modal-content">
+            <img class="modal-content__img" src="../imgs/prompt.png">
+            <div class="modal-content__text" id="info"></div>
+        </div>
+        <div class="modal-btn-area">
+            <div class="layui-form-item">
+                <div class="flex flex-center">
+                    <a class="layui-btn layui-btn-primary" href="javascript: $('#deletemodal').attr('hidden', 'true');">取消</a>
+                    <a id="delete_confirm" class="layui-btn layui-btn-normal">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editmodal" class="mask" hidden>
+    <div class="modal-container edit-container">
+        <div class="modal-title">
+            <div id="edit-modal_title" class="modal-title__text">新增/编辑商品（编辑时只能改状态于价格）</div>
+        </div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item top-margin">
+                <label class="layui-form-label auto-width"><span class="layui-red">*</span>请选择需要添加的商品</label>
+                <div class="layui-input-inline">
+                    <select name="type">
+                        <option value="">请选择商品类别</option>
+                        <option value="办公用品">办公用品</option>
+                        <option value="设备">设备</option>
+                        <option value="耗材">耗材</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select class="auto-width" name="item" lay-search>
+                        <option value="">输入商品编号或选择</option>
+                        <option value="签字笔">签字笔</option>
+                        <option value="钉书机">钉书机</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-label info-title">详细信息：</div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="layui-red">* </span>品牌：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="modal_brand" required  lay-verify="required" placeholder="请输入品牌" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">规格型号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="modal_spec" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">产地：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="modal_product"placeholder="请输入产地" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label"><span class="layui-red">*</span>计量单位：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="modal_unit" required  lay-verify="required" placeholder="请输入计量单位" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="layui-red">*</span>当前状态：</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" value="供应中" title="供应中" checked>
+                    <input type="radio" name="status" value="缺货" title="缺货">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="layui-red">* </span>单价：</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="modal_phone" required  lay-verify="required" placeholder="请输入单价" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">元</div>
+            </div>
+            <div class="layui-form-item top-margin">
+                <div class="flex flex-center">
+                    <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
+                    <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="linemodal" class="mask" hidden>
+    <div class="modal-container line-container">
+        <div id="line" class="line"></div>
+        <div class="flex flex-center">
+            <a class="layui-btn layui-btn-normal" href="javascript:$('#linemodal').attr('hidden', true);">关闭</a>
+        </div>
+    </div>
+</div>
+
+<div id="scoremodal" class="mask" hidden>
+    <div class="modal-container score-container">
+        <div class="modal-title">
+            <div id="score-modal_title" class="modal-title__text">供应商评分</div>
+        </div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item top-margin">
+                <label class="layui-form-label score-label"><span class="layui-red">* </span>供货服务</label>
+                <div class="layui-input-inline">
+                    <select name="service">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="score-textarea">
+                    <textarea name="service_text" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label score-label"><span class="layui-red">* </span>供货时长</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="bdate" placeholder="选择开始日期" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid">至</div>
+                    <div class="layui-input-inline">
+                        <input type="text" id="edate" placeholder="选择结束日期" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label score-label"><span class="layui-red">* </span>供货质量评估</label>
+                <div class="layui-input-inline">
+                    <select name="quality">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="score-textarea">
+                    <textarea name="quality_text" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label score-label"><span class="layui-red">* </span>备注</label>
+                <div class="layui-input-block score-textarea">
+                    <textarea name="extra_text" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label score-label">综合评分：100</label>
+            </div>
+            <div class="layui-form-item top-margin">
+                <div class="flex flex-center">
+                    <a class="layui-btn layui-btn-primary" href="javascript: $('#scoremodal').attr('hidden', 'true');">取消</a>
+                    <a id="score_confirm" class="layui-btn layui-btn-normal">确定</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script src="../js/supplyManagement.js"></script>
+
+</body>
+</html>

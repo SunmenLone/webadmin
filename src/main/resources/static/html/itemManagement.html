@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/itemManagement.css">
+</head>
+<body>
+
+<div class="body-main">
+
+    <div class="filter-area">
+        <div class="filter-label">请输入查询条件：</div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="itemname" autocomplete="off" placeholder="输入商品名称查询"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品ID：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="itemid" autocomplete="off" placeholder="输入商品ID查询" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品类型：</label>
+                    <div class="layui-input-inline">
+                        <select id="type" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                            <option value="0">办公用品</option>
+                            <option value="1">设备</option>
+                            <option value="2">耗材</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="float-right">
+                    <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a>
+                    </div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-form-item btn-area">
+        <div class="layui-inline">
+            <a class="layui-btn layui-btn-primary">新增</a>
+        </div>
+        <div class="layui-inline">
+            <a class="layui-btn layui-btn-primary">导入</a>
+        </div>
+        <div class="layui-inline link-inline">
+            <a href="../file/template.xlsx" class="link">点击下载商品导入模版：模版.xlsx</a>
+        </div>
+    </div>
+    <table id="item_table" lay-filter="item"></table>
+</div>
+
+<script type="text/html" id="opt">
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">编辑</a>
+</script>
+
+
+<div id="editmodal" class="mask" hidden>
+    <div class="modal-container edit-container">
+        <div class="modal-title">
+            <div id="modal_title" class="modal-title__text">新增/修改商品</div>
+        </div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item flex flex-center top-margin">
+                <label class="layui-form-label"><span class="layui-red">* </span>商品名称：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="modal_name" required lay-verify="required" placeholder="请输入姓名"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item flex flex-center">
+                <label class="layui-form-label">商品状态：</label>
+                <div class="layui-input-inline">
+                    <select id="modal_status">
+                        <option value="0">启用</option>
+                        <option value="1">禁用</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item flex flex-center">
+                <label class="layui-form-label"><span class="layui-red">* </span>商品类型：</label>
+                <div class="layui-input-inline">
+                    <select id="modal_department" lay-verify="required">
+                        <option value="">直接选择或搜索选择</option>
+                        <option value="0">办公用品</option>
+                        <option value="1">设备</option>
+                        <option value="2">耗材</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item top-margin">
+                <div class="flex flex-center">
+                    <a class="layui-btn layui-btn-primary"
+                       href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
+                    <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script src="../js/itemManagement.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>供应商管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/supplierManagement.css">
+</head>
+<body>
+
+<div class="body-main">
+
+    <div class="filter-area">
+        <div class="filter-label">请输入查询条件：</div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label supplier-filter-label">供应商名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="suppliername" autocomplete="off" placeholder="输入供应商名称查询"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label supplier-filter-label">供应商ID：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="supplierid" autocomplete="off" placeholder="输入商品ID查询"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label supplier-filter-label">可提供商品类型：</label>
+                    <div class="layui-input-inline">
+                        <select id="supplytype" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                            <option value="0">办公用品</option>
+                            <option value="1">设备</option>
+                            <option value="2">耗材</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline supplier-filter-inline">
+                    <label class="layui-form-label supplier-filter-label">可提供商品名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="supplyname" autocomplete="off" placeholder="输入可提供商品名称查询"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="float-right supplier-filter-inline supplier-filter-btn-area">
+                    <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a>
+                    </div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-btn layui-btn-primary add-btn">新增</div>
+    <table id="supplier_table" lay-filter="supplier"></table>
+</div>
+
+<script type="text/html" id="opt">
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">供应产品配置</a>
+    <a class="layui-btn layui-btn-warm layui-btn-mini" lay-event="score">评分</a>
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script src="../js/supplierManagement.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+.container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1E9FFF;
+}
+
+.opt-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 640px;
+    height: 480px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+.login-title {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-title label {
+    color: #333;
+    font-size: 45px;
+    line-height: 80px;
+    height: 80px;
+}
+
+.login-input {
+    display: inline-block;
+    width: 310px;
+}
+
+.login-item {
+    padding: 0 110px;
+}
+
+.login-input-inline {
+    width: 420px !important;
+}
+
+.login-btn-area {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.login-btn {
+    width: 100px;
+}
+
+.setpwd-container {
+    width: 640px !important;
+    height: 480px !important;
+}
+
+.setpwd-title {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    padding-top: 50px;
+}
+
+.setpwd-content {
+    padding: 50px 100px 0 100px;
+}
+
+.setpwd-inline {
+    margin-right: 0px !important;
+}
+
+.setpwd-input {
+    border: 0 !important;
+   background-color: #f8ff7b !important;
+}
+
+.setpwd-item {
+    display: inline-block;
+    width: 200px !important;
+}
+
+.setpwd-item-right {
+    margin-left: 35px !important;
+}
+
+.setpwd-btn {
+    margin-top: 35px;
+    width: 75px !important;
+}
+
+.setpwd-label {
+    font-size: 13px;
+    line-height: 20px;
+    color: #999;
+}
+
+.setpwd-hint {
+    margin-top: 25px;
+    color: #999;
+    font-size: 13px;
+    line-height: 23px;
+}

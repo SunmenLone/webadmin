@@ -1,0 +1,22 @@
+.btn-area {
+    margin: 15px 0 5px 0;
+}
+
+.edit-container {
+    width: 480px !important;
+    height: 320px !important;
+}
+
+.top-margin {
+    margin-top: 40px;
+}
+
+.link-inline {
+    vertical-align: bottom;
+}
+
+.link {
+    font-size: 12px;
+    color: #4113b9;
+}
+

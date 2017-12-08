@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录 - 佳医比邻后台管理系统</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./css/common.css">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="opt-container">
+        <div class="login-title">
+            <label>采购管理系统</label>
+        </div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item login-item">
+                <div class="layui-input-inline login-input-inline">
+                    <label class="layui-form-label">用户名：</label>
+                    <input type="text" name="username" autocomplete="off" placeholder="输入登录帐号" class="layui-input login-input" required lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item login-item">
+                <div class="layui-input-inline login-input-inline">
+                    <label class="layui-form-label">密码：</label>
+                    <input type="password" name="password" autocomplete="off" placeholder="输入登录密码" class="layui-input login-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="login-btn-area">
+                    <a class="layui-btn layui-btn-normal login-btn" lay-submit="" href="javascript: submitLogin();">登 录</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="infomodal" class="mask" hidden>
+    <div class="modal-container">
+        <div class="modal-title">
+            <div class="modal-title__text">提示</div>
+        </div>
+        <div class="modal-content">
+            <img class="modal-content__img" src="./imgs/prompt.png">
+            <div class="modal-content__text" id="info"></div>
+        </div>
+        <div class="modal-btn-area">
+            <button class="layui-btn layui-btn-normal" onclick="$('#infomodal').attr('hidden','true');">确定</button>
+        </div>
+    </div>
+</div>
+
+<div id="setpwdmodal" class="mask" hidden>
+    <div class="modal-container setpwd-container">
+        <div class="setpwd-title">设置登录密码</div>
+
+        <div class="setpwd-content">
+
+            <div>
+                <div class="layui-inline setpwd-inline">
+                    <label class="setpwd-item setpwd-label">登录账户</label>
+                </div>
+                <div class="layui-inline setpwd-inline">
+                    <label class="setpwd-item-right setpwd-label">原密码</label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline setpwd-inline">
+                    <input type="text" name="username" class="layui-input setpwd-item setpwd-input" disabled value="admin">
+                </div>
+                <div class="layui-inline setpwd-inline">
+                    <input type="password" name="password" class="layui-input setpwd-item setpwd-item-right setpwd-input" disabled value="admin">
+                </div>
+            </div>
+
+            <div>
+                <div class="layui-inline setpwd-inline">
+                    <label class="setpwd-item setpwd-label">新密码<span class="layui-red"> *</span></label>
+                </div>
+                <div class="layui-inline setpwd-inline">
+                    <label class="setpwd-item-right setpwd-label">确认新密码<span class="layui-red"> *</span></label>
+                </div>
+            </div>
+            <div>
+                <div class="layui-inline setpwd-inline">
+                    <input type="password" name="newpwd" autocomplete="off" placeholder="输入新密码" class="layui-input setpwd-item">
+                </div>
+                <div class="layui-inline setpwd-inline">
+                    <input type="password" name="cfgpwd" autocomplete="off" placeholder="再次输入密码" class="layui-input setpwd-item setpwd-item-right">
+                </div>
+            </div>
+
+            <a class="layui-btn layui-btn-normal setpwd-btn">确认</a>
+
+            <div class="setpwd-hint">
+                <div>温馨提示：</div>
+                <div>1. 请先设置新的登录密码，否则无法正常使用相关功能；</div>
+                <div>2. 如果您有任何疑问，请联系管理员。</div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="./layui/layui.js"></script>
+<script src="./js/md5.min.js"></script>
+<script src="./js/pages/login.js"></script>
+</body>
+</html>

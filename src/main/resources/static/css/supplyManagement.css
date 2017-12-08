@@ -1,0 +1,47 @@
+.btn-area {
+    margin: 15px 0 5px 0;
+}
+
+.edit-container {
+    width: 720px !important;
+    height: 480px !important;
+}
+
+.line-container {
+    width: 800px !important;
+    height: 480px !important;
+}
+
+.score-container {
+    width: 800px !important;
+    height: 720px !important;
+}
+
+.top-margin {
+    margin-top: 40px;
+}
+
+.info-title {
+    font-size: 16px !important;
+    color: #333;
+    line-height: 16px !important;
+    height: 16px !important;
+    margin: 15px 0 15px 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.line {
+    width: 720px;
+    height: 400px;
+    margin: 15px 40px 10px 40px;
+}
+
+.score-label {
+    width: 120px !important;
+}
+
+.score-textarea {
+    margin-left: 150px !important;
+    margin-right: 90px !important;
+}

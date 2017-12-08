@@ -1,0 +1,21 @@
+.info-main {
+    padding: 25px 50px;
+}
+
+.info-title {
+    font-size: 20px;
+    color: #333;
+    line-height: 20px;
+    height: 20px;
+    margin: 50px 0 40px 0;
+}
+
+.info-label {
+    color: #888;
+}
+
+.row-space{
+    font-size: 14px;
+    line-height: 16px;
+    height: 16px;
+}

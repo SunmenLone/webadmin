@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>角色管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/roleManagement.css">
+</head>
+<body>
+
+<div class="body-main">
+
+    <div class="filter-area">
+        <div class="filter-label">请输入查询条件：</div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="role" autocomplete="off" placeholder="输入角色名称查询" class="layui-input">
+                    </div>
+                </div>
+                <div class="float-right">
+                    <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a>
+                    </div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="roleManagement.html">重置</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-form-item btn-area">
+        <div class="layui-inline">
+            <a class="layui-btn layui-btn-primary">新增</a>
+        </div>
+        <div class="layui-inline">
+            <a class="layui-btn layui-btn-danger">删除</a>
+        </div>
+    </div>
+    <table id="role_table" lay-filter="role"></table>
+</div>
+
+<script type="text/html" id="opt">
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">修改</a>
+</script>
+
+<div id="deletemodal" class="mask" hidden>
+    <div class="modal-container">
+        <div class="modal-title">
+            <div class="modal-title__text">提示</div>
+        </div>
+        <div class="modal-content">
+            <img class="modal-content__img" src="../imgs/prompt.png">
+            <div class="modal-content__text" id="info"></div>
+        </div>
+        <div class="modal-btn-area">
+            <div class="layui-form-item">
+                <div class="flex flex-center">
+                    <a class="layui-btn layui-btn-primary" href="javascript: $('#deletemodal').attr('hidden', 'true');">取消</a>
+                    <a id="delete_confirm" class="layui-btn layui-btn-normal">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editmodal" class="mask" hidden>
+    <div class="modal-container edit-container">
+        <div class="modal-title">
+            <div id="modal_title" class="modal-title__text">新增/修改角色</div>
+        </div>
+        <div class="edit-content">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-red">* </span>角色名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="modal_name" required lay-verify="required" placeholder="请输入角色名称"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">角色状态：</label>
+                    <div class="layui-input-inline">
+                        <select id="modal_status" lay-verify="required">
+                            <option value="0">启用</option>
+                            <option value="1">禁用</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="layui-red">* </span>菜单权限：</label>
+                </div>
+                <div class="menu-area">
+                    <div class="layui-form-item menu-item">
+                        <label class="layui-form-label menu-label">1. 系统管理：</label>
+                        <input type="checkbox" name="sys[all]" lay-skin="primary" title="全部">
+                        <input type="checkbox" name="sys[user]" lay-skin="primary" title="用户管理">
+                        <input type="checkbox" name="sys[role]" lay-skin="primary" title="角色管理">
+                    </div>
+                    <div class="layui-form-item menu-item">
+                        <label class="layui-form-label menu-label">2. 商品管理：</label>
+                        <input type="checkbox" name="item[all]" lay-skin="primary" title="商品类型管理">
+                    </div>
+                    <div class="layui-form-item menu-item">
+                        <label class="layui-form-label menu-label">3. 供应商管理：</label>
+                        <input type="checkbox" name="supplier[all]" lay-skin="primary" title="供应商管理">
+                    </div>
+                    <div class="layui-form-item menu-item">
+                        <label class="layui-form-label menu-label">4. 采购申请管理：</label>
+                        <input type="checkbox" name="buy[all]" lay-skin="primary" title="全部">
+                        <input type="checkbox" name="buy[apply]" lay-skin="primary" title="提交申请">
+                        <input type="checkbox" name="buy[auth]" lay-skin="primary" title="申请审核">
+                    </div>
+                    <div class="layui-form-item menu-item">
+                        <label class="layui-form-label menu-label">5. 采购进程管理：</label>
+                        <input type="checkbox" name="order[all]" lay-skin="primary" title="采购单管理">
+                    </div>
+                    <div class="layui-form-item menu-item">
+                        <label class="layui-form-label menu-label">6. 统计分析：</label>
+                        <input type="checkbox" name="analyze[all]" lay-skin="primary" title="使用部门采购情况">
+                    </div>
+                    <div class="layui-form-item menu-item">
+                        <label class="layui-form-label menu-label">7. 风险预警设置：</label>
+                        <input type="checkbox" name="risk[all]" lay-skin="primary" title="风险模型设置">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-form-item top-margin">
+            <div class="flex flex-center">
+                <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
+                <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script src="../js/roleManagement.js"></script>
+
+</body>
+</html>

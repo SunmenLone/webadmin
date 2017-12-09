@@ -1,0 +1,14 @@
+.statistic-label {
+    width: 100px !important;
+}
+
+.statistic-title {
+    font-size: 17px;
+    height: 17px;
+    line-height: 17px;
+    margin-bottom: 25px;
+}
+
+.statistic-main {
+    padding: 25px 15px 0 15px;
+}

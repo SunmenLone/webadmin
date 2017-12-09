@@ -28,8 +28,8 @@ layui.use('table', function () {
     table = layui.table;
     //执行渲染
     table.render({
-        id: 'apply_table',
-        elem: '#apply_table',
+        id: 'purchase_table',
+        elem: '#purchase_table',
         url: '',
         page: true,
         even: true,
@@ -37,10 +37,11 @@ layui.use('table', function () {
             {field: 'applyid', title: '采购申请单号', width: 160},
             {field: 'department', title: '申请部门', width: 160},
             {field: 'applier', title: '申请人姓名', width: 120},
-            {field: 'createtime', title: '申请时间', width: 180},
-            {field: 'status', title: '状态', width: 100},
-            {field: 'reason', title: '审核不通过理由', width: 160},
-            {toolbar: '#opt', title: '操作', align: 'center', width: 100},
+            {field: 'finishtime', title: '采购完毕时间', width: 180},
+            {field: 'retrievetime', title: '已领取时间', width: 180},
+            {field: 'reviewer', title: '审核人姓名', width: 120},
+            {field: 'status', title: '状态', width: 120},
+            {toolbar: '#opt', title: '操作', align: 'center', width: 140},
         ]]
     });
 
@@ -49,12 +50,13 @@ layui.use('table', function () {
         var layEvent = obj.event; //获得 lay-event 对应的值
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-        if (layEvent === 'apply') {
+        if (layEvent === 'detail') {
 
-        } else if (layEvent === 'retrieve') {
+        } else if (layEvent === 'finish') {
 
         }
 
     });
 
 });
+

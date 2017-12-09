@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户管理</title>
+    <title>采购申请管理</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/applyManagement.css">
@@ -68,26 +68,6 @@
     {{#  } }}
 </script>
 
-<!--<div id="deletemodal" class="mask" hidden>-->
-    <!--<div class="modal-container">-->
-        <!--<div class="modal-title">-->
-            <!--<div class="modal-title__text">提示</div>-->
-        <!--</div>-->
-        <!--<div class="modal-content">-->
-            <!--<img class="modal-content__img" src="../imgs/prompt.png">-->
-            <!--<div class="modal-content__text" id="info"></div>-->
-        <!--</div>-->
-        <!--<div class="modal-btn-area">-->
-            <!--<div class="layui-form-item">-->
-                <!--<div class="flex flex-center">-->
-                    <!--<a class="layui-btn layui-btn-primary" href="javascript: $('#deletemodal').attr('hidden', 'true');">取消</a>-->
-                    <!--<a id="delete_confirm" class="layui-btn layui-btn-normal">确定</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-
 <div id="editmodal" class="mask" hidden>
     <div class="modal-container edit-container">
         <div class="modal-title">
@@ -117,12 +97,59 @@
             </div>
             <div class="apply-btn-area">
                 <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
-                <a class="layui-btn layui-btn-warm" href="javascript:;">暂存</a>
+                <a class="layui-btn" href="javascript:;">暂存</a>
                 <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
             </div>
         </form>
     </div>
 </div>
+
+<div id="edititemmodal" class="mask" hidden>
+    <div class="modal-container edit-item-container">
+        <div class="modal-title">
+            <div id="edit-modal_title" class="modal-title__text">新增或修改</div>
+        </div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item top-margin25">
+                <label class="layui-form-label edit-item-label"><span class="layui-red">* </span>请选择需要添加的商品</label>
+                <div class="layui-input-inline">
+                    <select name="type">
+                        <option value="">请选择商品类别</option>
+                        <option value="办公用品">办公用品</option>
+                        <option value="设备">设备</option>
+                        <option value="耗材">耗材</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select class="auto-width" name="item" lay-search>
+                        <option value="">输入商品编号或选择</option>
+                        <option value="签字笔">签字笔</option>
+                        <option value="钉书机">钉书机</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label edit-item-label"><span class="layui-red">* </span>请输入数量：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="modal_quantity" required  lay-verify="required" placeholder="请输入数量" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label edit-item-label"><span class="layui-red">* </span>采购理由或用途: </label>
+                <div class="layui-input-block edit-item-textarea">
+                    <textarea name="modal_reason" placeholder="请输入采购理由或用途" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item top-margin25">
+                <div class="flex flex-center">
+                    <a class="layui-btn layui-btn-primary" href="javascript: $('#edititemmodal').attr('hidden', 'true');">取消</a>
+                    <a id="edititem_confirm" class="layui-btn layui-btn-normal">确定</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <script type="text/html" id="editopt">
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">修改</a>

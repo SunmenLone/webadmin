@@ -37,9 +37,10 @@ layui.use('table', function () {
             {field: 'applyid', title: '采购申请单号', width: 160},
             {field: 'department', title: '申请部门', width: 160},
             {field: 'applier', title: '申请人姓名', width: 120},
-            {field: 'createtime', title: '申请时间', width: 180},
+            {field: 'applytime', title: '提交时间', width: 180},
+            {field: 'reviewtime', title: '审核时间', width: 180},
+            {field: 'reviewer', title: '审核人姓名', width: 120},
             {field: 'status', title: '状态', width: 100},
-            {field: 'reason', title: '审核不通过理由', width: 160},
             {toolbar: '#opt', title: '操作', align: 'center', width: 100},
         ]]
     });
@@ -49,12 +50,11 @@ layui.use('table', function () {
         var layEvent = obj.event; //获得 lay-event 对应的值
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-        if (layEvent === 'apply') {
-
-        } else if (layEvent === 'retrieve') {
+        if (layEvent === 'review') {
 
         }
 
     });
 
 });
+

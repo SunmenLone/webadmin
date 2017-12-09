@@ -2,7 +2,7 @@
     padding: 25px 50px;
 }
 
-.info-title {
+.detail-title {
     font-size: 15px;
     color: #333;
     line-height: 20px;
@@ -10,12 +10,36 @@
     margin: 25px 0 15px 0;
 }
 
-.info-label {
-    color: #888;
+.top-margin {
+    margin-top: 25px;
 }
 
-.row-space{
-    font-size: 14px;
-    line-height: 16px;
-    height: 16px;
+.top-margin15 {
+    margin-top: 15px;
+}
+
+.left-margin {
+    margin-left: 20px;
+}
+
+.choose-container {
+    width: 1150px !important;
+    height: 520px !important;
+}
+
+.choose-content {
+    padding: 25px 25px 0 25px;
+}
+
+.choose-label {
+    font-size: 16px;
+    color: #333;
+}
+
+.choose-radio-block {
+    margin-bottom: 15px;
+}
+
+.choose-warm {
+    padding-left: 22px;
 }

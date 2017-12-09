@@ -38,6 +38,11 @@
     align-items: center;
 }
 
+.flex-right {
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .mask {
     position: fixed;
     left: 0;

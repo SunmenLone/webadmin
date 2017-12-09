@@ -9,72 +9,43 @@
 </head>
 <body>
 
-<div class="body-main info-main">
-    <div class="flex">
+<div class="body-main detail-main">
+    <div>
         <a class="layui-btn layui-btn-primary">返回</a>
     </div>
     <div>
-        <div class="info-title">请选择供应商与供应渠道</div>
-        <table id="item_table" lay-filter="purchase"></table>
+        <div class="detail-title">请选择供应商与供应渠道</div>
+        <table id="item_table" lay-filter="item"></table>
+        <div class="flex flex-right top-margin">
+            <a class="layui-btn">暂存</a>
+            <a class="layui-btn layui-btn-normal">提交采购</a>
+        </div>
     </div>
 </div>
 
 <script type="text/html" id="opt">
-    {{#  if(d.status == 0){ }}
-    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="detail">完善采购信息</a>
-    {{#  } else { }}
-    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="finish">确认采购完毕</a>
-    {{#  } }}
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="choose">选择供应渠道</a>
 </script>
 
-<div id="reviewmodal" class="mask" hidden>
-    <div class="modal-container review-container">
+<div id="choosemodal" class="mask">
+    <div class="modal-container choose-container">
         <div class="modal-title">
-            <div id="edit-modal_title" class="modal-title__text">申请审核</div>
+            <div id="edit-modal_title" class="modal-title__text">单个商品渠道选择</div>
         </div>
-        <div class="review-content">
-            <div class="top-margin">基本信息：</div>
-            <table class="layui-table" lay-data="{width: 480, id:'apply_info_table'}">
-                <thead>
-                <tr>
-                    <th lay-data="{field:'id', width:160}">申请部门</th>
-                    <th lay-data="{field:'itemid', width:160}">申请人姓名</th>
-                    <th lay-data="{field:'type', width:160}">申请提交时间</th>
-                </tr>
-                </thead>
-            </table>
-            <div class="top-margin25">需要采购的商品：</div>
-            <table class="layui-table" lay-data="{width: 850, height: 240, id:'item_table'}" lay-filter="item">
-                <thead>
-                <tr>
-                    <th lay-data="{field:'id', width:80}">序号</th>
-                    <th lay-data="{field:'itemid', width:120}">商品编号</th>
-                    <th lay-data="{field:'type', width:120}">商品类型</th>
-                    <th lay-data="{field:'name', width:140}">商品名称</th>
-                    <th lay-data="{field:'quantity', width:120}">商品数量</th>
-                    <th lay-data="{field:'reason', width:270}">采购理由或用途</th>
-                </tr>
-                </thead>
-            </table>
-            <div class="top-margin25">审核：</div>
+        <div class="choose-content">
+            <div class="choose-label">供应渠道选择：</div>
             <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="layui-red">*</span>是否通过：</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="status" value="通过" title="通过">
-                        <input type="radio" name="status" value="不通过" title="不通过">
+                <div class="flex top-margin15">
+                    <div>
+                        <table id="supplier_table" lay-filter="supplier"></table>
+                    </div>
+                    <div class="left-margin">
+                        <table id="supply_table" lay-filter="supply"></table>
                     </div>
                 </div>
-                <div class="layui-form-item layui-form-text">
-                    <div class="layui-input-block disapprove-textarea">
-                        <textarea name="disapprove_reason" placeholder="不通过必须填写理由" class="layui-textarea" disabled></textarea>
-                    </div>
-                </div>
-                <div class="layui-form-item top-margin25">
-                    <div class="flex flex-center">
-                        <a class="layui-btn layui-btn-primary" href="javascript: $('#reviewmodal').attr('hidden', 'true');">取消</a>
-                        <a id="edititem_confirm" class="layui-btn layui-btn-normal">确定</a>
-                    </div>
+                <div class="top-margin flex flex-center">
+                    <a class="layui-btn layui-btn-primary" href="javascript: $('#choosemodal').attr('hidden', 'true');">取消</a>
+                    <a id="choose_confirm" class="layui-btn layui-btn-normal">确定</a>
                 </div>
             </form>
         </div>
@@ -87,10 +58,9 @@
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="delete">删除</a>
 </script>
 
-
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../layui/layui.js"></script>
-<script src="../js/purchaseManagement.js"></script>
+<script src="../js/purchaseDetail.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>风险管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/riskManagement.css">
+</head>
+<body>
+
+<div class="body-main">
+
+    <div class="filter-area">
+        <div class="filter-label">请输入查询条件：</div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="itemname" autocomplete="off" placeholder="输入用户姓名查询" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品ID：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="itemid" autocomplete="off" placeholder="输入用户ID查询" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品类型：</label>
+                    <div class="layui-input-inline">
+                        <select id="type" lay-search="">
+                            <option value="">直接选择或搜索选择</option>
+                            <option value="0">办公用品</option>
+                            <option value="1">设备</option>
+                            <option value="2">耗材</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="float-right">
+                    <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a></div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="top-margin" id="risk_table" lay-filter="risk"></table>
+</div>
+
+<script type="text/html" id="opt">
+    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">编辑</a>
+</script>
+
+<div id="editmodal" class="mask">
+    <div class="modal-container edit-container">
+        <div class="modal-title">
+            <div id="modal_title" class="modal-title__text">风险参数设置</div>
+        </div>
+        <div class="edit-content">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <div class="layui-form-label auto-width risk-title top-margin">商品基本信息：</div>
+                </div>
+                <div class="left-margin">
+                    <table class="layui-table" lay-data="{width: 440, id:'item_table'}">
+                        <thead>
+                        <tr>
+                            <th lay-data="{field:'id', width:140}">商品ID</th>
+                            <th lay-data="{field:'itemid', width:140}">商品类型</th>
+                            <th lay-data="{field:'type', width:160}">商品名称</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="layui-form-label auto-width risk-title">参数设置：</div>
+                <div class="layui-form-item left-margin">
+                    <label class="layui-form-label auto-width">1. 开启最高价提示（价格为同类最高）？</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="max" value="1" title="是" checked>
+                        <input type="radio" name="max" value="0" title="否">
+                    </div>
+                </div>
+                <div class="layui-form-item left-margin">
+                    <label class="layui-form-label auto-width">2. 开启最低价提示（价格为同类最低）？</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="min" value="1" title="是" checked>
+                        <input type="radio" name="min" value="0" title="否">
+                    </div>
+                </div>
+                <div class="layui-form-item left-margin">
+                    <label class="layui-form-label auto-width">3. 同类商品标准差检验？</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="sq" value="1" title="是" checked>
+                        <input type="radio" name="sq" value="0" title="否">
+                    </div>
+                </div>
+                <div class="layui-form-item left-margin">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">标准差高于</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="sqv1" placeholder="" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">时进行预警提示，提示为</div>
+                        <div class="layui-input-inline">
+                            <input type="text" name="warm_text" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item left-margin">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">标准差高于</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="sqv2" placeholder="" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">时，选择供应渠道不显示该供应商品编号</div>
+                    </div>
+                </div>
+                <div class="layui-form-item left-margin">
+                    <label class="layui-form-label auto-width">4. 设定安全单价范围？</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="p" value="1" title="是" checked>
+                        <input type="radio" name="p" value="0" title="否">
+                    </div>
+                </div>
+                <div class="layui-form-item bottom-margin left-margin">
+                    <div class="layui-inline">
+                        <label class="layui-form-label auto-width">安全单价范围：</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="lowprice" placeholder="" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">到</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="highprice" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item left-margin">
+                    <div class="layui-inline">
+                        <label class="layui-form-label auto-width">（不在此范围的商品，选择供应渠道时不显示该供应商品编号）</label>
+                    </div>
+                </div>
+                <div class="layui-form-item top-margin">
+                    <div class="flex flex-center">
+                        <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
+                        <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../layui/layui.js"></script>
+<script src="../js/riskManagement.js"></script>
+
+</body>
+</html>

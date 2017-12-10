@@ -1,0 +1,25 @@
+
+.edit-container {
+    width: 720px !important;
+    height: 720px !important;
+}
+
+.top-margin {
+    margin-top: 15px;
+}
+
+.edit-content {
+    padding-left: 15px;
+}
+
+.risk-title {
+    font-size: 17px;
+}
+
+.bottom-margin {
+    margin-bottom: 0 !important;
+}
+
+.left-margin {
+    margin-left: 15px !important;
+}

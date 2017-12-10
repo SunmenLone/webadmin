@@ -57,8 +57,8 @@ layui.use('table', function () {
         even: true,
         cols: [[{"LAY_RadioCHECKED": true, title: '选择', width: 80},
             {field: 'supplyid', title: '商品供应编号', width: 180},
-            {field: 'price', title: '备注', width: 180},
-            {field: 'risk', title: '备注', width: 180}
+            {field: 'price', title: '单价', width: 180},
+            {field: 'risk', title: '风险提示', width: 180}
         ]]
     });
 

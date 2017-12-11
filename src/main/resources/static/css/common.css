@@ -106,3 +106,8 @@
     margin-top: 48px;
 }
 
+.setpwd-input {
+    border: 0 !important;
+    background-color: #f8ff7b !important;
+}
+

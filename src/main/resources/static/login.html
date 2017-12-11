@@ -37,6 +37,58 @@
     </div>
 </div>
 
+<div id="setpwdmodal" class="mask" hidden>
+    <div class="modal-container setpwd-container">
+        <div class="setpwd-title">设置登录密码</div>
+
+        <div class="setpwd-content">
+            <form class="layui-form">
+                <div>
+                    <div class="layui-inline setpwd-inline">
+                        <label class="setpwd-item setpwd-label">登录账户</label>
+                    </div>
+                    <div class="layui-inline setpwd-inline">
+                        <label class="setpwd-item-right setpwd-label">原密码</label>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline setpwd-inline">
+                        <input type="text" name="login_username" class="layui-input setpwd-item setpwd-input" disabled>
+                    </div>
+                    <div class="layui-inline setpwd-inline">
+                        <input type="password" name="origin_password" class="layui-input setpwd-item setpwd-item-right setpwd-input" disabled>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="layui-inline setpwd-inline">
+                        <label class="setpwd-item setpwd-label">新密码<span class="layui-red"> *</span></label>
+                    </div>
+                    <div class="layui-inline setpwd-inline">
+                        <label class="setpwd-item-right setpwd-label">确认新密码<span class="layui-red"> *</span></label>
+                    </div>
+                </div>
+                <div>
+                    <div class="layui-inline setpwd-inline">
+                        <input type="password" name="newpwd" required lay-verify="required" autocomplete="off" placeholder="输入新密码" class="layui-input setpwd-item">
+                    </div>
+                    <div class="layui-inline setpwd-inline">
+                        <input type="password" name="cfgpwd" required lay-verify="required autocomplete="off" placeholder="再次输入密码" class="layui-input setpwd-item setpwd-item-right">
+                    </div>
+                </div>
+
+                <a class="layui-btn layui-btn-normal setpwd-btn" lay-submit="" href="javascript:setPwd();">确认</a>
+
+                <div class="setpwd-hint">
+                    <div>温馨提示：</div>
+                    <div>1. 请先设置新的登录密码，否则无法正常使用相关功能；</div>
+                    <div>2. 如果您有任何疑问，请联系管理员。</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div id="infomodal" class="mask" hidden>
     <div class="modal-container">
         <div class="modal-title">
@@ -49,61 +101,6 @@
         <div class="modal-btn-area">
             <button class="layui-btn layui-btn-normal" onclick="$('#infomodal').attr('hidden', true);">确定</button>
         </div>
-    </div>
-</div>
-
-<div id="setpwdmodal" class="mask" hidden>
-    <div class="modal-container setpwd-container">
-        <div class="setpwd-title">设置登录密码</div>
-
-        <div class="setpwd-content">
-
-            <div>
-                <div class="layui-inline setpwd-inline">
-                    <label class="setpwd-item setpwd-label">登录账户</label>
-                </div>
-                <div class="layui-inline setpwd-inline">
-                    <label class="setpwd-item-right setpwd-label">原密码</label>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-inline setpwd-inline">
-                    <input type="text" name="login_username" class="layui-input setpwd-item setpwd-input" disabled>
-                </div>
-                <div class="layui-inline setpwd-inline">
-                    <input type="password" name="origin_password" class="layui-input setpwd-item setpwd-item-right setpwd-input" disabled>
-                </div>
-            </div>
-
-            <div>
-                <div class="layui-inline setpwd-inline">
-                    <label class="setpwd-item setpwd-label">新密码<span class="layui-red"> *</span></label>
-                </div>
-                <div class="layui-inline setpwd-inline">
-                    <label class="setpwd-item-right setpwd-label">确认新密码<span class="layui-red"> *</span></label>
-                </div>
-            </div>
-            <div>
-                <div class="layui-inline setpwd-inline">
-                    <input type="password" name="newpwd" autocomplete="off" placeholder="输入新密码" class="layui-input setpwd-item">
-                </div>
-                <div class="layui-inline setpwd-inline">
-                    <input type="password" name="cfgpwd" autocomplete="off" placeholder="再次输入密码" class="layui-input setpwd-item setpwd-item-right">
-                </div>
-            </div>
-
-            <a class="layui-btn layui-btn-normal setpwd-btn" href="javascript:setPwd();">确认</a>
-
-            <div class="setpwd-hint">
-                <div>温馨提示：</div>
-                <div>1. 请先设置新的登录密码，否则无法正常使用相关功能；</div>
-                <div>2. 如果您有任何疑问，请联系管理员。</div>
-            </div>
-
-        </div>
-
-
-
     </div>
 </div>
 

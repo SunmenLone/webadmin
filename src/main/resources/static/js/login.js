@@ -14,11 +14,11 @@ var submitLogin = function() {
     }
 
     $.ajax({
-        url: '/user/submitLogin',
+        url: './user/submitLogin',
         data: param,
         success: function(res){
             if (res.code == 0) {
-                
+                SetCookie('username', username);
                 if( password == '123456' ) {
                     showPwdModal();
                 } else {
@@ -65,7 +65,7 @@ var setPwd = function() {
     }
 
     $.ajax({
-        url: '/user/update',
+        url: './user/update',
         data: param,
         success: function(res){
             if (res.code == 0) {

@@ -19,13 +19,13 @@
             <div class="layui-form-item login-item">
                 <div class="layui-input-inline login-input-inline">
                     <label class="layui-form-label">用户名：</label>
-                    <input type="text" name="username" autocomplete="off" placeholder="输入登录帐号" class="layui-input login-input" required lay-verify="required">
+                    <input type="text" name="username" required lay-verify="required" autocomplete="off" placeholder="输入登录帐号" class="layui-input login-input" required lay-verify="required">
                 </div>
             </div>
             <div class="layui-form-item login-item">
                 <div class="layui-input-inline login-input-inline">
                     <label class="layui-form-label">密码：</label>
-                    <input type="password" name="password" autocomplete="off" placeholder="输入登录密码" class="layui-input login-input">
+                    <input type="password" name="password" required lay-verify="required" autocomplete="off" placeholder="输入登录密码" class="layui-input login-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -47,7 +47,7 @@
             <div class="modal-content__text" id="info"></div>
         </div>
         <div class="modal-btn-area">
-            <button class="layui-btn layui-btn-normal" onclick="$('#infomodal').attr('hidden','true');">确定</button>
+            <button class="layui-btn layui-btn-normal" onclick="$('#infomodal').attr('hidden', true);">确定</button>
         </div>
     </div>
 </div>
@@ -68,10 +68,10 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline setpwd-inline">
-                    <input type="text" name="username" class="layui-input setpwd-item setpwd-input" disabled value="admin">
+                    <input type="text" name="login_username" class="layui-input setpwd-item setpwd-input" disabled>
                 </div>
                 <div class="layui-inline setpwd-inline">
-                    <input type="password" name="password" class="layui-input setpwd-item setpwd-item-right setpwd-input" disabled value="admin">
+                    <input type="password" name="origin_password" class="layui-input setpwd-item setpwd-item-right setpwd-input" disabled>
                 </div>
             </div>
 
@@ -92,7 +92,7 @@
                 </div>
             </div>
 
-            <a class="layui-btn layui-btn-normal setpwd-btn">确认</a>
+            <a class="layui-btn layui-btn-normal setpwd-btn" href="javascript:setPwd();">确认</a>
 
             <div class="setpwd-hint">
                 <div>温馨提示：</div>
@@ -109,7 +109,8 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="./layui/layui.js"></script>
-<script src="./js/md5.min.js"></script>
-<script src="./js/pages/login.js"></script>
+<script src="http://cdn.bootcss.com/blueimp-md5/1.1.0/js/md5.min.js"></script>
+<script src="./js/login.js"></script>
+<script src="./js/tool.js"></script>
 </body>
 </html>

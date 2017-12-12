@@ -31,7 +31,7 @@
         </form>
     </div>
     <div class="layui-form-item btn-area">
-        <a class="layui-btn layui-btn-primary" href="javascript:openEditModal(0, null);">新增</a>
+        <a class="layui-btn layui-btn-primary" href="javascript:openEditModal(0);">新增</a>
     </div>
     <table id="role_table" lay-filter="role"></table>
 </div>
@@ -58,8 +58,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">角色状态：</label>
                     <div class="layui-input-inline">
-                        <select id="modal_status" lay-verify="required" required>
-                            <option value="0" text="启用" selected>启用</option>
+                        <select id="modal_status">
+                            <option value="0" text="启用">启用</option>
                             <option value="1" text="禁用">禁用</option>
                         </select>
                     </div>

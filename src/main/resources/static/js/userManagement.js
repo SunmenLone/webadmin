@@ -209,8 +209,8 @@ var getRole = function() {
             if (res.code == 0) {
                 var select1 = document.getElementById('rolename');
                 var select2 = document.getElementById('modal_role');
-                select1.options.add(new Option("直接选择或搜索选择",""));
-                select2.options.add(new Option("直接选择或搜索选择",""));
+                select1.options.add(new Option("请选择",""));
+                select2.options.add(new Option("请选择",""));
                 $.each(res.data, function(i){
                     select1.options.add(new Option(res.data[i].role_name, res.data[i].role_id));
                     select2.options.add(new Option(res.data[i].role_name, res.data[i].role_id));

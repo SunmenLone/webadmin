@@ -13,3 +13,21 @@
 .supplier-filter-btn-area {
     margin-right: 42px;
 }
+
+.score-container {
+    width: 800px !important;
+    height: 720px !important;
+}
+
+.score-label {
+    width: 120px !important;
+}
+
+.score-textarea {
+    margin-left: 150px !important;
+    margin-right: 90px !important;
+}
+
+.top-margin {
+    margin-top: 40px;
+}

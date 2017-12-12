@@ -1,17 +1,18 @@
-layui.use('element', function(){
+layui.use('element', function () {
     var element = layui.element;
+
 
 });
 
 var form;
-layui.use('form', function(){
+layui.use('form', function () {
     form = layui.form;
 
 });
 
 var layer;
-layui.use('layer', function() { //独立版的layer无需执行这一句
-    layer = layui.layer; //独立版的layer无需执行这一句
+layui.use('layer', function() {
+    layer = layui.layer;
 });
 
 var data;
@@ -98,43 +99,57 @@ var openEditModal = function(type){
 
         $('#modal_title').html('新增角色');
 
-        $('input[name="modal_name"]').val();
+        $('input[name="modal_name"]').val('');
+        $('#modal_status option').each(function(){
+            $(this).removeAttr('selected');
+        });
         $('#modal_status option[value="0"]').attr('selected', true);
         $('input[name="menu"]:checked').each(function(){
             $(this).removeAttr('checked');
         });
         form.render('select');
+        form.render('checkbox');
 
         $('#edit_confirm').attr('href', 'javascript:addOrEditRole(0);');
+
+        $('#editmodal').removeAttr('hidden');
 
     } else {
 
         $('#modal_title').html('修改角色');
 
         $('input[name="modal_name"]').val(data.role_name);
+        $('#modal_status option').each(function(){
+            $(this).removeAttr('selected');
+        });
         $('#modal_status option[text="' + data.freeze + '"]').attr('selected', true);
-        var menu = data.permissions.split(',');
-        $('input[name="menu"]').each(function(){
-            $(this).removeAttr('checked');
-        });
-        $('input[name="menu"]').each(function(){
-            for (var i = 0; i < menu.length; i++) {
-                var t = $(this).next().text();
-                t = t.substring(0, t.length-1);
-                if (t == menu[i]) {
-                    $(this).attr('checked', true);
+        if (data.permissions == '所有菜单') {
+            $('input[name="menu"]').each(function(){
+                $(this).attr('checked', true);
+            });
+        } else {
+            var menu = data.permissions.split(',');
+            $('input[name="menu"]').each(function(){
+                $(this).removeAttr('checked');
+            });
+            $('input[name="menu"]').each(function(){
+                for (var i = 0; i < menu.length; i++) {
+                    var t = $(this).next().text();
+                    t = t.substring(0, t.length-1);
+                    if (t == menu[i]) {
+                        $(this).attr('checked', true);
+                    }
                 }
-            }
-        });
+            });
+        }
         form.render('select');
         form.render('checkbox');
 
         $('#edit_confirm').attr('href', 'javascript:addOrEditRole(1);');
 
+        $('#editmodal').removeAttr('hidden');
+
     }
-
-    $('#editmodal').removeAttr('hidden');
-
 }
 
 var addOrEditRole = function(type) {
@@ -195,7 +210,7 @@ var addOrEditRole = function(type) {
                 permissions = permissions.substring(0, permissions.length - 1);
 
                 $.ajax({
-                    url: '../role/add',
+                    url: '../role/edit',
                     data: {
                         role_id: data.role_id,
                         role_name: $('input[name="modal_name"]').val(),

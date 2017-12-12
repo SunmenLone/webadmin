@@ -41,3 +41,10 @@ function  DateDiff(sDate1,  sDate2){
     iDays  =  parseInt(Math.abs(oDate1 - oDate2)  /  1000  /  60  /  60  / 24);    //把相差的毫秒数转换为天数
     return  iDays;
 }
+
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}

@@ -19,82 +19,82 @@
         <div class="info-title">基本信息</div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">商户编号： </label><label></label>
+                <label class="info-label">商户编号： </label><label id="supplier_id"></label>
             </div>
             <div class="layui-col-md6">
-                <label class="info-label">商户名称：</label><label></label>
-            </div>
-        </div>
-        <div class="layui-row layui-col-space15 info-row">
-            <div class="layui-col-md6">
-                <label class="info-label">机构名称： </label><label></label>
-            </div>
-            <div class="layui-col-md6">
-                <label class="info-label">商户类型： </label><label></label>
+                <label class="info-label">商户名称：</label><label id="supplier_name"></label>
             </div>
         </div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">统一社会信用代码： </label><label></label>
+                <label class="info-label">机构名称： </label><label id="institution_name"></label>
             </div>
             <div class="layui-col-md6">
-                <label class="info-label">注册地址： </label><label></label>
-            </div>
-        </div>
-        <div class="layui-row layui-col-space15 info-row">
-            <div class="layui-col-md6">
-                <label class="info-label">法人名称： </label><label></label>
-            </div>
-            <div class="layui-col-md6">
-                <label class="info-label">法人身份证号： </label><label></label>
+                <label class="info-label">商户类型： </label><label id="supplier_type"></label>
             </div>
         </div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">国税识别号： </label><label></label>
+                <label class="info-label">统一社会信用代码： </label><label id="social_trust_code"></label>
             </div>
             <div class="layui-col-md6">
-                <label class="info-label">开户行及帐号： </label><label></label>
+                <label class="info-label">注册地址： </label><label id="regist_address"></label>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15 info-row">
+            <div class="layui-col-md6">
+                <label class="info-label">法人名称： </label><label id="regist_person"></label>
+            </div>
+            <div class="layui-col-md6">
+                <label class="info-label">法人身份证号： </label><label id="corporate_card"></label>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15 info-row">
+            <div class="layui-col-md6">
+                <label class="info-label">国税识别号： </label><label id="tax_number"></label>
+            </div>
+            <div class="layui-col-md6">
+                <label class="info-label">开户行及帐号： </label><label id="deposit_bank"></label>
             </div>
         </div>
         <div class="info-title">业务信息</div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">合作额度： </label><label></label>
+                <label class="info-label">合作额度： </label><label id="cooperration_amount"></label>
             </div>
         </div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">保证金率： </label><label></label>
+                <label class="info-label">保证金率： </label><label id="gurantee_rate"></label>
             </div>
         </div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">业务经办人： </label><label></label>
+                <label class="info-label">业务经办人： </label><label id="business_owner"></label>
             </div>
             <div class="layui-col-md6">
-                <label class="info-label">联系电话： </label><label></label>
-            </div>
-        </div>
-        <div class="layui-row layui-col-space15 info-row">
-            <div class="layui-col-md6">
-                <label class="info-label">机构经办人： </label><label></label>
-            </div>
-            <div class="layui-col-md6">
-                <label class="info-label">身份证号： </label><label></label>
+                <label class="info-label">联系电话： </label><label id="institution_telphone"></label>
             </div>
         </div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">联系电话： </label><label></label>
+                <label class="info-label">机构经办人： </label><label id="institution_owner"></label>
             </div>
             <div class="layui-col-md6">
-                <label class="info-label">邮箱： </label><label></label>
+                <label class="info-label">身份证号： </label><label id="business_idcard"></label>
             </div>
         </div>
         <div class="layui-row layui-col-space15 info-row">
             <div class="layui-col-md6">
-                <label class="info-label">通讯地址： </label><label></label>
+                <label class="info-label">联系电话： </label><label id="business_telphone"></label>
+            </div>
+            <div class="layui-col-md6">
+                <label class="info-label">邮箱： </label><label id="business_mail"></label>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15 info-row">
+            <div class="layui-col-md6">
+                <label class="info-label">通讯地址： </label><label id="business_address"></label>
             </div>
         </div>
 
@@ -104,6 +104,8 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../layui/layui.js"></script>
+<script src="../js/supplierDetail.js"></script>
+<script src="../js/tool.js"></script>
 
 </body>
 </html>

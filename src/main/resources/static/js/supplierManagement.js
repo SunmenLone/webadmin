@@ -84,7 +84,8 @@ layui.use('table', function () {
             data = obj.data;
             openScoreModal();
         } else if (layEvent === 'detail') {
-            window.location.href = "./supplierDetail.html";
+            data = obj.data;
+            window.location.href = "./supplierDetail.html?supplier_id=" + data.supplier_id;
         }
 
     });

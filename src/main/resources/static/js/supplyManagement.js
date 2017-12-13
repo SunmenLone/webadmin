@@ -4,9 +4,15 @@ layui.use('element', function () {
 
 });
 
+var form;
 layui.use('form', function () {
-    var form = layui.form;
+    form = layui.form;
 
+});
+
+var layer;
+layui.use('layer', function(){
+   layer = layui.layer;
 });
 
 var table;
@@ -16,19 +22,19 @@ layui.use('table', function () {
     table.render({
         id: 'supply_table',
         elem: '#supply_table',
-        url: '',
+        url: '../supplier/item/find?sup_id=' + getUrlParam('supplier_id'),
         page: true,
         even: true,
         cols: [[{field: 'id', title: '序号', width: 80},
-            {field: 'itemid', title: '商品编号', width: 160},
-            {field: 'type', title: '商品类型', width: 160},
-            {field: 'itemname', title: '商品名称', width: 160},
-            {field: 'supplyid', title: '商品供应编号', width: 200},
-            {toolbar: '#opt1', title: '详细信息', align: 'center', width: 100},
-            {field: 'createtime', title: '添加时间', width: 160},
-            {field: 'status', title: '状态', width: 120},
-            {field: 'price', title: '当前单价', width: 100},
-            {toolbar: '#opt2', title: '本年价格波动', align: 'center', width: 140},
+            {field: 'item_order', title: '商品编号', width: 160},
+            {field: 'item_type', title: '商品类型', width: 160},
+            {field: 'item_name', title: '商品名称', width: 160},
+            {field: 'item_supid', title: '商品供应编号', width: 200},
+            {toolbar: '#opt1', title: '详细信息', align: 'center', width: 120},
+            {field: 'item_addtime', title: '添加时间', width: 180},
+            {field: 'present_state', title: '状态', width: 120},
+            {field: 'item_price', title: '当前单价', width: 100},
+            {toolbar: '#opt2', title: '本年价格波动', align: 'center', width: 120},
         ]]
     });
 
@@ -48,6 +54,34 @@ layui.use('table', function () {
     });
 
 });
+
+var search = function() {
+
+    var item_name =  $('input[name="item_name"]').val();
+    var item_order =  $('input[name="item_order"]').val();
+    var item_type =  $('#item_type option:selected').val();
+
+    var option = {
+        where:{}
+    }
+
+    if (item_name != '') {
+        option.where['item_name'] = item_name;
+    }
+
+    if (item_order != '') {
+        option.where['item_order'] = item_order;
+    }
+
+    if (item_type != '') {
+        option.where['item_type'] = item_type;
+    }
+
+    table.reload('supply_table', option);
+
+}
+
+
 
 var line = echarts.init(document.getElementById('line'));
 var optionLine = {
@@ -84,3 +118,7 @@ var optionLine = {
     ]
 };
 line.setOption(optionLine);
+
+$(function(){
+    $('#reset').attr('href', 'supplyManagement.html?supplier_id=' + getUrlParam('supplier_id'));
+});

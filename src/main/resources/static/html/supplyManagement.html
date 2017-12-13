@@ -13,35 +13,37 @@
 <div class="body-main">
 
     <div class="filter-area">
-        <div class="filter-label">请输入查询条件：</div>
+        <div class="flex">
+            <a class="layui-btn layui-btn-primary" href="javascript:window.location.href='./supplierManagement.html';">返回</a>
+        </div>
+        <div class="filter-label top-margin">请输入查询条件：</div>
         <form class="layui-form" action="">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">商品名称：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="itemname" autocomplete="off" placeholder="输入商品名称查询" class="layui-input">
+                        <input type="text" name="item_name" autocomplete="off" placeholder="输入商品名称查询" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">商品ID：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="itemid" autocomplete="off" placeholder="输入商品ID查询" class="layui-input">
+                        <input type="text" name="item_order" autocomplete="off" placeholder="输入商品ID查询" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">商品类型：</label>
                     <div class="layui-input-inline">
-                        <select id="type" lay-search="">
-                            <option value="">直接选择或搜索选择</option>
-                            <option value="0">办公用品</option>
-                            <option value="1">设备</option>
-                            <option value="2">耗材</option>
+                        <select id="item_type">
+                            <option value="">请选择</option>
+                            <option value="办公用品">办公用品</option>
+                            <option value="饮料">饮料</option>
                         </select>
                     </div>
                 </div>
                 <div class="float-right">
                     <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a></div>
-                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a></div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" id="reset">重置</a></div>
                 </div>
             </div>
         </form>
@@ -95,15 +97,14 @@
             <div class="layui-form-item top-margin">
                 <label class="layui-form-label auto-width"><span class="layui-red">*</span>请选择需要添加的商品</label>
                 <div class="layui-input-inline">
-                    <select name="type">
-                        <option value="">请选择商品类别</option>
+                    <select id="type">
+                        <option value="">请选择</option>
                         <option value="办公用品">办公用品</option>
-                        <option value="设备">设备</option>
-                        <option value="耗材">耗材</option>
+                        <option value="饮料">饮料</option>
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select class="auto-width" name="item" lay-search>
+                    <select class="auto-width" id="item_name">
                         <option value="">输入商品编号或选择</option>
                         <option value="签字笔">签字笔</option>
                         <option value="钉书机">钉书机</option>
@@ -142,8 +143,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="layui-red">*</span>当前状态：</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="status" value="供应中" title="供应中" checked>
-                    <input type="radio" name="status" value="缺货" title="缺货">
+                    <input type="radio" name="status" value="1" title="供应中" checked>
+                    <input type="radio" name="status" value="0" title="缺货">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -156,7 +157,7 @@
             <div class="layui-form-item top-margin">
                 <div class="flex flex-center">
                     <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
-                    <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+                    <a id="edit_confirm" class="layui-btn layui-btn-normal" lay-submit="">确定</a>
                 </div>
             </div>
         </form>
@@ -174,6 +175,7 @@
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../layui/layui.js"></script>
+<script src="../js/tool.js"></script>
 <script src="../js/supplyManagement.js"></script>
 
 </body>

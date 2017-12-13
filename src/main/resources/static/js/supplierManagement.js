@@ -24,7 +24,7 @@ layui.use('form', function () {
 
 var layer;
 layui.use('layer', function(){
-   layer = layui.layer;
+    layer = layui.layer;
 });
 
 var bdate = '';
@@ -79,7 +79,8 @@ layui.use('table', function () {
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'edit') {
-
+            data = obj.data;
+            window.location.href = "./supplyManagement.html?supplier_id=" + data.supplier_id;
         } else if (layEvent === 'score') {
             data = obj.data;
             openScoreModal();
@@ -212,6 +213,80 @@ var evaluate = function(){
             layer.closeAll();
         }
     });
+
+}
+
+var openAddModal = function() {
+    $('#add_supplier_name').val('');
+    $('#add_institution_name').val('');
+    $('#add_supplier_type').val('');
+    $('#add_social_trust_code').val('');
+    $('#add_regist_address').val('');
+    $('#add_regist_person').val('');
+    $('#add_corporate_card').val('');
+    $('#add_tax_number').val('');
+    $('#add_deposit_bank').val('');
+    $('#add_cooperration_amount').val('');
+    $('#add_gurantee_rate').val('');
+    $('#add_business_owner').val('');
+    $('#add_business_telphone').val('');
+    $('#add_institution_owner').val('');
+    $('#add_business_idcard').val('');
+    $('#add_institution_telphone').val('');
+    $('#add_business_mail').val('');
+    $('#add_business_address').val('');
+
+    $('#addmodal').removeAttr('hidden');
+}
+
+var add = function() {
+
+    layer.open({
+        title: '提示',
+        content: '确认新增供应商？',
+        btn: ['确认', '取消'],
+        yes: function() {
+            $.ajax({
+                url: '../supplier/info/add',
+                data: {
+                    supplier_name: $('#add_supplier_name').val(),
+                    institution_name: $('#add_institution_name').val(),
+                    supplier_type: $('#add_supplier_type').val(),
+                    social_trust_code: $('#add_social_trust_code').val(),
+                    regist_address: $('#add_regist_address').val(),
+                    regist_person: $('#add_regist_person').val(),
+                    corporate_card: $('#add_corporate_card').val(),
+                    tax_number: $('#add_tax_number').val(),
+                    deposit_bank: $('#add_deposit_bank').val(),
+                    cooperration_amount: $('#add_cooperration_amount').val(),
+                    gurantee_rate: $('#add_gurantee_rate').val(),
+                    business_owner: $('#add_business_owner').val(),
+                    business_telphone: $('#add_business_telphone').val(),
+                    institution_owner: $('#add_institution_owner').val(),
+                    business_idcard: $('#add_business_idcard').val(),
+                    institution_telphone: $('#add_institution_telphone').val(),
+                    business_mail: $('#add_business_mail').val(),
+                    business_address: $('#add_business_address').val()
+                },
+                success: function (res) {
+                    if (res.code == 0) {
+                        $('#addmodal').attr('hidden', true);
+                        table.reload('supplier_table', {});
+                        layer.open({
+                            title: '提示'
+                            , content: '新增供应商成功'
+                        });
+                    } else {
+                        console.log(res.errormessage);
+                    }
+                }
+            })
+        },
+        btn2: function(){
+            layer.closeAll();
+        }
+    });
+
 
 }
 

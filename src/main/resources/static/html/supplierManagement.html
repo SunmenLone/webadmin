@@ -55,7 +55,7 @@
             </div>
         </form>
     </div>
-    <div class="layui-btn layui-btn-primary add-btn">新增</div>
+    <a class="layui-btn layui-btn-primary add-btn" href="javascript:openAddModal();">新增</a>
     <table id="supplier_table" lay-filter="supplier"></table>
 </div>
 
@@ -63,6 +63,134 @@
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">供应产品配置</a>
     <a class="layui-btn layui-btn-warm layui-btn-mini" lay-event="score">评分</a>
 </script>
+
+<div id="addmodal" class="mask" hidden>
+    <div class="modal-container add-container">
+        <div class="modal-title">
+            <div id="add-modal_title" class="modal-title__text">新增供应商</div>
+        </div>
+        <div class="add-content">
+            <form class="layui-form" action="">
+                <div class="layui-form-item top-margin">
+                    <label class="layui-form-label info-label">供应商名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_supplier_name" autocomplete="off" placeholder="请填写供应商名称"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">机构名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_institution_name" autocomplete="off" placeholder="请填写机构名称"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">商户类型：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_supplier_type" autocomplete="off" placeholder="请填写商户类型"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">统一社会信用代码：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_social_trust_code" autocomplete="off" placeholder="请填写统一社会信用代码"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">注册地址：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_regist_address" autocomplete="off" placeholder="请填写注册地址"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">法人名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_regist_person" autocomplete="off" placeholder="请填写法人名称"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">法人身份证号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_corporate_card" autocomplete="off" placeholder="请填写法人身份证号"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">国税识别号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_tax_number" autocomplete="off" placeholder="请填写国税识别号"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">开户行及账号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_deposit_bank" autocomplete="off" placeholder="请填写开户行及账号"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">合作额度：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_cooperration_amount" autocomplete="off" placeholder="请填写合作额度"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">保证金率：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_gurantee_rate" autocomplete="off" placeholder="请填写保证金率"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">业务经办人：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_business_owner" autocomplete="off" placeholder="请填写业务经办人"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">联系电话：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_business_telphone" autocomplete="off" placeholder="请填写联系电话"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">机构经办人：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_institution_owner" autocomplete="off" placeholder="请填写机构经办人"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">身份证号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_business_idcard" autocomplete="off" placeholder="请填写身份证号"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">联系电话：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_institution_telphone" autocomplete="off" placeholder="请填写联系电话"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                    <label class="layui-form-label info-label">邮箱：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_business_mail" autocomplete="off" placeholder="请填写邮箱"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label info-label">通讯地址：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="add_business_address" autocomplete="off" placeholder="请填写通讯地址"
+                               class="layui-input" required lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item top-margin">
+                    <div class="flex flex-center">
+                        <a class="layui-btn layui-btn-primary" href="javascript: $('#addmodal').attr('hidden', 'true');">取消</a>
+                        <a id="add_confirm" class="layui-btn layui-btn-normal" lay-submit="" href="javascript:add();">确定</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div id="scoremodal" class="mask" hidden>
     <div class="modal-container score-container">

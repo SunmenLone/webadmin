@@ -1,6 +1,3 @@
-.info-main {
-    padding: 25px 50px;
-}
 
 .info-title {
     font-size: 20px;
@@ -18,4 +15,21 @@
     font-size: 14px;
     line-height: 16px;
     height: 16px;
+}
+
+.edit-container {
+    width: 800px !important;
+    height: 690px !important;
+}
+
+.edit-label {
+    width: 130px !important;
+}
+
+.edit-content {
+    padding: 0 25px;
+}
+
+.top-margin {
+    margin-top: 40px;
 }

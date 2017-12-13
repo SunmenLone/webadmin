@@ -3,7 +3,7 @@
 }
 
 .supplier-filter-label {
-    width: 150px !important;
+    width: 120px !important;
 }
 
 .supplier-filter-inline {
@@ -12,6 +12,11 @@
 
 .supplier-filter-btn-area {
     margin-right: 42px;
+}
+
+.add-container {
+    width: 800px !important;
+    height: 690px !important;
 }
 
 .score-container {
@@ -30,4 +35,12 @@
 
 .top-margin {
     margin-top: 40px;
+}
+
+.info-label {
+    width: 130px !important;
+}
+
+.add-content {
+    padding: 0 25px;
 }

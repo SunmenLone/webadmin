@@ -18,7 +18,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">采购申请单号：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="applyid" autocomplete="off" placeholder="输入申请单号查询" class="layui-input">
+                        <input type="text" name="apply_order" autocomplete="off" placeholder="输入申请单号查询" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -34,69 +34,69 @@
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">申请单状态：</label>
                     <div class="layui-input-inline">
-                        <select id="status" lay-search="">
-                            <option value="">直接选择或搜索选择</option>
-                            <option value="0">未提交</option>
-                            <option value="1">已提交</option>
-                            <option value="2">审核中</option>
-                            <option value="3">审核通过</option>
-                            <option value="4">审核不通过</option>
-                            <option value="5">采购中</option>
-                            <option value="6">采购完毕</option>
-                            <option value="7">已领取</option>
+                        <select id="apply_state" lay-search="">
+                            <option value="">请选择</option>
+                            <option value="未提交">未提交</option>
+                            <option value="已提交">已提交</option>
+                            <option value="审核中">审核中</option>
+                            <option value="审核通过">审核通过</option>
+                            <option value="审核不通过">审核不通过</option>
+                            <option value="采购中">采购中</option>
+                            <option value="采购完毕">采购完毕</option>
+                            <option value="已领取">已领取</option>
                         </select>
                     </div>
                 </div>
                 <div class="float-right">
                     <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a></div>
-                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a></div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="applyManagement.html">重置</a></div>
                 </div>
             </div>
         </form>
     </div>
-    <div class="layui-btn layui-btn-primary add-btn">新增申请</div>
+    <a class="layui-btn layui-btn-primary add-btn" href="javascript:openEditModal(0);">新增申请</a>
     <table id="apply_table" lay-filter="apply"></table>
 </div>
 
 <script type="text/html" id="opt">
-    {{#  if(d.status == 0){ }}
+    {{#  if(d.apply_state == '未提交'){ }}
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="apply">提交</a>
-    {{#  } else if(d.status == 6) { }}
+    {{#  } else if(d.apply_state == '采购完毕') { }}
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="retrieve">领取</a>
     {{#  } else { }}
-    <a class="layui-btn layui-btn-normal layui-btn-mini" disabled>-</a>
+    <label>-</label>
     {{#  } }}
 </script>
 
 <div id="editmodal" class="mask" hidden>
     <div class="modal-container edit-container">
         <div class="modal-title">
-            <div id="modal_title" class="modal-title__text">新增/编辑申请</div>
+            <div id="modal_title" class="modal-title__text"></div>
         </div>
         <form class="layui-form" action="">
             <div class="layui-form-item top-margin">
                 <label class="layui-form-label apply-filter-label">需要采购的商品：</label>
             </div>
             <div class="left-margin">
-                <table class="layui-table" lay-data="{width: 910, height:360, id:'item_table'}" lay-filter="item">
+                <table class="layui-table" lay-data="{width: 910, height:360, id:'item_table'}" lay-filter="item" id="item_table">
                     <thead>
                     <tr>
                         <th lay-data="{field:'id', width:80}">序号</th>
-                        <th lay-data="{field:'itemid', width:120}">商品编号</th>
-                        <th lay-data="{field:'type', width:120}">商品类型</th>
-                        <th lay-data="{field:'name', width:140}">商品名称</th>
-                        <th lay-data="{field:'quantity', width:120}">商品数量</th>
-                        <th lay-data="{field:'reason', width:200}">采购理由或用途</th>
+                        <th lay-data="{field:'item_order', width:120}">商品编号</th>
+                        <th lay-data="{field:'item_type', width:120}">商品类型</th>
+                        <th lay-data="{field:'item_name', width:140}">商品名称</th>
+                        <th lay-data="{field:'item_count', width:120}">商品数量</th>
+                        <th lay-data="{field:'apply_reason', width:200}">采购理由或用途</th>
                         <th lay-data="{align:'center', toolbar: '#editopt', width:120}">操作</th>
                     </tr>
                     </thead>
                 </table>
                 <div class="top-margin right-padding">
-                    <a class="layui-btn layui-btn-primary">添加商品</a>
+                    <a class="layui-btn layui-btn-primary" href="javascript:openEditItemModal(0);">添加商品</a>
                 </div>
             </div>
             <div class="apply-btn-area">
-                <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
+                <a class="layui-btn layui-btn-primary" href="javascript:$('#editmodal').attr('hidden', 'true');">取消</a>
                 <a class="layui-btn" href="javascript:;">暂存</a>
                 <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
             </div>
@@ -107,43 +107,36 @@
 <div id="edititemmodal" class="mask" hidden>
     <div class="modal-container edit-item-container">
         <div class="modal-title">
-            <div id="edit-modal_title" class="modal-title__text">新增或修改</div>
+            <div id="edit-modal_title" class="modal-title__text"></div>
         </div>
         <form class="layui-form" action="">
             <div class="layui-form-item top-margin25">
                 <label class="layui-form-label edit-item-label"><span class="layui-red">* </span>请选择需要添加的商品</label>
                 <div class="layui-input-inline">
-                    <select name="type">
-                        <option value="">请选择商品类别</option>
-                        <option value="办公用品">办公用品</option>
-                        <option value="设备">设备</option>
-                        <option value="耗材">耗材</option>
+                    <select id="modal_item_type" lay-filter="type" required lay-verify="required">
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select class="auto-width" name="item" lay-search>
-                        <option value="">输入商品编号或选择</option>
-                        <option value="签字笔">签字笔</option>
-                        <option value="钉书机">钉书机</option>
+                    <select class="auto-width" id="modal_item_name" required lay-verify="required">
                     </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label edit-item-label"><span class="layui-red">* </span>请输入数量：</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="modal_quantity" required  lay-verify="required" placeholder="请输入数量" autocomplete="off" class="layui-input">
+                    <input type="text" id="modal_quantity" required  lay-verify="required" placeholder="请输入数量" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label edit-item-label"><span class="layui-red">* </span>采购理由或用途: </label>
                 <div class="layui-input-block edit-item-textarea">
-                    <textarea name="modal_reason" placeholder="请输入采购理由或用途" class="layui-textarea"></textarea>
+                    <textarea id="modal_reason" placeholder="请输入采购理由或用途" class="layui-textarea" required lay-verify="required"></textarea>
                 </div>
             </div>
             <div class="layui-form-item top-margin25">
                 <div class="flex flex-center">
                     <a class="layui-btn layui-btn-primary" href="javascript: $('#edititemmodal').attr('hidden', 'true');">取消</a>
-                    <a id="edititem_confirm" class="layui-btn layui-btn-normal">确定</a>
+                    <a id="edititem_confirm" class="layui-btn layui-btn-normal" lay-submit="">确定</a>
                 </div>
             </div>
         </form>
@@ -160,6 +153,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../layui/layui.js"></script>
 <script src="../js/applyManagement.js"></script>
+<script src="../js/tool.js"></script>
 
 </body>
 </html>

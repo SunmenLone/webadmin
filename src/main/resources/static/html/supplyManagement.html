@@ -50,10 +50,13 @@
     </div>
     <div class="layui-form-item btn-area">
         <div class="layui-inline">
-            <a class="layui-btn layui-btn-primary">新增</a>
+            <a class="layui-btn layui-btn-primary" href="javascript:openEditModal(0);">新增</a>
         </div>
         <div class="layui-inline">
-            <a class="layui-btn layui-btn-primary">导入</a>
+            <a class="layui-btn layui-btn-primary" id="upload">导入</a>
+        </div>
+        <div class="layui-inline link-inline">
+            <a href="../file/supplyTemplate.xlsx" class="link">点击下载供应商品导入模版：供应商品模版.xlsx</a>
         </div>
     </div>
     <table id="supply_table" lay-filter="supply"></table>
@@ -68,46 +71,21 @@
     <a class="layui-btn layui-btn-mini" lay-event="line">折线图</a>
 </script>
 
-<div id="deletemodal" class="mask" hidden>
-    <div class="modal-container">
-        <div class="modal-title">
-            <div class="modal-title__text">提示</div>
-        </div>
-        <div class="modal-content">
-            <img class="modal-content__img" src="../imgs/prompt.png">
-            <div class="modal-content__text" id="info"></div>
-        </div>
-        <div class="modal-btn-area">
-            <div class="layui-form-item">
-                <div class="flex flex-center">
-                    <a class="layui-btn layui-btn-primary" href="javascript: $('#deletemodal').attr('hidden', 'true');">取消</a>
-                    <a id="delete_confirm" class="layui-btn layui-btn-normal">确定</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="editmodal" class="mask" hidden>
     <div class="modal-container edit-container">
         <div class="modal-title">
-            <div id="edit-modal_title" class="modal-title__text">新增/编辑商品（编辑时只能改状态于价格）</div>
+            <div id="edit-modal_title" class="modal-title__text"></div>
         </div>
         <form class="layui-form" action="">
             <div class="layui-form-item top-margin">
                 <label class="layui-form-label auto-width"><span class="layui-red">*</span>请选择需要添加的商品</label>
                 <div class="layui-input-inline">
-                    <select id="type">
-                        <option value="">请选择</option>
-                        <option value="办公用品">办公用品</option>
-                        <option value="饮料">饮料</option>
+                    <select id="modal_item_type" lay-filter="type" required lay-verify="required">
                     </select>
                 </div>
                 <div class="layui-input-inline">
-                    <select class="auto-width" id="item_name">
-                        <option value="">输入商品编号或选择</option>
-                        <option value="签字笔">签字笔</option>
-                        <option value="钉书机">钉书机</option>
+                    <select class="auto-width" id="modal_item_name" required lay-verify="required">
+                        <option value="">请先选择商品类型</option>
                     </select>
                 </div>
             </div>
@@ -116,13 +94,13 @@
                 <div class="layui-inline">
                     <label class="layui-form-label"><span class="layui-red">* </span>品牌：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="modal_brand" required  lay-verify="required" placeholder="请输入品牌" autocomplete="off" class="layui-input">
+                        <input type="text" name="modal_item_brand" required  lay-verify="required" placeholder="请输入品牌" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">规格型号：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="modal_spec" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
+                        <input type="text" name="modal_item_spec" placeholder="请输入规格型号" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
@@ -130,33 +108,33 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">产地：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="modal_product"placeholder="请输入产地" autocomplete="off" class="layui-input">
+                        <input type="text" name="modal_item_address"placeholder="请输入产地" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label"><span class="layui-red">*</span>计量单位：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="modal_unit" required  lay-verify="required" placeholder="请输入计量单位" autocomplete="off" class="layui-input">
+                        <input type="text" name="modal_item_unit" required  lay-verify="required" placeholder="请输入计量单位" autocomplete="off" class="layui-input">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="layui-red">*</span>当前状态：</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="status" value="1" title="供应中" checked>
-                    <input type="radio" name="status" value="0" title="缺货">
+                    <input type="radio" name="modal_item_status" value="1" title="供应中">
+                    <input type="radio" name="modal_item_status" value="0" title="缺货">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"><span class="layui-red">* </span>单价：</label>
                 <div class="layui-input-inline">
-                    <input type="tel" name="modal_phone" required  lay-verify="required" placeholder="请输入单价" autocomplete="off" class="layui-input">
+                    <input type="tel" name="modal_item_price" required  lay-verify="required" placeholder="请输入单价" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">元</div>
             </div>
             <div class="layui-form-item top-margin">
                 <div class="flex flex-center">
-                    <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
+                    <div id="edit_cancel" class="cancel-btn"><a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a> </div>
                     <a id="edit_confirm" class="layui-btn layui-btn-normal" lay-submit="">确定</a>
                 </div>
             </div>

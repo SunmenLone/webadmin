@@ -204,7 +204,7 @@ layui.use('upload', function() {
 
     upload.render({
         elem: '#upload'
-        ,url: 'http://125.216.243.186:8080/item/excel/import'
+        ,url: '../item/excel/import'
         ,accept: 'file'
         ,ext: 'xls|xlsx'
         ,done: function(res){

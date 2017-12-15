@@ -45,3 +45,16 @@
     margin-left: 150px !important;
     margin-right: 90px !important;
 }
+
+.link-inline {
+    vertical-align: bottom;
+}
+
+.link {
+    font-size: 12px;
+    color: #4113b9;
+}
+
+.cancel-btn {
+    margin-right: 15px;
+}

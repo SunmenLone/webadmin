@@ -72,10 +72,10 @@
 </div>
 
 <script type="text/html" id="opt">
-    {{#  if(d.status == 0){ }}
+    {{#  if(d.apply_state == '已提交' || d.apply_state == '审核中'){ }}
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="review">审核</a>
     {{#  } else { }}
-    <a class="layui-btn layui-btn-primary layui-btn-mini" disabled>-</a>
+    <div>-</div>
     {{#  } }}
 </script>
 
@@ -132,12 +132,6 @@
         </div>
     </div>
 </div>
-
-
-<script type="text/html" id="editopt">
-    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="delete">删除</a>
-</script>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

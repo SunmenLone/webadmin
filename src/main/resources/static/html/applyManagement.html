@@ -96,9 +96,9 @@
                 </div>
             </div>
             <div class="apply-btn-area">
-                <a class="layui-btn layui-btn-primary" href="javascript:$('#editmodal').attr('hidden', 'true');">取消</a>
-                <a class="layui-btn" href="javascript:;">暂存</a>
-                <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+                <a class="layui-btn layui-btn-primary" href="javascript:closeEditModal();">取消</a>
+                <a class="layui-btn" id="btn_save">暂存</a>
+                <a id="btn_confirm" class="layui-btn layui-btn-normal">提交</a>
             </div>
         </form>
     </div>
@@ -135,7 +135,7 @@
             </div>
             <div class="layui-form-item top-margin25">
                 <div class="flex flex-center">
-                    <a class="layui-btn layui-btn-primary" href="javascript: $('#edititemmodal').attr('hidden', 'true');">取消</a>
+                    <a class="layui-btn layui-btn-primary" href="javascript: closeEditItemModal();">取消</a>
                     <a id="edititem_confirm" class="layui-btn layui-btn-normal" lay-submit="">确定</a>
                 </div>
             </div>

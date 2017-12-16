@@ -10,25 +10,30 @@ layui.use('form', function () {
 
     form.on('select(type)', function(data){
 
-        $.ajax({
-            url: '../item/name/find',
-            data: {
-                item_type: data.value
-            },
-            async: false,
-            success: function(res) {
-                if (data.value != '') {
-                    $('#modal_item_name').empty();
-                    $("#modal_item_name").append('<option value="">请选择商品名称</option>');
-                    $.each(res.data, function (i) {
-                        $("#modal_item_name").append('<option value="' + res.data[i].item_order + '">' + res.data[i].item_name + '</option>');
-                    });
-                } else {
-                    $('#modal_item_name').empty();
-                    $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
+        if (data.value != '') {
+            $.ajax({
+                url: '../item/name/find',
+                data: {
+                    item_type: data.value
+                },
+                async: false,
+                success: function(res) {
+                    if (res.code == 0) {
+                        $('#modal_item_name').empty();
+                        $("#modal_item_name").append('<option value="">请选择商品名称</option>');
+                        $.each(res.data, function (i) {
+                            $("#modal_item_name").append('<option value="' + res.data[i].item_order + '">' + res.data[i].item_name + '</option>');
+                        });
+                    } else {
+                        $('#modal_item_name').empty();
+                        $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            $('#modal_item_name').empty();
+            $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
+        }
         form.render('select');
     });
 
@@ -56,7 +61,8 @@ layui.use('layer', function(){
 
 });
 
-var data;
+var item_data;
+var apply_order;
 var table;
 var item_table;
 layui.use('table', function () {
@@ -86,11 +92,74 @@ layui.use('table', function () {
 
         if (layEvent === 'apply') {
 
+            layer.open({
+                title: '提示',
+                content: '确认提交申请，提交后将不能修改？',
+                btn: ['确认', '取消'],
+                yes: function(index){
+
+                    $.ajax({
+                        url: '../purchase/apply/commit',
+                        data: {
+                            apply_order: data.apply_order
+                        },
+                        success: function(res) {
+                            if (res.code == 0) {
+                                layer.open({
+                                    title:'提示',
+                                    content: '提交成功'
+                                })
+                                table.reload('apply_table');
+                            } else {
+                                console.log(res.errormessage);
+                            }
+                            layer.close(index);
+                        }
+                    });
+
+                },
+                btn2: function(index){
+                    layer.close(index);
+                }
+            });
+
+
         } else if (layEvent === 'retrieve') {
+
+            layer.open({
+                title: '提示',
+                content: '确认领取？',
+                btn: ['确认', '取消'],
+                yes: function(index){
+                    $.ajax({
+                        url: '../purchase/apply/accept',
+                        data: {
+                            apply_order: data.apply_order
+                        },
+                        success: function(res) {
+                            if (res.code == 0) {
+                                layer.open({
+                                    title:'提示',
+                                    content: '确认领取成功'
+                                })
+                                table.reload('apply_table');
+                            } else {
+                                console.log(res.errormessage);
+                            }
+                            layer.close(index);
+                        }
+                    });
+
+                },
+                btn2: function(index){
+                    layer.close(index);
+                }
+            });
 
         } else if (layEvent === 'detail') {
             if (data.apply_state == '未提交') {
-                openEditModal(1);
+                apply_order = data.apply_order;
+                openEditModal(1, data.apply_order);
             }
         }
 
@@ -99,7 +168,7 @@ layui.use('table', function () {
     item_table = layui.table;
 
     item_table.on('tool(item)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-        data = obj.data; //获得当前行数据
+        item_data = obj.data; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
@@ -111,11 +180,13 @@ layui.use('table', function () {
                 content: '确认删除商品？',
                 btn: ['确认', '取消'],
                 yes: function(index){
-                    $.each(items, function(i){
-                        if (items[i].id == data.id) {
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].id == item_data.id) {
+                            delItems.push(items[i]);
                             items.splice(i, 1);
+                            break;
                         }
-                    });
+                    }
                     obj.del();
                     item_table.reload('item_table', {
                         data: items
@@ -159,15 +230,43 @@ var search = function() {
 
 }
 
-var openEditModal = function(type) {
+var openEditModal = function(type, apply_order) {
 
     if (type == 0) {
 
         $('#modal_title').html('新增申请');
 
+        $('#btn_save').attr('href', 'javascript:save(0);');
+        $('#btn_confirm').attr('href', 'javascript:commit(0);');
+
     } else {
 
         $('#modal_title').html('编辑申请');
+
+        $.ajax({
+            url: '../purchase/apply/items/get',
+            data: {
+                apply_order: apply_order
+            },
+            success: function(res) {
+
+                if (res.code == 0) {
+
+                    items = res.data;
+                    item_table.reload('item_table', {
+                        data: items
+                    });
+
+                } else {
+                    console.log(res.errormessage);
+                }
+
+            }
+
+        });
+
+        $('#btn_save').attr('href', 'javascript:save(1);');
+        $('#btn_confirm').attr('href', 'javascript:commit(1);');
 
     }
 
@@ -185,8 +284,7 @@ var openEditItemModal = function(type) {
             $(this).removeAttr('selected');
         });
         $('#modal_item_type option[value=""]').attr('selected', true);
-        $('#modal_item_name').empty();
-        $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
+
         form.render('select');
 
         $('#modal_quantity').val('');
@@ -196,25 +294,20 @@ var openEditItemModal = function(type) {
 
     } else {
 
-        $('#modal_item_type option').each(function(){
-            $(this).removeAttr('selected');
-        });
-        $('#modal_item_name option[value="' + data.item_type + '"]').attr('selected', true);
-
         $.ajax({
             url: '../item/name/find',
             data: {
-                item_type: data.item_type
+                item_type: item_data.item_type
             },
             async: false,
             success: function(res) {
-                if (data.value != '') {
+                if (item_data.item_type != '') {
                     $('#modal_item_name').empty();
                     $("#modal_item_name").append('<option value="">请选择商品名称</option>');
                     $.each(res.data, function (i) {
                         $("#modal_item_name").append('<option value="' + res.data[i].item_order + '" title="' + res.data[i].item_name + '">' + res.data[i].item_name + '</option>');
                     });
-                    $('#modal_item_name option[title="' + data.item_type + '"]').attr('selected', true);
+                    $('#modal_item_name option[title="' + item_data.item_name + '"]').attr('selected', true);
                 } else {
                     $('#modal_item_name').empty();
                     $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
@@ -222,8 +315,21 @@ var openEditItemModal = function(type) {
             }
         });
 
-        $('#modal_quantity').val(data.item_count);
-        $('#modal_reason').val(data.apply_reason);
+        $('#modal_item_type option').each(function(){
+            $(this).removeAttr('selected');
+        });
+        $('#modal_item_type option[title="' + item_data.item_type + '"]').attr('selected', true);
+
+        form.render('select');
+
+        $('#modal_item_type').attr('disabled', true);
+        $('#modal_item_name').attr('disabled', true);
+
+        form.render('select');
+
+
+        $('#modal_quantity').val(item_data.item_count);
+        $('#modal_reason').val(item_data.apply_reason);
 
         $('#edititem_confirm').attr('href', 'javascript:finishEditItem(1);');
 
@@ -239,7 +345,13 @@ var finishEditItem = function(type) {
     if (type == 0) {
 
         var d = {};
-        d['id'] =  items.length + 1;
+        var id = 0;
+        $.each(items, function(i){
+            if(items[i].id > id) {
+                id = items[i].id;
+            }
+        })
+        d['id'] =  id + 1;
         d['item_type'] = $('#modal_item_type option:selected').val();
         d['item_order'] = $('#modal_item_name option:selected').val();
         d['item_name'] = $('#modal_item_name option:selected').html();
@@ -247,30 +359,28 @@ var finishEditItem = function(type) {
         d['apply_reason'] = $('#modal_reason').val();
 
         items.push(d);
-
-        item_table.reload('item_table', {
-            data: items
-        });
+        addItems.push(d);
 
     } else if (type == 1){
 
         $.each(items, function(i){
-            if (items[i].id == data.id) {
+            if (items[i].id == item_data.id) {
                 items[i].item_order = $('#modal_item_name option:selected').val();
                 items[i].item_type = $('#modal_item_type option:selected').val();
                 items[i].item_name = $('#modal_item_name option:selected').html();
                 items[i].item_count = $('#modal_quantity').val();
                 items[i].apply_reason = $('#modal_reason').val();
+                editItems.push(items[i]);
             }
-        });
-
-        item_table.reload('item_table', {
-            data: items
         });
 
     }
 
-    $('#edititemmodal').attr('hidden', true);
+    item_table.reload('item_table', {
+        data: items
+    });
+
+    closeEditItemModal();
 
 }
 
@@ -284,7 +394,7 @@ $(function(){
             $('#modal_item_type').empty();
             $("#modal_item_type").append('<option value="">请选择商品类型</option>');
             $.each(res.data, function(i){
-                $("#modal_item_type").append('<option value="' + res.data[i] + '">' + res.data[i] + '</option>');
+                $("#modal_item_type").append('<option value="' + res.data[i] + '" title="' + res.data[i] + '">' + res.data[i] + '</option>');
             });
             $('#modal_item_name').empty();
             $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
@@ -292,3 +402,232 @@ $(function(){
     })
 
 });
+
+var closeEditModal = function(){
+
+    $('#editmodal').attr('hidden', true);
+    items.splice(0, items.length);
+    delItems.splice(0, delItems.length);
+    editItems.splice(0, editItems.length);
+    addItems.splice(0, addItems.length);
+    item_table.reload('item_table', {
+        data: items
+    });
+}
+
+var closeEditItemModal = function(){
+
+    $('#edititemmodal').attr('hidden', true);
+
+    $('#modal_item_type').removeAttr('disabled');
+    $('#modal_item_name').removeAttr('disabled');
+
+    $('#modal_item_name').empty();
+    $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
+    form.render('select');
+
+}
+
+var save = function(type) {
+
+    layer.open({
+        title: '提示',
+        content: '暂时保存将不会提交申请，确认保存？',
+        btn: ['确认', '取消'],
+        yes: function(index){
+
+            if (type == 0) {
+
+                addApply();
+
+            } else {
+
+                if (addItems.length > 0) {
+                    insertItems();
+                }
+
+                if (editItems.length > 0) {
+                    updateItems();
+                }
+
+                if (delItems.length > 0) {
+                    deleteItems();
+                }
+            }
+
+            closeEditModal();
+
+            layer.open({
+                title:'提示',
+                content: '保存成功'
+            })
+
+        },
+        btn2: function(index){
+            layer.close(index);
+        }
+    });
+
+}
+
+
+var delItems = [];
+var deleteItems = function(){
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        async: false,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Content-TYPE", "application/json");
+        },
+        url: '../purchase/apply/item/delete',
+        data: JSON.stringify(delItems),
+        success: function(res) {
+            if (res.code == 0) {
+                console.log('delete success');
+                delItems.splice(0, delItems.length);
+            } else {
+                console.log(res.errormessage);
+            }
+        }
+    })
+
+}
+
+var editItems = [];
+var updateItems = function() {
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        async: false,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Content-TYPE", "application/json");
+        },
+        url: '../purchase/apply/item/edit',
+        data: JSON.stringify(editItems),
+        success: function(res) {
+            if (res.code == 0) {
+                console.log('update success');
+                editItems.splice(0, editItems.length);
+            } else {
+                console.log(res.errormessage);
+            }
+        }
+    })
+}
+
+var addItems = [];
+var insertItems = function() {
+
+    $.each(addItems, function(i){
+       addItems[i].apply_order = apply_order;
+    });
+
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        async: false,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Content-TYPE", "application/json");
+        },
+        url: '../purchase/apply/item/add',
+        data: JSON.stringify(addItems),
+        success: function(res) {
+            if (res.code == 0) {
+                console.log('insert success');
+                addItems.splice(0, addItems.length);
+            } else {
+                console.log(res.errormessage);
+            }
+        }
+    });
+
+}
+
+var addApply = function() {
+
+    var param = {
+        apply_user_account: GetCookie('username'),
+        apply_item: items
+    };
+
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        async: false,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Content-TYPE", "application/json");
+        },
+        url: '../purchase/apply/add',
+        data: JSON.stringify(param),
+        success: function(res) {
+            if (res.code == 0) {
+                table.reload('apply_table');
+                apply_order = res.apply_order;
+            } else {
+                console.log(res.errormessage);
+            }
+        }
+    });
+
+}
+
+var commit = function(type) {
+
+    layer.open({
+        title: '提示',
+        content: '确认提交申请，提交后将不能修改？',
+        btn: ['确认', '取消'],
+        yes: function(index){
+
+            if (type == 0) {
+
+                addApply();
+
+            } else {
+
+                if (addItems.length > 0) {
+                    insertItems();
+                }
+
+                if (editItems.length > 0) {
+                    updateItems();
+                }
+
+                if (delItems.length > 0) {
+                    deleteItems();
+                }
+
+            }
+
+            $.ajax({
+                url: '../purchase/apply/commit',
+                data: {
+                    apply_order: apply_order
+                },
+                success: function(res) {
+                    if (res.code == 0) {
+                        closeEditModal();
+                        layer.open({
+                            title:'提示',
+                            content: '提交成功'
+                        });
+                        table.reload('apply_table');
+                    } else {
+                        console.log(res.errormessage);
+                    }
+                    layer.close(index);
+                }
+            });
+
+        },
+        btn2: function(index){
+            layer.close(index);
+        }
+    });
+
+
+
+}
+
+

@@ -18,7 +18,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">采购申请单号：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="applyid" autocomplete="off" placeholder="输入申请单号查询" class="layui-input">
+                        <input type="text" id="apply_order" autocomplete="off" placeholder="输入申请单号查询" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -36,34 +36,34 @@
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">申请单状态：</label>
                     <div class="layui-input-inline">
-                        <select id="status" lay-search="">
-                            <option value="">直接选择或搜索选择</option>
-                            <option value="0">已提交</option>
-                            <option value="1">审核中</option>
-                            <option value="2">审核通过</option>
-                            <option value="3">审核不通过</option>
+                        <select id="apply_state">
+                            <option value="">请选择</option>
+                            <option value="已提交">已提交</option>
+                            <option value="审核中">审核中</option>
+                            <option value="审核通过">审核通过</option>
+                            <option value="审核不通过">审核不通过</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">申请部门：</label>
                     <div class="layui-input-inline">
-                        <select id="department" lay-search="">
-                            <option value="">直接选择或搜索选择</option>
-                            <option value="0">采购部门</option>
-                            <option value="1">监管部门</option>
+                        <select id="apply_department">
+                            <option value="">请选择</option>
+                            <option value="采购部门">采购部门</option>
+                            <option value="监管部门">监管部门</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">申请人姓名：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="applier" autocomplete="off" placeholder="输入申请人姓名查询" class="layui-input">
+                        <input type="text" id="apply_user" autocomplete="off" placeholder="输入申请人姓名查询" class="layui-input">
                     </div>
                 </div>
                 <div class="float-right">
                     <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a></div>
-                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a></div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="applyReview.html">重置</a></div>
                 </div>
             </div>
         </form>
@@ -86,25 +86,25 @@
         </div>
         <div class="review-content">
             <div class="top-margin">基本信息：</div>
-            <table class="layui-table" lay-data="{width: 480, id:'apply_info_table'}">
+            <table class="layui-table" lay-data="{width: 480, id:'info_table'}" id="info_table">
                 <thead>
                 <tr>
-                    <th lay-data="{field:'id', width:160}">申请部门</th>
-                    <th lay-data="{field:'itemid', width:160}">申请人姓名</th>
-                    <th lay-data="{field:'type', width:160}">申请提交时间</th>
+                    <th lay-data="{field:'apply_department', width:160}">申请部门</th>
+                    <th lay-data="{field:'apply_user', width:160}">申请人姓名</th>
+                    <th lay-data="{field:'apply_date', width:200}">申请提交时间</th>
                 </tr>
                 </thead>
             </table>
             <div class="top-margin25">需要采购的商品：</div>
-            <table class="layui-table" lay-data="{width: 850, height: 240, id:'item_table'}" lay-filter="item">
+            <table class="layui-table" lay-data="{width: 850, height: 240, id:'item_table'}" id="item_table">
                 <thead>
                 <tr>
                     <th lay-data="{field:'id', width:80}">序号</th>
-                    <th lay-data="{field:'itemid', width:120}">商品编号</th>
-                    <th lay-data="{field:'type', width:120}">商品类型</th>
-                    <th lay-data="{field:'name', width:140}">商品名称</th>
-                    <th lay-data="{field:'quantity', width:120}">商品数量</th>
-                    <th lay-data="{field:'reason', width:270}">采购理由或用途</th>
+                    <th lay-data="{field:'item_order', width:120}">商品编号</th>
+                    <th lay-data="{field:'item_type', width:120}">商品类型</th>
+                    <th lay-data="{field:'item_name', width:140}">商品名称</th>
+                    <th lay-data="{field:'item_count', width:120}">商品数量</th>
+                    <th lay-data="{field:'apply_reason', width:270}">采购理由或用途</th>
                 </tr>
                 </thead>
             </table>

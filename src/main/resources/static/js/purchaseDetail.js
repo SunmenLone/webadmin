@@ -35,13 +35,13 @@ layui.use('table', function () {
     stable = layui.table;
     //执行渲染
     stable.render({
-        id: 'suuplier_table',
+        id: 'supplier_table',
         elem: '#supplier_table',
         url: '',
         height: 320,
         even: true,
         cols: [[{"LAY_RadioCHECKED": true, title: '选择', width: 80},
-            {field: 'supplier', title: '供应商', width: 180},
+            {field: 'supplier_name', title: '供应商', width: 180},
             {field: 'warm', title: '备注', width: 180}
         ]]
     });
@@ -49,7 +49,7 @@ layui.use('table', function () {
     sstable = layui.table;
     //执行渲染
     sstable.render({
-        id: 'suuply_table',
+        id: 'supply_table',
         elem: '#supply_table',
         url: '',
         height: 320,
@@ -65,7 +65,9 @@ layui.use('table', function () {
 
 var openChooseModal = function(data) {
 
-
+    stable.reload('supplier_table', {
+        url: '../supplier/name/find/byorder?item_order=' + getUrlParam('item_order')
+    })
 
     $('#choosemodal').removeAttr('hidden');
 

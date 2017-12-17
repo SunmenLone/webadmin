@@ -18,7 +18,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">采购申请单号：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="applyid" autocomplete="off" placeholder="输入申请单号查询" class="layui-input">
+                        <input type="text" id="apply_order" autocomplete="off" placeholder="输入申请单号查询" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -36,34 +36,34 @@
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">申请单状态：</label>
                     <div class="layui-input-inline">
-                        <select id="status" lay-search="">
-                            <option value="">直接选择或搜索选择</option>
-                            <option value="0">已提交</option>
-                            <option value="1">审核中</option>
-                            <option value="2">审核通过</option>
-                            <option value="3">审核不通过</option>
+                        <select id="apply_state">
+                            <option value="">请选择</option>
+                            <option value="审核通过">审核通过</option>
+                            <option value="采购中">采购中</option>
+                            <option value="采购完毕">采购完毕</option>
+                            <option value="已领取">已领取</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">申请部门：</label>
                     <div class="layui-input-inline">
-                        <select id="department" lay-search="">
-                            <option value="">直接选择或搜索选择</option>
-                            <option value="0">采购部门</option>
-                            <option value="1">监管部门</option>
+                        <select id="apply_department">
+                            <option value="">请选择</option>
+                            <option value="采购部门">采购部门</option>
+                            <option value="监管部门">监管部门</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-inline">
                     <label class="layui-form-label apply-filter-label">申请人姓名：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="applier" autocomplete="off" placeholder="输入申请人姓名查询" class="layui-input">
+                        <input type="text" id="apply_user" autocomplete="off" placeholder="输入申请人姓名查询" class="layui-input">
                     </div>
                 </div>
                 <div class="float-right">
                     <div class="layui-inline"><a class="layui-btn layui-btn-normal" href="javascript: search();">查询</a></div>
-                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="userManagement.html">重置</a></div>
+                    <div class="layui-inline"><a class="layui-btn layui-btn-primary" href="purchaseManagement.html">重置</a></div>
                 </div>
             </div>
         </form>
@@ -72,11 +72,13 @@
 </div>
 
 <script type="text/html" id="opt">
-    {{#  if(d.status == 0){ }}
+    {{#  if(d.apply_state == '审核通过'){ }}
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="detail">完善采购信息</a>
+    {{#  } else if(d.apply_state == '采购中'){ }}
+    <a class="layui-btn layui-btn-mini" lay-event="finish">确认采购完毕</a>
     {{#  } else { }}
-    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="finish">确认采购完毕</a>
-    {{#  } }}
+    <div>-</div>
+    {{# } }}
 </script>
 
 <div id="reviewmodal" class="mask" hidden>

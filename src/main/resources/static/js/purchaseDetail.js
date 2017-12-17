@@ -6,19 +6,18 @@ layui.use('table', function () {
         id: 'item_table',
         elem: '#item_table',
         height: 480,
-        url: '',
-        page: true,
+        url: '../purchase/apply/items/get?apply_order=' + getUrlParam('apply_order'),
         even: true,
         cols: [[{field: 'id', title: '序号', width: 80},
-            {field: 'itemid', title: '商品编号', width: 160},
-            {field: 'type', title: '商品类型', width: 160},
-            {field: 'itemname', title: '商品名称', width: 160},
-            {field: 'quantity', title: '商品数量', width: 120},
-            {toolbar: 'supplier', title: '供应商', align: 'center', width: 160},
-            {field: 'supplyid', title: '商品供应编号', width: 160},
-            {field: 'price', title: '预计价格', width: 120},
-            {toolbar: '#opt', title: '操作', width: 140},
-            {type: 'checkbox', title: '是否固定资产', width: 140}
+            {field: 'item_order', title: '商品编号', width: 120},
+            {field: 'item_type', title: '商品类型', width: 120},
+            {field: 'item_name', title: '商品名称', width: 120},
+            {field: 'item_count', title: '商品数量', width: 100},
+            {field: 'item_sup_name', title: '供应商', width: 160},
+            {field: 'item_supid', title: '商品供应编号', width: 160},
+            {field: 'item_sup_price', title: '预计价格', width: 100},
+            {toolbar: '#opt', title: '操作', width: 120, align: 'center'},
+            {toolbar: '#set', title: '是否固定资产', width: 120, align: 'center'}
         ]]
     });
 
@@ -28,7 +27,7 @@ layui.use('table', function () {
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'choose') {
-
+            openChooseModal(data);
         }
 
     });
@@ -63,3 +62,19 @@ layui.use('table', function () {
     });
 
 });
+
+var openChooseModal = function(data) {
+
+
+
+    $('#choosemodal').removeAttr('hidden');
+
+}
+
+var save = function() {
+
+    $('input:checkbox[name="set"]:checked').each(function(){
+        console.log($(this).val());
+    })
+
+}

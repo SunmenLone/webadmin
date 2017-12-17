@@ -11,13 +11,13 @@
 
 <div class="body-main detail-main">
     <div>
-        <a class="layui-btn layui-btn-primary">返回</a>
+        <a class="layui-btn layui-btn-primary" href="javascript:window.location.href='purchaseManagement.html';">返回</a>
     </div>
     <div>
         <div class="detail-title">请选择供应商与供应渠道</div>
         <table id="item_table" lay-filter="item"></table>
         <div class="flex flex-right top-margin">
-            <a class="layui-btn">暂存</a>
+            <a class="layui-btn" href="javascript:save();">暂存</a>
             <a class="layui-btn layui-btn-normal">提交采购</a>
         </div>
     </div>
@@ -27,7 +27,11 @@
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="choose">选择供应渠道</a>
 </script>
 
-<div id="choosemodal" class="mask">
+<script type="text/html" id="set">
+    <input type="checkbox" name="set" value="{{d.item_order}}" lay-skin="primary">
+</script>
+
+<div id="choosemodal" class="mask" hidden>
     <div class="modal-container choose-container">
         <div class="modal-title">
             <div id="edit-modal_title" class="modal-title__text">单个商品渠道选择</div>
@@ -61,6 +65,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../layui/layui.js"></script>
 <script src="../js/purchaseDetail.js"></script>
+<script src="../js/tool.js"></script>
 
 </body>
 </html>

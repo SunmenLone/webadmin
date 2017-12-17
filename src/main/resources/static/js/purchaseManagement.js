@@ -14,14 +14,21 @@ layui.use('laydate', function(){
 
   //常规用法
   laydate.render({
-    elem: '#bdate'
+      elem: '#bdate',
+      type: 'datetime'
   });
 
   laydate.render({
-      elem: '#edate'
+      elem: '#edate',
+      type: 'datetime'
     });
 
-})
+});
+
+var layer;
+layui.use('layer', function(){
+   layer = layui.layer;
+});
 
 var table;
 layui.use('table', function () {
@@ -30,33 +37,106 @@ layui.use('table', function () {
     table.render({
         id: 'purchase_table',
         elem: '#purchase_table',
-        url: '',
+        url: '../purchase/apply/findall?apply_state=审核通过,采购中,采购完毕,已领取',
         page: true,
         even: true,
         cols: [[{field: 'id', title: '序号', width: 80},
-            {field: 'applyid', title: '采购申请单号', width: 160},
-            {field: 'department', title: '申请部门', width: 160},
-            {field: 'applier', title: '申请人姓名', width: 120},
-            {field: 'finishtime', title: '采购完毕时间', width: 180},
-            {field: 'retrievetime', title: '已领取时间', width: 180},
-            {field: 'reviewer', title: '审核人姓名', width: 120},
-            {field: 'status', title: '状态', width: 120},
+            {field: 'apply_order', title: '采购申请单号', width: 160},
+            {field: 'apply_department', title: '申请部门', width: 160},
+            {field: 'apply_user', title: '申请人姓名', width: 100},
+            {field: 'purchase_complete_time', title: '采购完毕时间', width: 180},
+            {field: 'purchase_item_accept_time', title: '已领取时间', width: 180},
+            {field: 'apply_check_user', title: '审核人姓名', width: 100},
+            {field: 'apply_state', title: '状态', width: 100},
             {toolbar: '#opt', title: '操作', align: 'center', width: 140},
         ]]
     });
 
-    table.on('tool(apply)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+    table.on('tool(purchase)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         var data = obj.data; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'detail') {
-
+            window.location.href='./purchaseDetail.html?apply_order=' + data.apply_order;
         } else if (layEvent === 'finish') {
-
+            completePurchase(data);
         }
 
     });
 
 });
+
+var search = function() {
+
+    var apply_order = $('#apply_order').val();
+    var bdate = $('#bdate').val();
+    var edate = $('#edate').val();
+    var apply_state = $('#apply_state option:selected').val();
+    var apply_department = $('#apply_department option:selected').val();
+    var apply_user = $('#apply_user').val();
+
+    var option = {
+        where: {}
+    }
+
+    if (apply_order != '') {
+        option.where['apply_order'] = apply_order;
+    }
+
+    if (bdate != '' && edate != '') {
+        option.where['apply_date'] = bdate + ',' + edate;
+    }
+
+    if (apply_state != '') {
+        option.where['apply_state'] = apply_state;
+        option['url'] = '../purchase/apply/findall';
+    } else {
+        option['url'] = '../purchase/apply/findall?apply_state=审核通过,采购中,采购完毕,已领取';
+    }
+
+    if (apply_department != '') {
+        option.where['apply_department'] = apply_department;
+    }
+
+    if (apply_user != '') {
+        option.where['apply_user'] = apply_user;
+    }
+
+    table.reload('purchase_table', option);
+
+}
+var completePurchase = function(data) {
+
+    layer.open({
+        title: '提示',
+        content: '确认采购完毕？',
+        btn: ['确认', '取消'],
+        yes: function(index){
+
+            $.ajax({
+                url: '../purchase/apply/complete',
+                data: {
+                    apply_order: data.apply_order
+                },
+                success: function(res) {
+                    if (res.code == 0) {
+                        console.log('complete success');
+                        table.reload('purchase_table', {});
+                    } else {
+                        console.log(res.errormessage);
+                    }
+                    layer.close(index);
+                }
+            });
+
+        },
+        btn2: function(index){
+            layer.close(index);
+        }
+    });
+
+
+
+}
 

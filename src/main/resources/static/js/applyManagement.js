@@ -193,8 +193,8 @@ layui.use('table', function () {
                     });
                     layer.close(index);
                 },
-                btn2: function(){
-                    layer.closeAll();
+                btn2: function(index){
+                    layer.close(index);
                 }
             });
         }

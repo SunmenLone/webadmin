@@ -113,19 +113,19 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span class="layui-red">*</span>是否通过：</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="status" value="通过" title="通过">
-                        <input type="radio" name="status" value="不通过" title="不通过">
+                        <input type="radio" name="apply_state" value="审核通过" title="通过" lay-filter="state">
+                        <input type="radio" name="apply_state" value="审核不通过" title="不通过" lay-filter="state">
                     </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <div class="layui-input-block disapprove-textarea">
-                        <textarea name="disapprove_reason" placeholder="不通过必须填写理由" class="layui-textarea" disabled></textarea>
+                        <textarea id="deny_reason" placeholder="不通过必须填写理由" class="layui-textarea" disabled></textarea>
                     </div>
                 </div>
                 <div class="layui-form-item top-margin25">
                     <div class="flex flex-center">
                         <a class="layui-btn layui-btn-primary" href="javascript: $('#reviewmodal').attr('hidden', 'true');">取消</a>
-                        <a id="review_confirm" class="layui-btn layui-btn-normal">确定</a>
+                        <a id="review_confirm" class="layui-btn layui-btn-normal" href="javascript: submit();">确定</a>
                     </div>
                 </div>
             </form>
@@ -137,6 +137,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../layui/layui.js"></script>
 <script src="../js/applyReview.js"></script>
+<script src="../js/tool.js"></script>
 
 </body>
 </html>

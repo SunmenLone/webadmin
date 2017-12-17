@@ -7,6 +7,25 @@ layui.use('element', function () {
 layui.use('form', function () {
     var form = layui.form;
 
+    form.on('radio(state)', function(data){
+
+        if (data.value == '审核不通过') {
+
+            $('#deny_reason').removeAttr('disabled');
+
+        } else {
+
+            $('#deny_reason').val('');
+            $('#deny_reason').attr('disabled', true);
+
+        }
+    });
+
+});
+
+var layer;
+layui.use('layer', function(){
+   layer = layui.layer;
 });
 
 layui.use('laydate', function(){
@@ -28,6 +47,8 @@ layui.use('laydate', function(){
 var table;
 var info_table;
 var item_table;
+
+var data;
 layui.use('table', function () {
     table = layui.table;
     //执行渲染
@@ -50,7 +71,7 @@ layui.use('table', function () {
     });
 
     table.on('tool(apply)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-        var data = obj.data; //获得当前行数据
+        data = obj.data; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
@@ -135,7 +156,101 @@ var openModal = function(data) {
         }
     });
 
+    if (data.apply_state == '已提交') {
+
+        $.ajax({
+            url: '../purchase/apply/check',
+            data: {
+                apply_order: data.apply_order
+            },
+            success: function(res) {
+                if (res.code == 0) {
+                    table.reload('apply_table', {});
+                } else {
+                    console.log(res.errormessage);
+                }
+            }
+        });
+
+    }
+
     $('#reviewmodal').removeAttr('hidden');
+
+}
+
+var submit = function() {
+
+    if($('input:radio[name="apply_state"]:checked').val() === undefined) {
+
+        layer.open({
+            title: '提示',
+            content: '请选择审核结果'
+        });
+        return;
+    }
+
+    var content;
+    var check_status;
+    var deny_reason;
+
+    if($('input:radio[name="apply_state"]:checked').val() === '审核不通过') {
+
+        if ($('#deny_reason').val() == '') {
+
+            layer.open({
+                title: '提示',
+                content: '请填写审核不通过原因'
+            });
+            return;
+
+        } else {
+
+            content = '确认审核不通过?';
+            check_status = 1;
+            deny_reason = $('#deny_reason').val();
+
+        }
+
+    } else {
+
+        content = '确认审核通过?';
+        check_status = 0;
+        deny_reason = '';
+
+    }
+
+    layer.open({
+        title: '提示',
+        content: content,
+        btn: ['确认', '取消'],
+        yes: function(index){
+            $.ajax({
+                url: '../purchase/apply/check/commit',
+                data: {
+                    check_user_account: GetCookie('username'),
+                    check_status: check_status,
+                    apply_order: data.apply_order,
+                    deny_reason: deny_reason
+                },
+                success: function(res) {
+                    if (res.code == 0) {
+                        layer.open({
+                            title: '提示',
+                            content: '审核成功'
+                        });
+                        $('#reviewmodal').attr('hidden', true);
+                        table.reload('apply_table', {});
+                    } else {
+                        console.log(res.errormessage);
+                    }
+                    layer.close(index);
+                }
+            });
+        },
+        btn2: function(index){
+            layer.close(index);
+        }
+    });
 
 }
 

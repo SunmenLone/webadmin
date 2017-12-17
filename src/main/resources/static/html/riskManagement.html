@@ -106,7 +106,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">标准差高于</label>
                         <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" id="sqv1" placeholder="" class="layui-input">
+                            <input type="text" id="sqv1" placeholder="预警标准差" class="layui-input">
                         </div>
                         <div class="layui-form-mid">时进行预警提示，提示为：该商品偏离平均价格</div>
                         <div class="layui-input-inline" style="display: none;">
@@ -118,7 +118,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">标准差高于</label>
                         <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" id="sqv2" placeholder="" class="layui-input">
+                            <input type="text" id="sqv2" placeholder="隐藏标准差" class="layui-input">
                         </div>
                         <div class="layui-form-mid">时，选择供应渠道不显示该供应商品编号</div>
                     </div>
@@ -134,11 +134,11 @@
                     <div class="layui-inline">
                         <label class="layui-form-label auto-width">安全单价范围：</label>
                         <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" id="lowprice" placeholder="" class="layui-input">
+                            <input type="text" id="lowprice" placeholder="低价" class="layui-input">
                         </div>
                         <div class="layui-form-mid">到</div>
                         <div class="layui-input-inline" style="width: 100px;">
-                            <input type="text" id="highprice" placeholder="" class="layui-input">
+                            <input type="text" id="highprice" placeholder="高价" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -150,7 +150,8 @@
                 <div class="layui-form-item top-margin">
                     <div class="flex flex-center">
                         <a class="layui-btn layui-btn-primary" href="javascript: closeEditModal();">取消</a>
-                        <a id="edit_confirm" class="layui-btn layui-btn-normal">确定</a>
+                        <a id="edit_save" class="layui-btn" href="javascript:updateRisk(0);">暂存</a>
+                        <a id="edit_confirm" class="layui-btn layui-btn-normal" href="javascript:updateRisk(1);">提交</a>
                     </div>
                 </div>
             </form>

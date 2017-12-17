@@ -29,48 +29,48 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree layui-bg-cyan" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item" id="m1" style="display: none;">
                     <a class="" href="javascript:;">系统管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:$('#ifm').attr('src', 'userManagement.html');">用户管理</a></dd>
-                        <dd><a href="javascript:$('#ifm').attr('src', 'roleManagement.html');">角色管理</a></dd>
+                        <dd id="menu1"></dd>
+                        <dd id="menu2"></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" id="m3" style="display: none;">
                     <a href="javascript:;">商品管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:$('#ifm').attr('src', 'itemManagement.html');">商品类型管理</a></dd>
+                        <dd id="menu3"></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" id="m4" style="display: none;">
                     <a href="javascript:;">供应商管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:$('#ifm').attr('src', 'supplierManagement.html');">供应商管理</a></dd>
+                        <dd id="menu4"></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" id="m5" style="display: none;">
                     <a href="javascript:;">采购申请管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:$('#ifm').attr('src', 'applyManagement.html');">提交申请</a></dd>
-                        <dd><a href="javascript:$('#ifm').attr('src', 'applyReview.html');">申请审核</a></dd>
+                        <dd id="menu5"></dd>
+                        <dd id="menu6"></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" id="m7" style="display: none;">
                     <a href="javascript:;">采购进程管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:$('#ifm').attr('src', 'purchaseManagement.html');">采购单管理</a></dd>
+                        <dd id="menu7"></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" id="m8" style="display: none;">
                     <a href="javascript:;">统计分析</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:$('#ifm').attr('src', 'statistic.html');">使用部门采购情况</a></dd>
+                        <dd id="menu8"></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
+                <li class="layui-nav-item" id="m9" style="display: none;">
                     <a href="javascript:;">风险预警设置</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:$('#ifm').attr('src', 'riskManagement.html');">风险模型设置</a></dd>
+                        <dd id="menu9"></dd>
                     </dl>
                 </li>
             </ul>

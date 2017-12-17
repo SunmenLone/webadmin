@@ -73,6 +73,10 @@ var openChooseModal = function(data) {
         success: function(res) {
             if (res.code == 0) {
                 console.log(res);
+
+
+
+
             } else {
                 console.log(res.errormessage);
             }

@@ -8,7 +8,7 @@ var menu = {
     6: '<a href="javascript:$(\'#ifm\').attr(\'src\', \'applyReview.html\');">申请审核</a>',
     7: '<a href="javascript:$(\'#ifm\').attr(\'src\', \'purchaseManagement.html\');">采购单管理</a>',
     8: '<a href="javascript:$(\'#ifm\').attr(\'src\', \'statistic.html\');">使用部门采购情况</a>',
-    9: '<a href="javascript:$(\'#ifm\').attr(\'src\', \'riskManagement.html\');">风险模型设置</a></dd>'
+    9: '<a href="javascript:$(\'#ifm\').attr(\'src\', \'riskManagement.html\');">风险模型设置</a>'
 }
 
 

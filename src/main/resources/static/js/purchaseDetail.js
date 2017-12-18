@@ -1,3 +1,33 @@
+layui.use('form', function(){
+   var form = layui.form;
+
+    form.on('radio(supplier)', function(data){
+
+        $.ajax({
+            url: '../supplier/item/supid/find',
+            data: {
+                item_order: idata.item_order,
+                sup_name: data.value
+            },
+            success: function(res) {
+                if (res.code == 0) {
+
+                    sstable.reload('supply_table', {
+                       data: res.data
+                    });
+
+                } else {
+                    console.log(res.errormessage);
+                }
+            }
+        })
+
+    });
+
+
+});
+
+var idata;
 var itable, stable, sstable;
 layui.use('table', function () {
     itable = layui.table;
@@ -22,12 +52,12 @@ layui.use('table', function () {
     });
 
     itable.on('tool(item)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-        var data = obj.data; //获得当前行数据
+        idata = obj.data; //获得当前行数据
         var layEvent = obj.event; //获得 lay-event 对应的值
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'choose') {
-            openChooseModal(data);
+            openChooseModal(idata);
         }
 
     });
@@ -37,12 +67,10 @@ layui.use('table', function () {
     stable.render({
         id: 'supplier_table',
         elem: '#supplier_table',
-        url: '',
         height: 320,
         even: true,
-        cols: [[{"LAY_RadioCHECKED": true, title: '选择', width: 80},
-            {field: 'supplier_name', title: '供应商', width: 180},
-            {field: 'warm', title: '备注', width: 180}
+        cols: [[{toolbar: '#sup', title: '选择', width: 60},
+            {field: 'supplier_name', title: '供应商名称', width: 180},
         ]]
     });
 
@@ -51,12 +79,11 @@ layui.use('table', function () {
     sstable.render({
         id: 'supply_table',
         elem: '#supply_table',
-        url: '',
         height: 320,
         even: true,
-        cols: [[{"LAY_RadioCHECKED": true, title: '选择', width: 80},
-            {field: 'supplyid', title: '商品供应编号', width: 180},
-            {field: 'price', title: '单价', width: 180},
+        cols: [[{toolbar: '#item', title: '选择', width: 60},
+            {field: 'item_supid', title: '商品供应编号', width: 180},
+            {field: 'item_price', title: '单价', width: 180},
             {field: 'risk', title: '风险提示', width: 180}
         ]]
     });
@@ -70,11 +97,25 @@ var openChooseModal = function(data) {
         data: {
             item_order: data.item_order
         },
+        async: false,
         success: function(res) {
             if (res.code == 0) {
                 console.log(res);
 
+                var suppliers = [];
 
+                $.each(res.sup_name, function(i){
+
+                    var s = {
+                        supplier_name: res.sup_name[i]
+                    };
+                    suppliers.push(s);
+
+                });
+
+                stable.reload('supplier_table', {
+                   data: suppliers
+                });
 
 
             } else {

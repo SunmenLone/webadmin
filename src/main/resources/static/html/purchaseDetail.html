@@ -28,7 +28,15 @@
 </script>
 
 <script type="text/html" id="set">
-    <input type="checkbox" name="set" value="{{d.item_order}}" lay-skin="primary">
+    <input type="checkbox" name="set" value="{{d.item_order}}" lay-skin="primary" lay-filter="item">
+</script>
+
+<script type="text/html" id="sup">
+    <input type="radio" name="sup" value="{{d.supplier_name}}" title=" " lay-filter="supplier">
+</script>
+
+<script type="text/html" id="item">
+    <input type="radio" name="item" value="{{d.item_supid}}" title=" " lay-filter="supply">
 </script>
 
 <div id="choosemodal" class="mask" hidden>
@@ -56,11 +64,6 @@
     </div>
 </div>
 
-
-<script type="text/html" id="editopt">
-    <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="delete">删除</a>
-</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../layui/layui.js"></script>

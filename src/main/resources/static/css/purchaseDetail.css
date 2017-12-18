@@ -43,3 +43,7 @@
 .choose-warm {
     padding-left: 22px;
 }
+
+.layui-form-radio {
+    margin: 0 !important;
+}

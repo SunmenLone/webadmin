@@ -17,8 +17,7 @@
         <div class="detail-title">请选择供应商与供应渠道</div>
         <table id="item_table" lay-filter="item"></table>
         <div class="flex flex-right top-margin">
-            <a class="layui-btn" href="javascript:save();">暂存</a>
-            <a class="layui-btn layui-btn-normal">提交采购</a>
+            <a class="layui-btn layui-btn-normal" href="javascript:commit();">提交采购</a>
         </div>
     </div>
 </div>
@@ -28,7 +27,11 @@
 </script>
 
 <script type="text/html" id="set">
+    {{# if (d.steady_fund == '1') { }}
+    <input type="checkbox" name="set" value="{{d.item_order}}" lay-skin="primary" lay-filter="item" checked>
+    {{# } else { }}
     <input type="checkbox" name="set" value="{{d.item_order}}" lay-skin="primary" lay-filter="item">
+    {{# } }}
 </script>
 
 <script type="text/html" id="sup">
@@ -56,8 +59,8 @@
                     </div>
                 </div>
                 <div class="top-margin flex flex-center">
-                    <a class="layui-btn layui-btn-primary" href="javascript: $('#choosemodal').attr('hidden', 'true');">取消</a>
-                    <a id="choose_confirm" class="layui-btn layui-btn-normal">确定</a>
+                    <a class="layui-btn layui-btn-primary" href="javascript: closeChooseModal();">取消</a>
+                    <a id="choose_confirm" class="layui-btn layui-btn-normal" href="javascript:choose();">确定</a>
                 </div>
             </form>
         </div>

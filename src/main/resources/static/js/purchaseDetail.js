@@ -1,7 +1,36 @@
+var sdata, ssdata;
+var item_supid, item_sup_price;
+var steadySet = [];
 layui.use('form', function(){
    var form = layui.form;
 
+    form.on('checkbox(item)', function(data) {
+
+        var m = true;
+
+        $.each(steadySet, function(i){
+           if (steadySet[i].item_order == data.value) {
+               steadySet[i].steady_fund = data.elem.checked ? 1 : 0;
+               m = false;
+           }
+        });
+
+        if (m) {
+
+            var s = {
+                apply_order: getUrlParam('apply_order'),
+                item_order: data.value,
+                steady_fund: data.elem.checked ? 1 : 0
+            }
+
+            steadySet.push(s);
+        }
+
+    });
+
     form.on('radio(supplier)', function(data){
+
+        sdata= data;
 
         $.ajax({
             url: '../supplier/item/supid/find',
@@ -12,8 +41,42 @@ layui.use('form', function(){
             success: function(res) {
                 if (res.code == 0) {
 
+                    ssdata = res.data;
+
+                    for (var i = 0; i < ssdata.length; i++) {
+
+                        for (var j = 0; j < hide.length; j++) {
+                            if ( hide[j] == ssdata[i].item_supid ) {
+                                ssdata.splice(i, 1);
+                                break;
+                            }
+                        }
+
+                        if ( max!=null && ssdata[i].item_supid ==  max) {
+                            ssdata[i].risk = '价格最高';
+                        }
+                        if ( min!=null && ssdata[i].item_supid ==  min) {
+                            ssdata[i].risk = '价格最低';
+                        }
+
+                        for (var k = 0; k < warn.length; k++) {
+                            if ( warn[k] == ssdata[i].item_supid ) {
+                                if (ssdata[i].risk == undefined) {
+                                    ssdata[i].risk = '该商品偏离平均价格';
+                                } else {
+                                    ssdata[i].risk += '，该商品偏离平均价格';
+                                }
+                                break;
+                            }
+                        }
+
+                        if (ssdata[i].risk == undefined) {
+                            ssdata[i].risk = '-';
+                        }
+                    }
+
                     sstable.reload('supply_table', {
-                       data: res.data
+                       data: ssdata
                     });
 
                 } else {
@@ -24,7 +87,24 @@ layui.use('form', function(){
 
     });
 
+    form.on('radio(supply)', function(data){
 
+        $.each(ssdata, function(i){
+
+            if (data.value == ssdata[i].item_supid) {
+                item_supid = ssdata[i].item_supid;
+                item_sup_price = ssdata[i].item_price;
+            }
+
+        });
+    });
+
+
+});
+
+var layer;
+layui.use('layer', function(){
+   layer = layui.layer;
 });
 
 var idata;
@@ -84,11 +164,13 @@ layui.use('table', function () {
         cols: [[{toolbar: '#item', title: '选择', width: 60},
             {field: 'item_supid', title: '商品供应编号', width: 180},
             {field: 'item_price', title: '单价', width: 180},
-            {field: 'risk', title: '风险提示', width: 180}
+            {field: 'risk', title: '风险提示', width: 180, style: 'color: red;'}
         ]]
     });
 
 });
+
+var max = null, min = null, warn = [], hide = [];
 
 var openChooseModal = function(data) {
 
@@ -100,7 +182,13 @@ var openChooseModal = function(data) {
         async: false,
         success: function(res) {
             if (res.code == 0) {
+
                 console.log(res);
+
+                max = res.high_supitem_price_order;
+                min = res.low_supitem_price_order;
+                warn = res.deviation_supitem_warn_order;
+                hide = res.deviation_supitem_hide_order;
 
                 var suppliers = [];
 
@@ -129,10 +217,99 @@ var openChooseModal = function(data) {
 
 }
 
-var save = function() {
+var choose = function() {
 
-    $('input:checkbox[name="set"]:checked').each(function(){
-        console.log($(this).val());
+    if (sdata == undefined || item_supid == undefined || item_sup_price == undefined) {
+        layer.open({
+            title: '提示',
+            content: '请选择供应渠道'
+        })
+        return;
+    }
+
+    $.ajax({
+        url: '../purchase/apply/item/choose',
+        data: {
+            item_order: idata.item_order,
+            apply_order: getUrlParam('apply_order'),
+            item_sup_name: sdata.value,
+            item_supid: item_supid,
+            item_sup_price: item_sup_price
+        },
+        success: function(res) {
+            if (res.code == 0) {
+
+                closeChooseModal();
+
+            } else {
+                console.log(res.errormessage);
+            }
+        }
     })
+
+
+}
+
+var closeChooseModal = function() {
+
+    $('#choosemodal').attr('hidden', true);
+
+    itable.reload('item_table', {});
+    stable.reload('supplier_table', {
+        data: []
+    });
+    sstable.reload('supply_table', {
+        data: []
+    });
+
+}
+
+var commit = function() {
+
+    console.log(steadySet);
+
+    layer.open({
+        title: '提示',
+        content: '提交采购后将不可变更供应渠道，确认提交？',
+        btn: ['确认', '取消'],
+        yes: function(index){
+
+            var param = {
+                apply_order: getUrlParam('apply_order'),
+                apply_item: steadySet
+            }
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader('Content-Type', 'application/json')
+                },
+                url: '../purchase/apply/consummate',
+                data: JSON.stringify(param),
+                success: function(res) {
+                    if (res.code == 0) {
+                        layer.open({
+                            title: '提示',
+                            content: '提交采购后将不可变更供应渠道，确认提交？',
+                            btn: ['确认', '取消'],
+                            yes: function (index) {
+                                layer.close(index);
+                                window.location.href = "purchaseManagement.html";
+                            },
+                            btn2: function (index) {
+                                layer.close(index);
+                            }
+                        });
+                    } else {
+                        console.log(res.errormessage);
+                    }
+                }
+            })
+        },
+        btn2: function(index){
+            layer.close(index);
+        }
+    });
 
 }

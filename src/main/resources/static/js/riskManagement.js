@@ -143,11 +143,11 @@ var openEditModal = function(data) {
 
     }
 
-    if ( data.deviation_price_warn != null ) {
+    if ( data.deviation_price_warn != -10000) {
         $('#sqv1').val(data.deviation_price_warn);
     }
 
-    if ( data.deviation_price_hide != null ) {
+    if ( data.deviation_price_hide != -10000 ) {
         $('#sqv2').val(data.deviation_price_hide);
     }
 

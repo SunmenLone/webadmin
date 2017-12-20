@@ -152,10 +152,16 @@ var generateTable = function(){
                 if (item_order != '') {
                     $('#item_name').html($('#item_order option:selected').html());
                     $('#name_section').css('display', 'inline-block');
+                } else {
+                    $('#item_name').html('全部商品');
+                    $('#name_section').css('display', 'inline-block');
                 }
 
                 if (bdate != '' && edate != '') {
                     $('#duration').html(bdate + ' - ' + edate);
+                    $('#date_section').css('display', 'inline-block');
+                } else {
+                    $('#duration').html('所有时间');
                     $('#date_section').css('display', 'inline-block');
                 }
 

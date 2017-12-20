@@ -44,7 +44,7 @@ $(function(){
                 $('#business_address').html(supplier.business_address);
 
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
             }
         }
 
@@ -132,7 +132,7 @@ var edit = function() {
                         $('#business_mail').html($('#edit_business_mail').val());
                         $('#business_address').html($('#edit_business_address').val());
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                 }
             })

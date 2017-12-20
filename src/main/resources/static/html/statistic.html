@@ -17,10 +17,21 @@
             <div class="layui-inline">
                 <label class="layui-form-label">申请部门：</label>
                 <div class="layui-input-inline">
-                    <select id="department" lay-search="">
-                        <option value="">直接选择或搜索选择</option>
-                        <option value="0">采购部门</option>
-                        <option value="1">监管部门</option>
+                    <select id="department" lay-filter="department">
+                        <option value="">请选择</option>
+                        <option value="使用部门-人事科">使用部门-人事科</option>
+                        <option value="使用部门-综合科">使用部门-综合科</option>
+                        <option value="使用部门-检务科">使用部门-检务科</option>
+                        <option value="使用部门-卫检科">使用部门-卫检科</option>
+                        <option value="使用部门-动植科">使用部门-动植科</option>
+                        <option value="使用部门-食品科">使用部门-食品科</option>
+                        <option value="使用部门-监管科">使用部门-监管科</option>
+                        <option value="使用部门-认证科">使用部门-认证科</option>
+                        <option value="使用部门-龙穴办">使用部门-龙穴办</option>
+                        <option value="使用部门-金州办">使用部门-金州办</option>
+                        <option value="使用部门-小虎办">使用部门-小虎办</option>
+                        <option value="使用部门-中心">使用部门-中心</option>
+                        <option value="使用部门-中检">使用部门-中检</option>
                     </select>
                 </div>
             </div>
@@ -39,10 +50,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">商品名称：</label>
                 <div class="layui-input-inline">
-                    <select id="itemname" lay-search="">
-                        <option value="">直接选择或搜索选择</option>
-                        <option value="0">铅笔</option>
-                        <option value="1">订书机</option>
+                    <select id="item_order">
                     </select>
                 </div>
             </div>
@@ -51,22 +59,54 @@
             <div class="layui-inline">
                 <label class="layui-form-label">定义列：</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="col[write]" lay-skin="primary" title="在途物资金额" checked>
-                    <input type="checkbox" name="col[read]" lay-skin="primary" title="已领取物资金额" checked>
+                    <input type="checkbox" name="col" value="onway" lay-skin="primary" title="在途物资金额" checked>
+                    <input type="checkbox" name="col" value="accept" lay-skin="primary" title="领取物资金额" checked>
                 </div>
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">定义行：</label>
-
+            <label class="layui-form-label">定义行：</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-人事科" title="使用部门-人事科" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-综合科" title="使用部门-综合科" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-检务科" title="使用部门-检务科" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-卫检科" title="使用部门-卫检科" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-动植科" title="使用部门-动植科" checked lay-filter="dept">
+            </div>
+            <div class="layui-input-block">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-食品科" title="使用部门-食品科" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-监管科" title="使用部门-监管科" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-认证科" title="使用部门-认证科" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-龙穴办" title="使用部门-龙穴办" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-金州办" title="使用部门-金州办" checked lay-filter="dept">
+            </div>
+            <div class="layui-input-block">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-小虎办" title="使用部门-小虎办" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-中心" title="使用部门-中心" checked lay-filter="dept">
+                <input type="checkbox" name="row" lay-skin="primary" value="使用部门-中检" title="使用部门-中检" checked lay-filter="dept">
             </div>
         </div>
         <div class="layui-form-item top-margin30">
             <div class="layui-input-block">
-                <a class="layui-btn layui-btn-normal">生成表格</a>
+                <a class="layui-btn layui-btn-normal" href="javascript:generateTable();">生成表格</a>
             </div>
         </div>
+
+        <div class="layui-form-item bottom-margin0 top-separate" id="table_title">
+            <div class="layui-inline" id="name_section" style="display:none;">
+                <label class="layui-form-label">商品名称：</label>
+                <label class="layui-form-label auto-width" id="item_name"></label>
+            </div>
+            <div class="layui-inline" id="date_section" style="display:none;">
+                <label class="layui-form-label auto-width">统计时间段：</label>
+                <label class="layui-form-label auto-width" id="duration"></label>
+            </div>
+        </div>
+
+        <div id="table_section" hidden>
+            <table id="statistic_table" lay-filter="statistic"></table>
+        </div>
+
     </form>
 </div>
 

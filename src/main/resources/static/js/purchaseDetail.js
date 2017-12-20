@@ -69,12 +69,10 @@ layui.use('form', function(){
                                 break;
                             }
                         }
-
                         if (ssdata[i].risk == undefined) {
                             ssdata[i].risk = '-';
                         }
                     }
-
                     sstable.reload('supply_table', {
                        data: ssdata
                     });
@@ -182,9 +180,6 @@ var openChooseModal = function(data) {
         async: false,
         success: function(res) {
             if (res.code == 0) {
-
-                console.log(res);
-
                 max = res.high_supitem_price_order;
                 min = res.low_supitem_price_order;
                 warn = res.deviation_supitem_warn_order;
@@ -238,11 +233,12 @@ var choose = function() {
         },
         success: function(res) {
             if (res.code == 0) {
-
                 closeChooseModal();
-
             } else {
-                console.log(res.errormessage);
+                layer.open({
+                    title: '提示',
+                    content: '操作失败'
+                });
             }
         }
     })
@@ -265,9 +261,6 @@ var closeChooseModal = function() {
 }
 
 var commit = function() {
-
-    console.log(steadySet);
-
     layer.open({
         title: '提示',
         content: '提交采购后将不可变更供应渠道，确认提交？',
@@ -289,20 +282,26 @@ var commit = function() {
                 data: JSON.stringify(param),
                 success: function(res) {
                     if (res.code == 0) {
+                        layer.close(index);
                         layer.open({
                             title: '提示',
-                            content: '提交采购后将不可变更供应渠道，确认提交？',
-                            btn: ['确认', '取消'],
-                            yes: function (index) {
+                            content: '提交成功',
+                            btn: ['确认'],
+                            yes: function(index){
                                 layer.close(index);
                                 window.location.href = "purchaseManagement.html";
-                            },
-                            btn2: function (index) {
-                                layer.close(index);
                             }
                         });
+                    } else if (res.code == -2){
+                        layer.open({
+                            title: '提示',
+                            content: '所有的商品均需选择供应渠道才可提交'
+                        });
                     } else {
-                        console.log(res.errormessage);
+                        layer.open({
+                            title: '提示',
+                            content: '操作失败'
+                        });
                     }
                 }
             })

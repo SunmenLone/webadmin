@@ -32,9 +32,6 @@
                     <label class="layui-form-label">商品类型：</label>
                     <div class="layui-input-inline">
                         <select id="item_type" lay-search="">
-                            <option value="">请选择</option>
-                            <option value="办公用品">办公用品</option>
-                            <option value="饮料">饮料</option>
                         </select>
                     </div>
                 </div>
@@ -91,11 +88,8 @@
             <div class="layui-form-item flex flex-center">
                 <label class="layui-form-label"><span class="layui-red">* </span>商品类型：</label>
                 <div class="layui-input-inline">
-                    <select id="modal_type" required lay-verify="required">
-                        <option value="">请选择</option>
-                        <option value="办公用品">办公用品</option>
-                        <option value="饮料">饮料</option>
-                    </select>
+                    <input type="text" name="modal_type" required lay-verify="required" placeholder="请输入商品类型"
+                           autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item top-margin">

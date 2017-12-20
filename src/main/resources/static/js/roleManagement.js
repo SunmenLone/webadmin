@@ -62,7 +62,10 @@ layui.use('table', function(){
                                 obj.del();
                                 layer.closeAll();
                             } else {
-                                console.log(res.errormessage);
+                                layer.open({
+                                    title:'提示',
+                                    content:'删除失败',
+                                })
                             }
                         }
                     });
@@ -185,7 +188,7 @@ var addOrEditRole = function(type) {
                                 ,content: '添加角色成功'
                             });
                         } else {
-                            console.log(res.errormessage);
+                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                         }
                     }
                 });
@@ -227,7 +230,7 @@ var addOrEditRole = function(type) {
                                 ,content: '修改角色成功'
                             });
                         } else {
-                            console.log(res.errormessage);
+                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                         }
                     }
                 });

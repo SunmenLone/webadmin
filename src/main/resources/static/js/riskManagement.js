@@ -83,7 +83,19 @@ layui.use('table', function(){
     info_table = layui.table;
 
 });
-
+$.ajax({
+    url: '../item/type/find',
+    data: {},
+    async: false,
+    success: function(res) {
+        $('#item_type').empty();
+        $("#item_type").append('<option value="">请选择商品类型</option>');
+        $.each(res.data, function(i){
+            $("#item_type").append('<option value="' + res.data[i] + '">' + res.data[i] + '</option>');
+        });
+        form.render('select');
+    }
+})
 var search = function() {
 
     var item_name = $('#item_name').val();
@@ -343,7 +355,7 @@ var updateRisk = function(status) {
                         table.reload('risk_table', {});
                         closeEditModal();
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                 }
             });

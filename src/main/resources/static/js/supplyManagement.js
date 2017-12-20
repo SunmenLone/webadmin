@@ -210,7 +210,7 @@ var openEditModal = function(type) {
 
     } else {
 
-        $('#edit-modal_title').html('编辑供应商品（只能改状态和价格）');
+        $('#edit-modal_title').html('查看供应商品');
 
         $('#modal_item_type').attr('disabled', true);
         $('#modal_item_type').empty();
@@ -288,7 +288,7 @@ var addItem = function() {
                             ,content: '添加供应商品成功'
                         });
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                 }
             });
@@ -324,7 +324,7 @@ var updateItem = function() {
                             content: '修改供应商品成功'
                         });
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                 }
             });
@@ -393,7 +393,7 @@ var openLine = function(item_supid) {
                 optionLine.series[0].data = price;
                 line.setOption(optionLine);
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
             }
         }
 

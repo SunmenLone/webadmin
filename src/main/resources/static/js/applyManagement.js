@@ -111,7 +111,7 @@ layui.use('table', function () {
                                 })
                                 table.reload('apply_table');
                             } else {
-                                console.log(res.errormessage);
+                                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                             }
                             layer.close(index);
                         }
@@ -144,7 +144,7 @@ layui.use('table', function () {
                                 })
                                 table.reload('apply_table');
                             } else {
-                                console.log(res.errormessage);
+                                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                             }
                             layer.close(index);
                         }
@@ -160,6 +160,9 @@ layui.use('table', function () {
             if (data.apply_state == '未提交') {
                 apply_order = data.apply_order;
                 openEditModal(1, data.apply_order);
+            }else{
+                apply_order = data.apply_order;
+                openEditModal(2, data.apply_order);
             }
         }
 
@@ -239,7 +242,9 @@ var openEditModal = function(type, apply_order) {
         $('#btn_save').attr('href', 'javascript:save(0);');
         $('#btn_confirm').attr('href', 'javascript:commit(0);');
 
-    } else {
+        $('#editmodal').removeAttr('hidden');
+
+    } else if(type==1){
 
         $('#modal_title').html('编辑申请');
 
@@ -258,19 +263,39 @@ var openEditModal = function(type, apply_order) {
                     });
 
                 } else {
-                    console.log(res.errormessage);
+                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                 }
 
             }
 
         });
-
         $('#btn_save').attr('href', 'javascript:save(1);');
         $('#btn_confirm').attr('href', 'javascript:commit(1);');
+        $('#editmodal').removeAttr('hidden');
+    }else{
+        $('#modal_title1').html('查看申请');
+        $.ajax({
+            url: '../purchase/apply/items/get',
+            data: {
+                apply_order: apply_order
+            },
+            success: function(res) {
 
+                if (res.code == 0) {
+                    items = res.data;
+                    item_table.reload('item_table1', {
+                        data: items
+                    });
+                } else {
+                    layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                }
+
+            }
+
+        });
+        $('#editmodal1').removeAttr('hidden');
     }
 
-    $('#editmodal').removeAttr('hidden');
 
 }
 
@@ -406,11 +431,15 @@ $(function(){
 var closeEditModal = function(){
 
     $('#editmodal').attr('hidden', true);
+    $('#editmodal1').attr('hidden', true);
     items.splice(0, items.length);
     delItems.splice(0, delItems.length);
     editItems.splice(0, editItems.length);
     addItems.splice(0, addItems.length);
     item_table.reload('item_table', {
+        data: items
+    });
+    item_table.reload('item_table1', {
         data: items
     });
 }
@@ -484,10 +513,9 @@ var deleteItems = function(){
         data: JSON.stringify(delItems),
         success: function(res) {
             if (res.code == 0) {
-                console.log('delete success');
                 delItems.splice(0, delItems.length);
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
             }
         }
     })
@@ -507,10 +535,9 @@ var updateItems = function() {
         data: JSON.stringify(editItems),
         success: function(res) {
             if (res.code == 0) {
-                console.log('update success');
                 editItems.splice(0, editItems.length);
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })
             }
         }
     })
@@ -534,10 +561,9 @@ var insertItems = function() {
         data: JSON.stringify(addItems),
         success: function(res) {
             if (res.code == 0) {
-                console.log('insert success');
-                addItems.splice(0, addItems.length);
+            addItems.splice(0, addItems.length);
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
             }
         }
     });
@@ -565,7 +591,7 @@ var addApply = function() {
                 table.reload('apply_table');
                 apply_order = res.apply_order;
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
             }
         }
     });
@@ -614,7 +640,7 @@ var commit = function(type) {
                         });
                         table.reload('apply_table');
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                     layer.close(index);
                 }

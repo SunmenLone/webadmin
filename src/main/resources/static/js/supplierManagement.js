@@ -92,6 +92,18 @@ layui.use('table', function () {
     });
 
 });
+$.ajax({
+    url: '../item/type/find',
+    data: {},
+    async: false,
+    success: function(res) {
+        $('#sup_item_type').empty();
+        $("#sup_item_type").append('<option value="">请选择商品类型</option>');
+        $.each(res.data, function(i){
+            $("#sup_item_type").append('<option value="' + res.data[i] + '">' + res.data[i] + '</option>');
+        });
+    }
+})
 
 var search = function() {
 
@@ -204,7 +216,7 @@ var evaluate = function(){
                             ,content: '评分成功'
                         });
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                 }
             });
@@ -277,7 +289,7 @@ var add = function() {
                             , content: '新增供应商成功'
                         });
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                 }
             })

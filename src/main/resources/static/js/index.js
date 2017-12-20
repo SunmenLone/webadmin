@@ -11,6 +11,18 @@ var menu = {
     9: '<a href="javascript:$(\'#ifm\').attr(\'src\', \'riskManagement.html\');">风险模型设置</a>'
 }
 
+var html = {
+    1: 'userManagement.html',
+    2: 'roleManagement.html',
+    3: 'itemManagement.html',
+    4: 'supplierManagement.html',
+    5: 'applyManagement.html',
+    6: 'applyReview.html',
+    7: 'purchaseManagement.html',
+    8: 'statistic.html',
+    9: 'riskManagement.html'
+}
+
 
 layui.use('element', function(){
     var element = layui.element;
@@ -46,6 +58,10 @@ var getUserInfo = function() {
 
                     $.each(permissions, function(i){
 
+                        if (i == 0) {$('#ifm').attr('src', html[permissions[i]]);
+
+                        }
+
                         if (permissions[i] == 1 || permissions[i] == 2) {
                             $('#m' + 1).css('display', 'inline-block');
                         } else if (permissions[i] == 5 || permissions[i] == 6) {
@@ -59,7 +75,7 @@ var getUserInfo = function() {
 
 
                 } else {
-                    console.log(res.errormessage);
+                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                 }
             }
         })
@@ -103,7 +119,7 @@ var signout = function() {
                     var user = res.date;
                     $('#realname').html(user.user_realname);
                 } else {
-                    console.log(res.msg);
+                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.msg);
                 }
             }
         });

@@ -59,7 +59,7 @@ layui.use('table', function () {
                                 obj.del();
                                 layer.closeAll();
                             } else {
-                                console.log(res.errormessage);
+                                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                             }
                         }
                     });
@@ -156,7 +156,7 @@ var addOrUpdateUser = function (type) {
                                 , content: '添加用户成功'
                             });
                         } else {
-                            console.log(res.errormessage);
+                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                         }
                     }
                 });
@@ -200,7 +200,7 @@ var addOrUpdateUser = function (type) {
                                 , content: '修改用户成功'
                             });
                         } else {
-                            console.log(res.errormessage);
+                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                         }
                     }
                 });
@@ -231,7 +231,7 @@ var getRole = function () {
                     select2.options.add(new Option(res.data[i].role_name, res.data[i].role_id));
                 });
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
             }
         }
     })

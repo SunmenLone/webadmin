@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
     <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/applyReview.css">
+    <link rel="stylesheet" href="../css/purchaseManagement.css">
 </head>
 <body>
 
@@ -52,6 +53,19 @@
                             <option value="">请选择</option>
                             <option value="采购部门">采购部门</option>
                             <option value="监管部门">监管部门</option>
+                            <option value="使用部门-人事科">使用部门-人事科</option>
+                            <option value="使用部门-综合科">使用部门-综合科</option>
+                            <option value="使用部门-检务科">使用部门-检务科</option>
+                            <option value="使用部门-卫检科">使用部门-卫检科</option>
+                            <option value="使用部门-动植科">使用部门-动植科</option>
+                            <option value="使用部门-食品科">使用部门-食品科</option>
+                            <option value="使用部门-监管科">使用部门-监管科</option>
+                            <option value="使用部门-认证科">使用部门-认证科</option>
+                            <option value="使用部门-龙穴办">使用部门-龙穴办</option>
+                            <option value="使用部门-金州办">使用部门-金州办</option>
+                            <option value="使用部门-小虎办">使用部门-小虎办</option>
+                            <option value="使用部门-中心">使用部门-中心</option>
+                            <option value="使用部门-中检">使用部门-中检</option>
                         </select>
                     </div>
                 </div>
@@ -76,61 +90,45 @@
     <a class="layui-btn layui-btn-normal layui-btn-mini" lay-event="detail">完善采购信息</a>
     {{#  } else if(d.apply_state == '采购中'){ }}
     <a class="layui-btn layui-btn-mini" lay-event="finish">确认采购完毕</a>
+    <a class="layui-btn layui-btn-warm layui-btn-mini" lay-event="detail-view">查看采购信息</a>
     {{#  } else { }}
-    <div>-</div>
+    <a class="layui-btn layui-btn-warm layui-btn-mini" lay-event="detail-view">查看采购信息</a>
     {{# } }}
 </script>
 
-<div id="reviewmodal" class="mask" hidden>
-    <div class="modal-container review-container">
+<script type="text/html" id="fund">
+    {{#  if(d.steady_fund == '1'){ }}
+    <label>是</label>
+    {{#  } else { }}
+    <label>否</label>
+    {{# } }}
+</script>
+
+<div id="view_model" class="mask" hidden>
+    <div class="modal-container view-container">
         <div class="modal-title">
-            <div id="edit-modal_title" class="modal-title__text">申请审核</div>
+            <div id="edit-modal_title" class="modal-title__text">采购商品完善信息查看</div>
         </div>
         <div class="review-content">
-            <div class="top-margin">基本信息：</div>
-            <table class="layui-table" lay-data="{width: 480, id:'apply_info_table'}">
-                <thead>
-                <tr>
-                    <th lay-data="{field:'id', width:160}">申请部门</th>
-                    <th lay-data="{field:'itemid', width:160}">申请人姓名</th>
-                    <th lay-data="{field:'type', width:160}">申请提交时间</th>
-                </tr>
-                </thead>
-            </table>
-            <div class="top-margin25">需要采购的商品：</div>
-            <table class="layui-table" lay-data="{width: 850, height: 240, id:'item_table'}" lay-filter="item">
+            <div class="top-margin25">采购的商品：</div>
+            <table class="layui-table" lay-data="{width: 960, height: 600, id:'item_table'}" lay-filter="item">
                 <thead>
                 <tr>
                     <th lay-data="{field:'id', width:80}">序号</th>
-                    <th lay-data="{field:'itemid', width:120}">商品编号</th>
-                    <th lay-data="{field:'type', width:120}">商品类型</th>
-                    <th lay-data="{field:'name', width:140}">商品名称</th>
-                    <th lay-data="{field:'quantity', width:120}">商品数量</th>
-                    <th lay-data="{field:'reason', width:270}">采购理由或用途</th>
+                    <th lay-data="{field:'item_order', width:120}">商品编号</th>
+                    <th lay-data="{field:'item_type', width:110}">商品类型</th>
+                    <th lay-data="{field:'item_name', width:120}">商品名称</th>
+                    <th lay-data="{field:'item_count', width:80}">商品数量</th>
+                    <th lay-data="{field:'item_sup_name', width:120}">供应商</th>
+                    <th lay-data="{field:'item_supid', width:120}">商品供应编号</th>
+                    <th lay-data="{field:'item_sup_price', width:80}">价格</th>
+                    <th lay-data="{align:'center', toolbar: '#fund', width:120}">是否固定资产</th>
                 </tr>
                 </thead>
             </table>
-            <div class="top-margin25">审核：</div>
-            <form class="layui-form" action="">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="layui-red">*</span>是否通过：</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="status" value="通过" title="通过">
-                        <input type="radio" name="status" value="不通过" title="不通过">
-                    </div>
-                </div>
-                <div class="layui-form-item layui-form-text">
-                    <div class="layui-input-block disapprove-textarea">
-                        <textarea name="disapprove_reason" placeholder="不通过必须填写理由" class="layui-textarea" disabled></textarea>
-                    </div>
-                </div>
-                <div class="layui-form-item top-margin25">
-                    <div class="flex flex-center">
-                        <a class="layui-btn layui-btn-primary" href="javascript: $('#reviewmodal').attr('hidden', 'true');">取消</a>
-                        <a id="edititem_confirm" class="layui-btn layui-btn-normal">确定</a>
-                    </div>
-                </div>
-            </form>
+            <div class="flex flex-center">
+                 <a class="layui-btn layui-btn-normal" href="javascript: $('#view_model').attr('hidden', 'true');">确定</a>
+            </div>
         </div>
     </div>
 </div>

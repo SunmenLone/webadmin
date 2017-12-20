@@ -29,6 +29,7 @@ var layer;
 layui.use('layer', function(){
    layer = layui.layer;
 });
+var item_table;
 
 var table;
 layui.use('table', function () {
@@ -48,7 +49,7 @@ layui.use('table', function () {
             {field: 'purchase_item_accept_time', title: '已领取时间', width: 180},
             {field: 'apply_check_user', title: '审核人姓名', width: 100},
             {field: 'apply_state', title: '状态', width: 100},
-            {toolbar: '#opt', title: '操作', align: 'center', width: 140},
+            {toolbar: '#opt', title: '操作', align: 'center', width: 220},
         ]]
     });
 
@@ -61,11 +62,43 @@ layui.use('table', function () {
             window.location.href='./purchaseDetail.html?apply_order=' + data.apply_order;
         } else if (layEvent === 'finish') {
             completePurchase(data);
+        }else if(layEvent === 'detail-view'){
+            apply_order=data.apply_order;
+            openViewModel(apply_order);
         }
 
     });
-
+    item_table = layui.table;
 });
+var openViewModel = function(apply_order) {
+        $('#modal_title').html('供应信息查看');
+        $.ajax({
+            url: '../purchase/apply/items/get',
+            data: {
+                apply_order: apply_order
+            },
+            success: function(res) {
+                if (res.code == 0) {
+                    items = res.data;
+                    item_table.reload('item_table', {
+                        data: items
+                    });
+                } else {
+                    layer.open({
+                        title:'提示',
+                        content:'操作失败',
+                    });
+                }
+            }
+        });
+        $('#view_model').removeAttr('hidden');
+}
+
+var closeViewModel = function(){
+
+    $('#view_model').attr('hidden', true);
+
+}
 
 var search = function() {
 
@@ -121,10 +154,9 @@ var completePurchase = function(data) {
                 },
                 success: function(res) {
                     if (res.code == 0) {
-                        console.log('complete success');
                         table.reload('purchase_table', {});
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                     layer.close(index);
                 }

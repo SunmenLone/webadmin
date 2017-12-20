@@ -55,7 +55,7 @@ layui.use('table', function () {
     table.render({
         id: 'apply_table',
         elem: '#apply_table',
-        url: '../purchase/apply/findall',
+        url: '../purchase/apply/findall?apply_user_account=' + GetCookie('username'),
         page: true,
         even: true,
         cols: [[{field: 'id', title: '序号', width: 80},
@@ -151,7 +151,7 @@ var openModal = function(data) {
                     data: items
                 })
             } else {
-                console.log(res.errormessage);
+                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
             }
         }
     });
@@ -167,7 +167,7 @@ var openModal = function(data) {
                 if (res.code == 0) {
                     table.reload('apply_table', {});
                 } else {
-                    console.log(res.errormessage);
+                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                 }
             }
         });
@@ -241,7 +241,7 @@ var submit = function() {
                         $('#reviewmodal').attr('hidden', true);
                         table.reload('apply_table', {});
                     } else {
-                        console.log(res.errormessage);
+                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                     }
                     layer.close(index);
                 }

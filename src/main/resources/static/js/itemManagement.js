@@ -50,6 +50,19 @@ layui.use('table', function () {
 
 });
 
+$.ajax({
+    url: '../item/type/find',
+    data: {},
+    async: false,
+    success: function(res) {
+        $('#item_type').empty();
+        $("#item_type").append('<option value="">请选择商品类型</option>');
+        $.each(res.data, function(i){
+            $("#item_type").append('<option value="' + res.data[i] + '">' + res.data[i] + '</option>');
+        });
+    }
+})
+
 var search = function() {
 
     var item_name = $('input[name="item_name"]').val();
@@ -88,11 +101,10 @@ var openEditModal = function(type) {
             $(this).removeAttr('selected');
         });
         $('#modal_status option[value="0"]').attr('selected', true);
-        $('#modal_type option').each(function(){
-            $(this).removeAttr('selected');
-        });
-        $('#modal_type option[value=""]').attr('selected', true);
+
         form.render('select');
+
+        $('input[name="modal_type"]').val('');
 
         $('#edit_confirm').attr('href', 'javascript:addOrUpdateItem(0);')
 
@@ -108,13 +120,9 @@ var openEditModal = function(type) {
             $(this).removeAttr('selected');
         });
         $('#modal_status option[text="' + data.item_status + '"]').attr('selected', true);
-
-        $('#modal_type option').each(function(){
-            $(this).removeAttr('selected');
-        });
-        $('#modal_type option[value="' + data.item_type + '"]').attr('selected', true);
-        $('#modal_type').val(data.item_type);
         form.render('select');
+
+        $('input[name="modal_type"]').val(data.item_type);
 
         $('#edit_confirm').attr('href', 'javascript:addOrUpdateItem(1);')
 
@@ -139,7 +147,7 @@ var addOrUpdateItem = function(type) {
                     data: {
                         item_name: $('input[name="modal_name"]').val(),
                         item_status: $('#modal_status option:selected').val(),
-                        item_type: $('#modal_type option:selected').val()
+                        item_type: $('input[name="modal_type"]').val()
                     },
                     success: function(res){
                         if (res.code == 0) {
@@ -150,7 +158,7 @@ var addOrUpdateItem = function(type) {
                                 ,content: '添加商品成功'
                             });
                         } else {
-                            console.log(res.errormessage);
+                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                         }
                     }
                 });
@@ -174,7 +182,7 @@ var addOrUpdateItem = function(type) {
                         item_order: data.item_order,
                         item_name: $('input[name="modal_name"]').val(),
                         item_status: $('#modal_status option:selected').val(),
-                        item_type: $('#modal_type option:selected').val()
+                        item_type: $('input[name="modal_type"]').val()
                     },
                     success: function(res){
                         if (res.code == 0) {
@@ -185,7 +193,7 @@ var addOrUpdateItem = function(type) {
                                 ,content: '修改商品成功'
                             });
                         } else {
-                            console.log(res.errormessage);
+                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
                         }
                     }
                 });
@@ -218,7 +226,7 @@ layui.use('upload', function() {
             } else {
                 layer.open({
                     title: '提示',
-                    content: res.errormessage
+                    content: '部分商品导入失败，请稍后重试'
                 });
             }
         }

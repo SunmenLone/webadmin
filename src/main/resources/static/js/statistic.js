@@ -61,6 +61,7 @@ layui.use('table', function(){
        id: 'statistic_table',
        elem: '#statistic_table',
        even: true,
+       width: 505,
        cols: [[{field: 'row_name', title: '申请部门', width: 180},
            {field: 'column_fund_onway', title: '在途物资金额', width: 160},
            {field: 'column_fund_accept', title: '领取物资金额', width: 160}
@@ -170,10 +171,18 @@ var generateTable = function(){
                     option['cols'] = [[{field: 'row_name', title: '申请部门', width: 180},
                         {field: 'column_fund_onway', title: '在途物资金额', width: 160}
                     ]];
+                    option['width'] = 345;
                 } else if ( !onway && accept) {
                     option['cols'] = [[{field: 'row_name', title: '申请部门', width: 180},
                         {field: 'column_fund_accept', title: '领取物资金额', width: 160}
-                    ]]
+                    ]];
+                    option['width'] = 345;
+                } else {
+                    option['cols'] = [[{field: 'row_name', title: '申请部门', width: 180},
+                        {field: 'column_fund_onway', title: '在途物资金额', width: 160},
+                        {field: 'column_fund_accept', title: '领取物资金额', width: 160}
+                    ]];
+                    option['width'] = 505;
                 }
                 option['data'] = res.data;
                 table.reload('statistic_table', option);

@@ -144,14 +144,14 @@ var openScoreModal = function() {
     $('#edate').val('');
 
     $('#service option').each(function(){
-        $(this).removeAttr('selected');
+        $(this).prop('selected', false);
     });
-    $('#service option[value="1"]').attr('selected', true);
+    $('#service option[value="1"]').prop('selected', true);
 
     $('#quality option').each(function(){
-        $(this).removeAttr('selected');
+        $(this).prop('selected', false);
     });
-    $('#quality option[value="1"]').attr('selected', true);
+    $('#quality option[value="1"]').prop('selected', true);
 
     form.render('select');
 
@@ -193,7 +193,7 @@ var evaluate = function(){
         title: '提示',
         content: '确认评分？',
         btn: ['确认', '取消'],
-        yes: function(){
+        yes: function(index){
 
             $.ajax({
                 url: '../supplier/evaluate',
@@ -208,6 +208,7 @@ var evaluate = function(){
                     sup_id: data.supplier_id
                 },
                 success: function(res){
+                    layer.close(index);
                     if (res.code == 0) {
                         $('#scoremodal').attr('hidden', true);
                         table.reload('supplier_table', {});
@@ -216,13 +217,16 @@ var evaluate = function(){
                             ,content: '评分成功'
                         });
                     } else {
-                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                        layer.open({
+                            title:'提示',
+                            content:'操作失败'
+                        });
                     }
                 }
             });
         },
-        btn2: function(){
-            layer.closeAll();
+        btn2: function(index){
+            layer.close(index);
         }
     });
 
@@ -257,7 +261,7 @@ var add = function() {
         title: '提示',
         content: '确认新增供应商？',
         btn: ['确认', '取消'],
-        yes: function() {
+        yes: function(index) {
             $.ajax({
                 url: '../supplier/info/add',
                 data: {
@@ -281,6 +285,7 @@ var add = function() {
                     business_address: $('#add_business_address').val()
                 },
                 success: function (res) {
+                    layer.close(index);
                     if (res.code == 0) {
                         $('#addmodal').attr('hidden', true);
                         table.reload('supplier_table', {});
@@ -289,13 +294,16 @@ var add = function() {
                             , content: '新增供应商成功'
                         });
                     } else {
-                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                        layer.open({
+                            title:'提示',
+                            content:'操作失败'
+                        });
                     }
                 }
             })
         },
-        btn2: function(){
-            layer.closeAll();
+        btn2: function(index){
+            layer.close(index);
         }
     });
 

@@ -163,7 +163,8 @@ layui.use('table', function () {
             {field: 'item_supid', title: '商品供应编号', width: 180},
             {field: 'item_price', title: '单价', width: 180},
             {field: 'risk', title: '风险提示', width: 180, style: 'color: red;'}
-        ]]
+        ]],
+        data: []
     });
 
 });

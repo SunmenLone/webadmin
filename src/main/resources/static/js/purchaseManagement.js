@@ -10,24 +10,24 @@ layui.use('form', function () {
 });
 
 layui.use('laydate', function(){
-  var laydate = layui.laydate;
+    var laydate = layui.laydate;
 
-  //常规用法
-  laydate.render({
-      elem: '#bdate',
-      type: 'datetime'
-  });
+    //常规用法
+    laydate.render({
+        elem: '#bdate',
+        type: 'datetime'
+    });
 
-  laydate.render({
-      elem: '#edate',
-      type: 'datetime'
+    laydate.render({
+        elem: '#edate',
+        type: 'datetime'
     });
 
 });
 
 var layer;
 layui.use('layer', function(){
-   layer = layui.layer;
+    layer = layui.layer;
 });
 var item_table;
 
@@ -71,27 +71,27 @@ layui.use('table', function () {
     item_table = layui.table;
 });
 var openViewModel = function(apply_order) {
-        $('#modal_title').html('供应信息查看');
-        $.ajax({
-            url: '../purchase/apply/items/get',
-            data: {
-                apply_order: apply_order
-            },
-            success: function(res) {
-                if (res.code == 0) {
-                    items = res.data;
-                    item_table.reload('item_table', {
-                        data: items
-                    });
-                } else {
-                    layer.open({
-                        title:'提示',
-                        content:'操作失败',
-                    });
-                }
+    $('#modal_title').html('供应信息查看');
+    $.ajax({
+        url: '../purchase/apply/items/get',
+        data: {
+            apply_order: apply_order
+        },
+        success: function(res) {
+            if (res.code == 0) {
+                items = res.data;
+                item_table.reload('item_table', {
+                    data: items
+                });
+            } else {
+                layer.open({
+                    title:'提示',
+                    content:'操作失败',
+                });
             }
-        });
-        $('#view_model').removeAttr('hidden');
+        }
+    });
+    $('#view_model').removeAttr('hidden');
 }
 
 var closeViewModel = function(){
@@ -156,7 +156,10 @@ var completePurchase = function(data) {
                     if (res.code == 0) {
                         table.reload('purchase_table', {});
                     } else {
-                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                        layer.open({
+                            title:'提示',
+                            content:'操作失败'
+                        });
                     }
                     layer.close(index);
                 }

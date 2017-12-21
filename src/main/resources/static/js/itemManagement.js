@@ -8,6 +8,10 @@ var form;
 layui.use('form', function () {
     form = layui.form;
 
+    form.on('select(status)', function(data){
+        statusChange = true;
+    });
+
 });
 
 var layer;
@@ -90,6 +94,8 @@ var search = function() {
 
 }
 
+var nameChange = false, statusChange = false, typeChange = false;
+
 var openEditModal = function(type) {
 
     if (type == 0) {
@@ -98,9 +104,9 @@ var openEditModal = function(type) {
 
         $('input[name="modal_name"]').val('');
         $('#modal_status option').each(function(){
-            $(this).removeAttr('selected');
+            $(this).prop('selected', false);
         });
-        $('#modal_status option[value="0"]').attr('selected', true);
+        $('#modal_status option[value="0"]').prop('selected', true);
 
         form.render('select');
 
@@ -116,13 +122,20 @@ var openEditModal = function(type) {
         $('#modal_title').html('修改商品');
 
         $('input[name="modal_name"]').val(data.item_name);
-        $('#modal_status option').each(function(){
-            $(this).removeAttr('selected');
+        $('input[name="modal_name"]').change(function(){
+           nameChange = true;
         });
-        $('#modal_status option[text="' + data.item_status + '"]').attr('selected', true);
+
+        $('#modal_status option').each(function(){
+            $(this).prop('selected', false);
+        });
+        $('#modal_status option[text="' + data.item_status + '"]').prop('selected', true);
         form.render('select');
 
         $('input[name="modal_type"]').val(data.item_type);
+        $('input[name="modal_type"]').change(function(){
+            typeChange = true;
+        });
 
         $('#edit_confirm').attr('href', 'javascript:addOrUpdateItem(1);')
 
@@ -140,7 +153,7 @@ var addOrUpdateItem = function(type) {
             title: '提示',
             content: '确认添加商品？',
             btn: ['确认', '取消'],
-            yes: function(){
+            yes: function(index){
 
                 $.ajax({
                     url: '../item/add',
@@ -150,6 +163,7 @@ var addOrUpdateItem = function(type) {
                         item_type: $('input[name="modal_type"]').val()
                     },
                     success: function(res){
+                        layer.close(index);
                         if (res.code == 0) {
                             $('#editmodal').attr('hidden', true);
                             table.reload('item_table', {});
@@ -158,32 +172,56 @@ var addOrUpdateItem = function(type) {
                                 ,content: '添加商品成功'
                             });
                         } else {
-                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                            layer.open({
+                                title:'提示',
+                                content:'操作失败'
+                            });
                         }
+                    },
+                    complete: function(){
+                        nameChange = false;
+                        statusChange = false;
+                        typeChange = false;
                     }
                 });
             },
-            btn2: function(){
-                layer.closeAll();
+            btn2: function(index){
+                layer.close(index);
             }
         });
 
     } else {
 
+        if (!nameChange && !statusChange && !typeChange) {
+            $('#editmodal').attr('hidden', true);
+            return;
+        }
+
         layer.open({
             title: '提示',
             content: '确认修改商品？',
             btn: ['确认', '取消'],
-            yes: function(){
+            yes: function(index){
+
+                var param = {
+                    item_order: data.item_order
+                }
+
+                if (nameChange) {
+                    param['item_name'] = $('input[name="modal_name"]').val();
+                }
+
+                if (statusChange) {
+                    param['item_status'] = $('#modal_status option:selected').val();
+                }
+
+                if (typeChange) {
+                    param['item_type'] = $('input[name="modal_type"]').val();
+                }
 
                 $.ajax({
                     url: '../item/edit',
-                    data: {
-                        item_order: data.item_order,
-                        item_name: $('input[name="modal_name"]').val(),
-                        item_status: $('#modal_status option:selected').val(),
-                        item_type: $('input[name="modal_type"]').val()
-                    },
+                    data: param,
                     success: function(res){
                         if (res.code == 0) {
                             $('#editmodal').attr('hidden', true);
@@ -193,13 +231,22 @@ var addOrUpdateItem = function(type) {
                                 ,content: '修改商品成功'
                             });
                         } else {
-                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                            layer.open({
+                                title:'提示',
+                                content:'操作失败'
+                            });
                         }
+                        layer.close(index);
+                    },
+                    complete: function(){
+                        nameChange = false;
+                        statusChange = false;
+                        typeChange = false;
                     }
                 });
             },
-            btn2: function(){
-                layer.closeAll();
+            btn2: function(index){
+                layer.close(index);
             }
         });
 

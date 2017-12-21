@@ -263,7 +263,7 @@ var addItem = function() {
         title: '提示',
         content: '确认添加供应商品？',
         btn: ['确认', '取消'],
-        yes: function(){
+        yes: function(index){
 
             $.ajax({
                 url: '../supplier/item/add',
@@ -280,6 +280,7 @@ var addItem = function() {
                     item_price: $('input[name="modal_item_price"]').val()
                 },
                 success: function(res){
+                    layer.close(index);
                     if (res.code == 0) {
                         $('#editmodal').attr('hidden', true);
                         table.reload('supply_table', {});
@@ -288,13 +289,16 @@ var addItem = function() {
                             ,content: '添加供应商品成功'
                         });
                     } else {
-                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                          layer.open({
+                              title:'提示',
+                              content:'操作失败'
+                          });
                     }
                 }
             });
         },
-        btn2: function(){
-            layer.closeAll();
+        btn2: function(index){
+            layer.close(index);
         }
     });
 
@@ -306,7 +310,7 @@ var updateItem = function() {
         title: '提示',
         content: '确认修改供应商品？',
         btn: ['确认', '取消'],
-        yes: function(){
+        yes: function(index){
 
             $.ajax({
                 url: '../supplier/item/update',
@@ -316,6 +320,7 @@ var updateItem = function() {
                     item_price: $('input[name="modal_item_price"]').val()
                 },
                 success: function(res){
+                    layer.close(index);
                     if (res.code == 0) {
                         $('#editmodal').attr('hidden', true);
                         table.reload('supply_table', {});
@@ -324,13 +329,16 @@ var updateItem = function() {
                             content: '修改供应商品成功'
                         });
                     } else {
-                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                          layer.open({
+                              title:'提示',
+                              content:'操作失败'
+                          });
                     }
                 }
             });
         },
-        btn2: function(){
-            layer.closeAll();
+        btn2: function(index){
+            layer.close(index);
         }
     });
 
@@ -393,7 +401,10 @@ var openLine = function(item_supid) {
                 optionLine.series[0].data = price;
                 line.setOption(optionLine);
             } else {
-                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                  layer.open({
+                      title:'提示',
+                      content:'操作失败'
+                  });
             }
         }
 
@@ -425,7 +436,7 @@ layui.use('upload', function() {
             } else {
                 layer.open({
                     title: '提示',
-                    content: res.errormessage
+                    content: '导入失败'
                 });
             }
         }

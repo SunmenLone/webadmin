@@ -91,7 +91,6 @@ layui.use('table', function () {
         var tr = obj.tr; //获得当前行 tr 的DOM对象
 
         if (layEvent === 'apply') {
-
             layer.open({
                 title: '提示',
                 content: '确认提交申请，提交后将不能修改？',
@@ -111,18 +110,19 @@ layui.use('table', function () {
                                 })
                                 table.reload('apply_table');
                             } else {
-                                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                                layer.open({
+                                    title:'提示',
+                                    content:'操作失败'
+                                });
                             }
                             layer.close(index);
                         }
                     });
-
                 },
                 btn2: function(index){
                     layer.close(index);
                 }
             });
-
 
         } else if (layEvent === 'retrieve') {
 
@@ -144,7 +144,10 @@ layui.use('table', function () {
                                 })
                                 table.reload('apply_table');
                             } else {
-                                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                                layer.open({
+                                    title:'提示',
+                                    content:'操作失败'
+                                });
                             }
                             layer.close(index);
                         }
@@ -263,7 +266,10 @@ var openEditModal = function(type, apply_order) {
                     });
 
                 } else {
-                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                    layer.open({
+                        title:'提示',
+                        content:'操作失败'
+                    });
                 }
 
             }
@@ -287,7 +293,10 @@ var openEditModal = function(type, apply_order) {
                         data: items
                     });
                 } else {
-                    layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                    layer.open({
+                        title:'提示',
+                        content:'操作失败'
+                    });
                 }
 
             }
@@ -306,9 +315,9 @@ var openEditItemModal = function(type) {
         $('#edit-modal_title').html('添加商品');
 
         $('#modal_item_type option').each(function(){
-            $(this).removeAttr('selected');
+            $(this).prop('selected', false);
         });
-        $('#modal_item_type option[value=""]').attr('selected', true);
+        $('#modal_item_type option[value=""]').prop('selected', true);
 
         form.render('select');
 
@@ -332,7 +341,7 @@ var openEditItemModal = function(type) {
                     $.each(res.data, function (i) {
                         $("#modal_item_name").append('<option value="' + res.data[i].item_order + '" title="' + res.data[i].item_name + '">' + res.data[i].item_name + '</option>');
                     });
-                    $('#modal_item_name option[title="' + item_data.item_name + '"]').attr('selected', true);
+                    $('#modal_item_name option[title="' + item_data.item_name + '"]').prop('selected', true);
                 } else {
                     $('#modal_item_name').empty();
                     $("#modal_item_name").append('<option value="">请先选择商品类型</option>');
@@ -341,9 +350,9 @@ var openEditItemModal = function(type) {
         });
 
         $('#modal_item_type option').each(function(){
-            $(this).removeAttr('selected');
+            $(this).prop('selected', false);
         });
-        $('#modal_item_type option[title="' + item_data.item_type + '"]').attr('selected', true);
+        $('#modal_item_type option[title="' + item_data.item_type + '"]').prop('selected', true);
 
         form.render('select');
 
@@ -515,7 +524,10 @@ var deleteItems = function(){
             if (res.code == 0) {
                 delItems.splice(0, delItems.length);
             } else {
-                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                layer.open({
+                    title:'提示',
+                    content:'操作失败'
+                });
             }
         }
     })
@@ -537,7 +549,10 @@ var updateItems = function() {
             if (res.code == 0) {
                 editItems.splice(0, editItems.length);
             } else {
-                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })
+                layer.open({
+                    title:'提示',
+                    content:'操作失败'
+                });
             }
         }
     })
@@ -547,7 +562,7 @@ var addItems = [];
 var insertItems = function() {
 
     $.each(addItems, function(i){
-       addItems[i].apply_order = apply_order;
+        addItems[i].apply_order = apply_order;
     });
 
     $.ajax({
@@ -561,9 +576,12 @@ var insertItems = function() {
         data: JSON.stringify(addItems),
         success: function(res) {
             if (res.code == 0) {
-            addItems.splice(0, addItems.length);
+                addItems.splice(0, addItems.length);
             } else {
-                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                layer.open({
+                    title:'提示',
+                    content:'操作失败'
+                });
             }
         }
     });
@@ -591,7 +609,10 @@ var addApply = function() {
                 table.reload('apply_table');
                 apply_order = res.apply_order;
             } else {
-                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                layer.open({
+                    title:'提示',
+                    content:'操作失败'
+                });
             }
         }
     });
@@ -640,19 +661,19 @@ var commit = function(type) {
                         });
                         table.reload('apply_table');
                     } else {
-                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                        layer.open({
+                            title:'提示',
+                            content:'操作失败'
+                        });
                     }
                     layer.close(index);
                 }
             });
-
         },
         btn2: function(index){
             layer.close(index);
         }
     });
-
-
 
 }
 

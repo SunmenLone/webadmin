@@ -25,21 +25,21 @@ layui.use('form', function () {
 
 var layer;
 layui.use('layer', function(){
-   layer = layui.layer;
+    layer = layui.layer;
 });
 
 layui.use('laydate', function(){
-  var laydate = layui.laydate;
+    var laydate = layui.laydate;
 
-  //常规用法
-  laydate.render({
-      elem: '#bdate',
-      type: 'datetime'
-  });
+    //常规用法
+    laydate.render({
+        elem: '#bdate',
+        type: 'datetime'
+    });
 
-  laydate.render({
-      elem: '#edate',
-      type: 'datetime'
+    laydate.render({
+        elem: '#edate',
+        type: 'datetime'
     });
 
 })
@@ -151,7 +151,10 @@ var openModal = function(data) {
                     data: items
                 })
             } else {
-                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                layer.open({
+                    title:'提示',
+                    content:'操作失败'
+                });
             }
         }
     });
@@ -167,7 +170,10 @@ var openModal = function(data) {
                 if (res.code == 0) {
                     table.reload('apply_table', {});
                 } else {
-                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                    layer.open({
+                        title:'提示',
+                        content:'操作失败'
+                    });
                 }
             }
         });
@@ -241,7 +247,10 @@ var submit = function() {
                         $('#reviewmodal').attr('hidden', true);
                         table.reload('apply_table', {});
                     } else {
-                          layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                        layer.open({
+                            title:'提示',
+                            content:'操作失败'
+                        });
                     }
                     layer.close(index);
                 }

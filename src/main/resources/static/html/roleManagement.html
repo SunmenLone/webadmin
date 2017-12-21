@@ -58,7 +58,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">角色状态：</label>
                     <div class="layui-input-inline">
-                        <select id="modal_status">
+                        <select id="modal_status" lay-filter="status">
                             <option value="0" text="启用">启用</option>
                             <option value="1" text="禁用">禁用</option>
                         </select>
@@ -70,33 +70,33 @@
                 <div class="menu-area">
                     <div class="layui-form-item menu-item">
                         <label class="layui-form-label menu-label">1. 系统管理：</label>
-                        <input type="checkbox" name="menu" value="1" lay-skin="primary" title="用户管理">
-                        <input type="checkbox" name="menu" value="2" lay-skin="primary" title="角色管理">
+                        <input type="checkbox" name="menu" value="1" lay-skin="primary" title="用户管理" lay-filter="per">
+                        <input type="checkbox" name="menu" value="2" lay-skin="primary" title="角色管理" lay-filter="per">
                     </div>
                     <div class="layui-form-item menu-item">
                         <label class="layui-form-label menu-label">2. 商品管理：</label>
-                        <input type="checkbox" name="menu" value="3" lay-skin="primary" title="商品类型管理">
+                        <input type="checkbox" name="menu" value="3" lay-skin="primary" title="商品类型管理" lay-filter="per">
                     </div>
                     <div class="layui-form-item menu-item">
                         <label class="layui-form-label menu-label">3. 供应商管理：</label>
-                        <input type="checkbox" name="menu" value="4" lay-skin="primary" title="供应商管理">
+                        <input type="checkbox" name="menu" value="4" lay-skin="primary" title="供应商管理" lay-filter="per">
                     </div>
                     <div class="layui-form-item menu-item">
                         <label class="layui-form-label menu-label">4. 采购申请管理：</label>
-                        <input type="checkbox" name="menu" value="5" lay-skin="primary" title="提交申请">
-                        <input type="checkbox" name="menu" value="6" lay-skin="primary" title="申请审核">
+                        <input type="checkbox" name="menu" value="5" lay-skin="primary" title="提交申请" lay-filter="per">
+                        <input type="checkbox" name="menu" value="6" lay-skin="primary" title="申请审核" lay-filter="per">
                     </div>
                     <div class="layui-form-item menu-item">
                         <label class="layui-form-label menu-label">5. 采购进程管理：</label>
-                        <input type="checkbox" name="menu" value="7" lay-skin="primary" title="采购单管理">
+                        <input type="checkbox" name="menu" value="7" lay-skin="primary" title="采购单管理" lay-filter="per">
                     </div>
                     <div class="layui-form-item menu-item">
                         <label class="layui-form-label menu-label">6. 统计分析：</label>
-                        <input type="checkbox" name="menu" value="8" lay-skin="primary" title="使用部门采购情况">
+                        <input type="checkbox" name="menu" value="8" lay-skin="primary" title="使用部门采购情况" lay-filter="per">
                     </div>
                     <div class="layui-form-item menu-item">
                         <label class="layui-form-label menu-label">7. 风险预警设置：</label>
-                        <input type="checkbox" name="menu" value="9"  lay-skin="primary" title="风险模型设置">
+                        <input type="checkbox" name="menu" value="9"  lay-skin="primary" title="风险模型设置" lay-filter="per">
                     </div>
                 </div>
             </form>

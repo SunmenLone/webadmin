@@ -8,6 +8,13 @@ var form;
 layui.use('form', function () {
     form = layui.form;
 
+    form.on('select(status)', function(){
+        statusChange = true;
+    });
+
+    form.on('checkbox(per)', function(){
+        perChange = true;
+    });
 });
 
 var layer;
@@ -51,27 +58,27 @@ layui.use('table', function(){
                 title: '提示',
                 content: '确认删除角色 ' + data.role_name + ' ？',
                 btn: ['确认', '取消'], //可以无限个按钮
-                yes: function(){
+                yes: function(index){
                     $.ajax({
                         url: '../role/delete',
                         data: {
                             role_id: data.role_id
                         },
                         success: function(res){
+                            layer.close(index);
                             if (res.code == 0) {
                                 obj.del();
-                                layer.closeAll();
                             } else {
                                 layer.open({
                                     title:'提示',
-                                    content:'删除失败',
+                                    content:'删除失败'
                                 })
                             }
                         }
                     });
                 },
-                btn2: function(){
-                    layer.closeAll();
+                btn2: function(index){
+                    layer.close(index);
                 }
             });
         }
@@ -96,6 +103,8 @@ var search = function() {
 
 }
 
+var nameChange = false, statusChange = false, perChange = false;
+
 var openEditModal = function(type){
 
     if (type == 0) {
@@ -103,12 +112,13 @@ var openEditModal = function(type){
         $('#modal_title').html('新增角色');
 
         $('input[name="modal_name"]').val('');
+
         $('#modal_status option').each(function(){
-            $(this).removeAttr('selected');
+            $(this).prop('selected', false);
         });
-        $('#modal_status option[value="0"]').attr('selected', true);
+        $('#modal_status option[value="0"]').prop('selected', true);
         $('input[name="menu"]:checked').each(function(){
-            $(this).removeAttr('checked');
+            $(this).prop('checked', false);
         });
         form.render('select');
         form.render('checkbox');
@@ -122,25 +132,29 @@ var openEditModal = function(type){
         $('#modal_title').html('修改角色');
 
         $('input[name="modal_name"]').val(data.role_name);
+        $('input[name="modal_name"]').change(function(){
+            nameChange = true;
+        });
+
         $('#modal_status option').each(function(){
-            $(this).removeAttr('selected');
+            $(this).prop('selected', false);
         });
         $('#modal_status option[text="' + data.freeze + '"]').attr('selected', true);
         if (data.permissions == '所有菜单') {
             $('input[name="menu"]').each(function(){
-                $(this).attr('checked', true);
+                $(this).prop('checked', true);
             });
         } else {
             var menu = data.permissions.split(',');
             $('input[name="menu"]').each(function(){
-                $(this).removeAttr('checked');
+                $(this).prop('checked', false);
             });
             $('input[name="menu"]').each(function(){
                 for (var i = 0; i < menu.length; i++) {
                     var t = $(this).next().text();
                     t = t.substring(0, t.length-1);
                     if (t == menu[i]) {
-                        $(this).attr('checked', true);
+                        $(this).prop('checked', true);
                     }
                 }
             });
@@ -163,7 +177,7 @@ var addOrEditRole = function(type) {
             title: '提示',
             content: '确认添加角色？',
             btn: ['确认', '取消'],
-            yes: function(){
+            yes: function(index){
 
                 var permissions ="";
                 $('input[name="menu"]:checked').each(function(){
@@ -180,63 +194,96 @@ var addOrEditRole = function(type) {
                         edit_user: GetCookie('username')
                     },
                     success: function(res){
+                        layer.close(index);
                         if (res.code == 0) {
                             $('#editmodal').attr('hidden', true);
                             table.reload('role_table', {});
                             layer.open({
-                                title: '提示'
-                                ,content: '添加角色成功'
+                                title: '提示',
+                                content: '添加角色成功'
                             });
                         } else {
-                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                            layer.open({
+                                title:'提示',
+                                content:'操作失败'
+                            });
                         }
+                    },
+                    complete: function(){
+                        nameChange = false;
+                        statusChange = false;
+                        perChange = false;
                     }
                 });
             },
-            btn2: function(){
-                layer.closeAll();
+            btn2: function(index){
+                layer.close(index);
             }
         });
 
     } else {
 
+        if (!nameChange && !statusChange && !perChange) {
+            $('#editmodal').attr('hidden', true);
+            return;
+        }
+
         layer.open({
             title: '提示',
             content: '确认修改角色？',
             btn: ['确认', '取消'],
-            yes: function(){
+            yes: function(index){
 
-                var permissions ="";
-                $('input[name="menu"]:checked').each(function(){
-                    permissions += $(this).val()+",";
-                });
-                permissions = permissions.substring(0, permissions.length - 1);
+                var param = {
+                    role_id: data.role_id,
+                    edit_user: GetCookie('username')
+                }
+
+                if (nameChange) {
+                    param['role_name'] = $('input[name="modal_name"]').val();
+                }
+
+                if (statusChange) {
+                    param['freeze'] = $('#modal_status option:selected').val();
+                }
+
+                if (perChange) {
+                    var permissions ="";
+                    $('input[name="menu"]:checked').each(function(){
+                        permissions += $(this).val()+",";
+                    });
+                    permissions = permissions.substring(0, permissions.length - 1);
+                    param['permissions'] = permissions
+                }
 
                 $.ajax({
                     url: '../role/edit',
-                    data: {
-                        role_id: data.role_id,
-                        role_name: $('input[name="modal_name"]').val(),
-                        permissions: permissions,
-                        freeze: $('#modal_status option:selected').val(),
-                        edit_user: GetCookie('username')
-                    },
+                    data: param,
                     success: function(res){
+                        layer.close(index);
                         if (res.code == 0) {
                             $('#editmodal').attr('hidden', true);
                             table.reload('role_table', {});
                             layer.open({
-                                title: '提示'
-                                ,content: '修改角色成功'
+                                title: '提示',
+                                content: '修改角色成功'
                             });
                         } else {
-                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                            layer.open({
+                                title:'提示',
+                                content:'操作失败'
+                            });
                         }
+                    },
+                    complete: function(){
+                        nameChange = false;
+                        statusChange = false;
+                        perChange = false;
                     }
                 });
             },
-            btn2: function(){
-                layer.closeAll();
+            btn2: function(index){
+                layer.close(index);
             }
         });
 

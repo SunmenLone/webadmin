@@ -8,6 +8,15 @@ var form;
 layui.use('form', function () {
     form = layui.form;
 
+    form.on('select(role)', function(data){
+        roleChange = true;
+    });
+
+    form.on('select(dept)', function(data){
+        deptChange = true;
+    });
+
+
 });
 
 var layer;
@@ -48,24 +57,27 @@ layui.use('table', function () {
                 title: '提示',
                 content: '确认删除用户 ' + data.username + ' ？',
                 btn: ['确认', '取消'], //可以无限个按钮
-                yes: function () {
+                yes: function (index) {
                     $.ajax({
                         url: '../user/delete',
                         data: {
                             username: data.username
                         },
                         success: function (res) {
+                            layer.close(index);
                             if (res.code == 0) {
                                 obj.del();
-                                layer.closeAll();
                             } else {
-                                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                                layer.open({
+                                    title:'提示',
+                                    content:'操作失败'
+                                });
                             }
                         }
                     });
                 },
-                btn2: function () {
-                    layer.closeAll();
+                btn2: function (index) {
+                    layer.close(index);
                 }
             });
         }
@@ -74,7 +86,7 @@ layui.use('table', function () {
 
 });
 
-var passwordChange = false;
+var nameChange = false, roleChange = false, deptChange = false, phoneChnage = false, passwordChange = false;
 var openEditModal = function (type, data) {
 
     if (type == 0) {
@@ -87,17 +99,13 @@ var openEditModal = function (type, data) {
 
         $('input[name="modal_name"]').val('');
 
-        $('#modal_role option[value=""]').attr('selected', true);
-        $('#modal_department option[value=""]').attr('selected', true);
+        $('#modal_role option[value=""]').prop('selected', true);
+        $('#modal_department option[value=""]').prop('selected', true);
         form.render('select');
 
         $('input[name="modal_phone"]').val('');
 
         $('input[name="modal_password"]').val('');
-
-        $('input[name="modal_password"]').change(function () {
-            passwordChange = false;
-        });
 
         $('#edit_confirm').attr('href', 'javascript:addOrUpdateUser(0)');
     } else {
@@ -109,8 +117,8 @@ var openEditModal = function (type, data) {
 
         $('input[name="modal_name"]').val(data.user_realname);
 
-        $('#modal_role option[value="' + data.role_id + '"]').attr('selected', true);
-        $('#modal_department option[value="' + data.department + '"]').attr('selected', true);
+        $('#modal_role option[value="' + data.role_id + '"]').prop('selected', true);
+        $('#modal_department option[value="' + data.department + '"]').prop('selected', true);
         form.render('select');
 
         $('input[name="modal_phone"]').val(data.telphone);
@@ -118,6 +126,14 @@ var openEditModal = function (type, data) {
         $('input[name="modal_password"]').val(data.password);
 
         $('#edit_confirm').attr('href', 'javascript:addOrUpdateUser(1)');
+
+        $('input[name="modal_name"]').change(function(){
+            nameChange = true;
+        });
+
+        $('input[name="modal_phone"]').change(function () {
+            phoneChnage = true;
+        });
 
         $('input[name="modal_password"]').change(function () {
             passwordChange = true;
@@ -135,7 +151,7 @@ var addOrUpdateUser = function (type) {
             title: '提示',
             content: '确认添加用户？',
             btn: ['确认', '取消'], //可以无限个按钮
-            yes: function () {
+            yes: function (index) {
                 $.ajax({
                     url: '../user/add',
                     data: {
@@ -148,6 +164,7 @@ var addOrUpdateUser = function (type) {
                         password: $('input[name="modal_password"]').val() != '' ? md5('caigou' + $('input[name="modal_password"]').val()) : md5('caigou123456')
                     },
                     success: function (res) {
+                        layer.close(index);
                         if (res.code == 0) {
                             $('#editmodal').attr('hidden', true);
                             table.reload('user_table', {});
@@ -156,13 +173,23 @@ var addOrUpdateUser = function (type) {
                                 , content: '添加用户成功'
                             });
                         } else {
-                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                            layer.open({
+                                title:'提示',
+                                content:'操作失败'
+                            });
                         }
+                    },
+                    complete: function(){
+                        nameChange = false;
+                        roleChange = false;
+                        deptChange = false;
+                        phoneChnage = false;
+                        passwordChange = false;
                     }
                 });
             },
-            btn2: function () {
-                layer.closeAll();
+            btn2: function (index) {
+                layer.close(index);
             }
         });
 
@@ -170,46 +197,75 @@ var addOrUpdateUser = function (type) {
     } else {
 
         var param = {
-            username: $('input[name="modal_id"]').val(),
-            user_realname: $('input[name="modal_name"]').val(),
-            role_id: $('#modal_role option:selected').val(),
-            role_name: $('#modal_role option:selected').html(),
-            department: $('#modal_department option:selected').html(),
-            telphone: $('input[name="modal_phone"]').val()
+            username: $('input[name="modal_id"]').val()
+        }
+
+        if (nameChange) {
+            param['user_realname'] = $('input[name="modal_name"]').val();
+        }
+
+        if (roleChange) {
+            param['role_id'] = $('#modal_role option:selected').val();
+            param['role_name'] = $('#modal_role option:selected').html();
+        }
+
+        if (deptChange) {
+            param['department'] = $('#modal_department option:selected').html();
+        }
+
+        if (phoneChnage) {
+            param['telphone'] = $('input[name="modal_phone"]').val();
         }
 
         if (passwordChange) {
             param['password'] = $('input[name="modal_password"]').val() != '' ? md5('caigou' + $('input[name="modal_password"]').val()) : md5('caigou123456')
         }
 
+        if (!nameChange && !roleChange && !deptChange && !phoneChnage && !passwordChange) {
+            $('#editmodal').attr('hidden', true);
+            return;
+        }
+
         layer.open({
             title: '提示',
             content: '确认修改？',
             btn: ['确认', '取消'], //可以无限个按钮
-            yes: function () {
+            yes: function (index) {
+
                 $.ajax({
                     url: '../user/update',
                     data: param,
                     success: function (res) {
+                        layer.close(index);
                         if (res.code == 0) {
+                            layer.close(index);
                             $('#editmodal').attr('hidden', true);
                             passwordChange = false;
                             table.reload('user_table', {});
                             layer.open({
-                                title: '提示'
-                                , content: '修改用户成功'
+                                title: '提示',
+                                content: '修改用户成功'
                             });
                         } else {
-                              layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                            layer.open({
+                                title:'提示',
+                                content:'操作失败',
+                            });
                         }
+                    },
+                    complete: function(){
+                        nameChange = false;
+                        roleChange = false;
+                        deptChange = false;
+                        phoneChnage = false;
+                        passwordChange = false;
                     }
                 });
             },
-            btn2: function () {
-                layer.closeAll();
+            btn2: function (index) {
+                layer.close(index);
             }
         });
-
 
     }
 
@@ -231,7 +287,10 @@ var getRole = function () {
                     select2.options.add(new Option(res.data[i].role_name, res.data[i].role_id));
                 });
             } else {
-                  layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                layer.open({
+                    title:'提示',
+                    content:'查询角色失败'
+                });
             }
         }
     })

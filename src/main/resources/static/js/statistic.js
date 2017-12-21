@@ -83,7 +83,10 @@ $(function(){
                     $('#item_order').append('<option value="'+ res.data[i].item_order +'">' + res.data[i].item_name + '</option>');
                 });
             } else {
-                console.log(res.errormessage);
+                layer.open({
+                    title: '提示',
+                    content:  '查询商品列表失败'
+                })
             }
         }
     })

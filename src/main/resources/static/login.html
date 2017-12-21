@@ -10,29 +10,17 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="opt-container">
-        <div class="login-title">
-            <label>采购管理系统</label>
-        </div>
+<div class="layui-carousel video_mask bg-img">
+    <div class="login layui-anim layui-anim-up">
+            <h1>采购管理系统</h1>
         <form class="layui-form" action="">
-            <div class="layui-form-item login-item">
-                <div class="layui-input-inline login-input-inline">
-                    <label class="layui-form-label">用户名：</label>
-                    <input type="text" name="username" required lay-verify="required" autocomplete="off" placeholder="输入登录帐号" class="layui-input login-input" required lay-verify="required">
-                </div>
+            <div class="layui-form-item ">
+                    <input type="text" name="username" required lay-verify="required" autocomplete="off" placeholder="输入登录帐号" class="layui-input" required lay-verify="required">
             </div>
-            <div class="layui-form-item login-item">
-                <div class="layui-input-inline login-input-inline">
-                    <label class="layui-form-label">密码：</label>
-                    <input type="password" name="password" required lay-verify="required" autocomplete="off" placeholder="输入登录密码" class="layui-input login-input">
-                </div>
+            <div class="layui-form-item ">
+                    <input type="password" name="password" required lay-verify="required" autocomplete="off" placeholder="输入登录密码" class="layui-input">
             </div>
-            <div class="layui-form-item">
-                <div class="login-btn-area">
-                    <a class="layui-btn layui-btn-normal login-btn" lay-submit="" href="javascript: submitLogin();">登 录</a>
-                </div>
-            </div>
+                <a class="layui-btn button" lay-submit="" href="javascript: submitLogin();">登 录</a>
         </form>
     </div>
 </div>
@@ -73,7 +61,7 @@
                         <input type="password" name="newpwd" required lay-verify="required" autocomplete="off" placeholder="输入新密码" class="layui-input setpwd-item">
                     </div>
                     <div class="layui-inline setpwd-inline">
-                        <input type="password" name="cfgpwd" required lay-verify="required autocomplete="off" placeholder="再次输入密码" class="layui-input setpwd-item setpwd-item-right">
+                        <input type="password" name="cfgpwd" required lay-verify="required" autocomplete="off" placeholder="再次输入密码" class="layui-input setpwd-item setpwd-item-right">
                     </div>
                 </div>
 

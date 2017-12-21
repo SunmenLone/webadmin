@@ -91,14 +91,14 @@
             <div class="layui-form-item flex flex-center">
                 <label class="layui-form-label"><span class="layui-red">* </span>角色：</label>
                 <div class="layui-input-inline">
-                    <select id="modal_role" required lay-verify="required">
+                    <select id="modal_role" required lay-verify="required" lay-filter="role">
                     </select>
                 </div>
             </div>
             <div class="layui-form-item flex flex-center">
                 <label class="layui-form-label"><span class="layui-red">* </span>部门：</label>
                 <div class="layui-input-inline">
-                    <select id="modal_department" required lay-verify="required">
+                    <select id="modal_department" required lay-verify="required" lay-filter="dept">
                         <option value="">直接选择或搜索选择</option>
                         <option value="采购部门">采购部门</option>
                         <option value="监管部门">监管部门</option>
@@ -133,7 +133,7 @@
             <div class="layui-form-item top-margin">
                 <div class="flex flex-center">
                     <a class="layui-btn layui-btn-primary" href="javascript: $('#editmodal').attr('hidden', 'true');">取消</a>
-                    <a id="edit_confirm" class="layui-btn layui-btn-normal" layui-submit="" >确定</a>
+                    <a id="edit_confirm" class="layui-btn layui-btn-normal" lay-submit="" >确定</a>
                 </div>
             </div>
         </form>

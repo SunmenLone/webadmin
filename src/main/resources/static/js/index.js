@@ -29,6 +29,10 @@ layui.use('element', function(){
 
 });
 
+layui.use('form', function(){
+   var form = layui.form;
+});
+
 var layer;
 layui.use('layer', function() { //独立版的layer无需执行这一句
     layer = layui.layer; //独立版的layer无需执行这一句
@@ -72,10 +76,11 @@ var getUserInfo = function() {
                         $('#menu' + permissions[i]).append(menu[permissions[i]]);
 
                     });
-
-
                 } else {
-                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.errormessage);
+                      layer.open({
+                          title:'提示',
+                          content:'操作失败'
+                      });
                 }
             }
         })
@@ -92,19 +97,20 @@ var signout = function() {
         title: '提示',
         content: '确认退出登录？',
         btn: ['确认', '取消'], //可以无限个按钮
-        yes: function(){
+        yes: function(index){
             $.ajax({
                 url: '../user/find/byaccount',
                 data: {
                     username: username
                 },
                 complete: function(res){
+                    layer.close(index);
                     window.location.href="../login.html";
                 }
             });
         },
-        btn2: function(){
-            layer.closeAll();
+        btn2: function(index){
+            layer.close(index);
         }
     });
 
@@ -119,7 +125,10 @@ var signout = function() {
                     var user = res.date;
                     $('#realname').html(user.user_realname);
                 } else {
-                      layer.open({                                    title:'提示',                                    content:'操作失败',                                })(res.msg);
+                      layer.open({
+                          title:'提示',
+                          content:'查询用户信息失败'
+                      });
                 }
             }
         });
@@ -128,4 +137,62 @@ var signout = function() {
 
 $(function(){
     getUserInfo();
-})
+});
+
+var openEditModal = function(){
+    $('#editmodal').removeAttr('hidden');
+    $('#ddd').removeClass('layui-this');
+};
+
+var updatePwd = function() {
+
+    var newpwd = $('input[name="new_pwd"]').val();
+    var cfgpwd = $('input[name="cfg_pwd"]').val();
+
+    if ( newpwd != cfgpwd) {
+        layer.open({
+            title: '提示',
+            content: '两次密码不一致'
+        })
+        return;
+    }
+
+    layer.open({
+        title: '提示',
+        content: '确认修改密码？',
+        btn: ['确认', '取消'],
+        yes: function(index){
+
+            var username = GetCookie('username');
+
+            var param = {
+                username: username,
+                password: md5('caigou' + newpwd)
+            }
+
+            $.ajax({
+                url: '../user/update',
+                data: param,
+                success: function(res){
+                    if (res.code == 0) {
+                        layer.close(index);
+                        layer.open({
+                            title: '提示',
+                            content: '修改密码成功'
+                        });
+                        $('#editmodal').attr('hidden', true);
+                    } else {
+                        layer.open({
+                            title: '提示',
+                            content: '修改密码失败'
+                        });
+                    }
+                }
+            })
+
+        },
+        btn2: function(index){
+            layer.close(index);
+        }
+    });
+};
